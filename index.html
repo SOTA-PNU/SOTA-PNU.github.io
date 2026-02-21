@@ -4,62 +4,31 @@
 <head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preload" href="team.png" as="image" />
-    <link rel="preload" href="team2.png" as="image" />
-    <link rel="preload" href="sponsors/42dot.png" as="image" />
-    <link rel="preload" href="sponsors/hyundai.png" as="image" />
-    <link rel="preload" href="sponsors/iitp.png" as="image" />
-    <link rel="preload" href="sponsors/lg_electronics.png" as="image" />
-    <link rel="preload" href="sponsors/ministry_of_science_and_ICT.png" as="image" />
-    <link rel="preload" href="sponsors/naver.png" as="image" />
-    <link rel="preload" href="sponsors/nrf.png" as="image" />
-    <link rel="preload" href="sponsors/theta_cloud.png" as="image" />
-    <link rel="stylesheet" href="_next/static/chunks/c14fd4c5f002e132.css" data-precedence="next" />
-    <link rel="preload" as="script" fetchPriority="low" href="_next/static/chunks/5e9060b42d61798b.js" />
-    <script src="_next/static/chunks/05d81514d506b8d9.js" async=""></script>
-    <script src="_next/static/chunks/2f91bf089aa50b18.js" async=""></script>
-    <script src="_next/static/chunks/61289a814c039c53.js" async=""></script>
-    <script src="_next/static/chunks/turbopack-2a5461884335c14f.js" async=""></script>
-    <script src="_next/static/chunks/80ce20f37610bdf5.js" async=""></script>
-    <script src="_next/static/chunks/f74a6859e1c4d5e3.js" async=""></script>
-    <script src="_next/static/chunks/062ae79751df2759.js" async=""></script>
-    <script src="_next/static/chunks/f5e9d4b77051b533.js" async=""></script>
-    <link rel="preload"
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-        as="style" />
-    <title>SOTA Lab - System Optimization for Transformative AI @ Pusan University</title>
-    <!--검색 엔진용 메타 태그(SEO)-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/redesign.css" />
+    <title>SOTA Lab — System Optimization for Transformative AI @ Pusan National University</title>
     <meta name="description"
-        content="DLI Lab at Yonsei University empowers AI with real-world data &amp; human language insights. We research LLM, Information Retrieval, Recommender Systems, and User Modeling." />
-    <meta name="keywords"
-        content="DLI Lab,Yonsei University,연세대학교,Data &amp; Language Intelligence,Large Language Models,LLM,Data Mining,Data Mining Lab,Information Retrieval,Recommender Systems,Real-world Data AI,User Modeling,AI Agents" />
+        content="SOTA Lab at Pusan National University researches compiler, architecture, and runtime systems to optimize AI end-to-end." />
     <meta name="robots" content="index, follow" />
-    <!--Open Graph(SNS공유용)-->
-    <meta property="og:title" content="DLI Lab - Data &amp; Language Intelligence @ Yonsei University" />
+    <meta property="og:title" content="SOTA Lab @ Pusan National University" />
     <meta property="og:description"
-        content="DLI Lab at Yonsei University empowers AI with real-world data &amp; human language insights. We research LLM, Information Retrieval, Recommender Systems, and User Modeling." />
-    <meta property="og:url" content="https://dli.yonsei.ac.kr" />
-    <meta property="og:site_name" content="DLI Lab" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content="https://dli.yonsei.ac.kr/team.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="DLI Lab" />
+        content="Compiler · Architecture · Runtime Systems for end-to-end AI optimization." />
+    <meta property="og:url" content="https://sota.pusan.ac.kr" />
+    <meta property="og:site_name" content="SOTA Lab" />
     <meta property="og:type" content="website" />
-    <!--Twitter 카드-->
+    <meta property="og:image" content="https://sota.pusan.ac.kr/team.png" />
+    <meta property="og:image:alt" content="SOTA Lab" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="DLI Lab - Data &amp; Language Intelligence @ Yonsei University" />
+    <meta name="twitter:title" content="SOTA Lab @ Pusan National University" />
     <meta name="twitter:description"
-        content="DLI Lab at Yonsei University empowers AI with real-world data &amp; human language insights. We research LLM, Information Retrieval, Recommender Systems, and User Modeling." />
-    <meta name="twitter:image" content="https://dli.yonsei.ac.kr/team.png" />
-    <meta name="twitter:image:width" content="1200" />
-    <meta name="twitter:image:height" content="630" />
-    <meta name="twitter:image:alt" content="DLI Lab" />
+        content="Compiler · Architecture · Runtime Systems for end-to-end AI optimization." />
+    <meta name="twitter:image" content="https://sota.pusan.ac.kr/team.png" />
+    <meta name="twitter:image:alt" content="SOTA Lab" />
     <!--폰트 로딩-->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <!--기능 구현에 필요한 js(일단 우리꺼 아님)-->
-    <script src="_next/static/chunks/a6dad97d9634a72d.js" noModule=""></script>
+    <!--기능 구현에 필요한 js(일단 우리꺼 아님)
+    <script src="_next/static/chunks/a6dad97d9634a72d.js" noModule=""></script>-->
     <!--Vercel Analytics 방문자 분석용-->
     <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -67,118 +36,152 @@
 <body class="min-h-screen flex flex-col bg-white"
     style="font-family:&quot;Pretendard&quot;, -apple-system, BlinkMacSystemFont, system-ui, Roboto, &quot;Helvetica Neue&quot;, &quot;Segoe UI&quot;, sans-serif">
     <div hidden=""><!--$--><!--/$--></div>
-    <header class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
-        <!--홈화면 글 편집-->
-        <nav
-            class="max-w-[1600px] mx-auto flex items-center justify-between px-6 md:px-8 lg:px-12 h-16 md:h-20 lg:h-24">
-            <a href="index.html"
-                class="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 shrink-0 hover:text-blue-600 transition-colors duration-200 cursor-pointer">SOTA
-                Lab</a>
-            <ul class="hidden md:flex items-center gap-6 lg:gap-8 text-base lg:text-xl">
-                <li><a href="index.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a>
-                </li>
-                <li><a href="team.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Team</a>
-                </li>
-                <li><a href="research.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Research</a>
-                </li>
-                <li><a href="publications.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Publications</a>
-                </li>
-                <li><a href="blogs.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Blogs</a>
-                </li>
-                <li><a href="gallery.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Gallery</a>
-                </li>
-                <li><a href="apply.html"
-                        class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium">Apply</a>
-                </li>
-            </ul><button type="button"
-                class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 transition-colors"
-                aria-label="Open navigation menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24"
+    <header class="pnu-header">
+        <nav class="pnu-nav">
+            <a href="index.html" class="pnu-brand">
+                <span class="pnu-brand-mark">S</span>
+                <span class="pnu-brand-text">SOTA Lab</span>
+            </a>
+
+            <ul class="pnu-nav-links" aria-label="Primary">
+                <li><a href="index.html" class="pnu-nav-link">Home</a></li>
+                <li><a href="members.html" class="pnu-nav-link">Members</a></li>
+                <li><a href="research.html" class="pnu-nav-link">Research</a></li>
+                <li><a href="publications.html" class="pnu-nav-link">Publications</a></li>
+                <!--<li><a href="blogs.html" class="pnu-nav-link">Blogs</a></li>-->
+                <!--<li><a href="gallery.html" class="pnu-nav-link">Gallery</a></li>-->
+                <li><a href="apply.html" class="pnu-nav-link">Apply</a></li>
+            </ul>
+
+            <!-- Mobile button (keeps your existing id) -->
+            <button id="mobileMenuBtn" type="button"
+                class="pnu-burger"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="mobileMenuSheet">
+                <svg width="20" height="20" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     aria-hidden="true">
                     <path d="M3 6h18"></path>
                     <path d="M3 12h18"></path>
                     <path d="M3 18h18"></path>
-                </svg></button>
+                </svg>
+            </button>
         </nav>
     </header>
+    <!-- Mobile menu backdrop -->
+    <div id="mobileMenuBackdrop" class="pnu-mobile-backdrop" hidden></div>
+    <!-- Mobile menu sheet (dropdown glass) -->
+    <div id="mobileMenuSheet" class="pnu-mobile-sheet" hidden>
+        <div class="pnu-mobile-sheet-inner">
+            <div class="pnu-mobile-sheet-top">
+                <div class="pnu-mobile-sheet-title">Menu</div>
+                <button id="mobileMenuClose" class="pnu-mobile-close" type="button" aria-label="Close menu">✕</button>
+            </div>
+
+            <nav class="pnu-mobile-links" aria-label="Mobile navigation">
+                <a class="pnu-mobile-link" href="index.html">Home</a>
+                <a class="pnu-mobile-link" href="members.html">Members</a>
+                <a class="pnu-mobile-link" href="research.html">Research</a>
+                <a class="pnu-mobile-link" href="publications.html">Publications</a>
+                <!--<a class="pnu-mobile-link" href="blogs.html">Blogs</a>-->
+                <!--<a class="pnu-mobile-link" href="gallery.html">Gallery</a>-->
+                <a class="pnu-mobile-link" href="apply.html">Apply</a>
+            </nav>
+        </div>
+    </div>
     <div class="flex-1 pt-16 md:pt-20 lg:pt-24">
         <div>
-            <script
-                type="application/ld+json">{"@context":"https://schema.org","@type":"ResearchOrganization","name":"Data & Language Intelligence Lab","alternateName":"DLI Lab","url":"https://dli.yonsei.ac.kr","logo":"https://dli.yonsei.ac.kr/team.png","email":"donalee@yonsei.ac.kr","department":{"@type":"Organization","name":"Yonsei University"},"address":{"@type":"PostalAddress","streetAddress":"Yonsei Engineering Research Park (YERP) 425B, 50 Yonsei-ro","addressLocality":"Seodaemun-gu","addressRegion":"Seoul","postalCode":"03722","addressCountry":"KR"},"description":"Empowering AI with real-world data & human language insights."}</script>
-            <section class="relative">
-                <div class="absolute inset-0 -z-10">
-                    <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-100/40 to-indigo-100/50">
-                    </div>
-                    <div class="absolute top-0 left-0 right-0 h-[55%] bg-gradient-to-b from-white/70 to-transparent">
-                    </div>
-                    <div
-                        class="absolute bottom-0 right-0 w-[65%] h-[65%] bg-gradient-to-tl from-blue-100/50 via-purple-50/40 to-transparent">
-                    </div>
-                    <div class="absolute top-20 left-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
-                    <div class="absolute top-1/3 right-20 w-80 h-80 bg-indigo-200/30 rounded-full blur-3xl"></div>
-                </div>
-                <div class="max-w-[1400px] mx-auto px-6 lg:px-10 pt-20 lg:pt-24 pb-12 lg:pb-14">
-                    <div class="grid gap-10 lg:gap-12 lg:grid-cols-2 items-center">
-                        <div class="space-y-4 max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
-                            <!--배너글-->
-                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                                <span class="block">System Optimization for</span>
-                                <span class="block">Transformative </span>
-                                <span class="block">AI</span>
-                                <span class="block text-3xl sm:text-4xl lg:text-[3.25rem] text-gray-500 mt-2">@ Pusan University</span></h1>
-                            <p class="text-lg sm:text-xl lg:text-2xl text-gray-500 font-medium">Optimizing AI across the stack through advanced compiler design 
-                                and system-level innovation.</p>
+            <!--검색엔진이 사이트를 이애하도록 도와주는 메타 정보-->
+            <script type="application/ld+json">{
+                "@context":"https://schema.org",
+                "@type":"ResearchOrganization",
+                "name":"SOTA Lab",
+                "alternateName":"SOTA Lab",
+                "url":"https://sota.pusan.ac.kr",
+                "logo":"https://sota.pusan.ac.kr/team.png",
+                "email":"contact@sota.pusan.ac.kr",
+                "department":{"@type":"Organization","name":"Pusan National University"},
+                "address":{"@type":"PostalAddress","streetAddress":"Pusan National University","addressLocality":"Busan","addressRegion":"Busan","postalCode":"","addressCountry":"KR"},
+                "description":"Empowering AI with real-world data & human language insights."}
+            </script>
+            
+            <section class="relative pnu-hero">
+                <div class="absolute inset-0 pnu-hero-bg" aria-hidden="true"></div>
+                <div class="max-w-[1400px] mx-auto px-6 lg:px-10 pt-20 lg:pt-24 pb-10 lg:pb-12">
+                    <div class="max-w-3xl mx-auto text-center space-y-6">
+                        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-semibold text-slate-700 backdrop-blur">
+                            <span class="text-slate-900">SOTA Lab</span>
+                            <span class="h-1 w-1 rounded-full bg-slate-300"></span>
+                            <span>Compiler &amp; Systems Research</span>
                         </div>
-                        <div class="w-full">
-                            <div class="sm:hidden">
-                                <div class="w-full">
-                                    <div class="relative">
-                                        <div class="w-full h-140 overflow-x-auto snap-x snap-mandatory flex rounded-lg shadow-[0_16px_40px_rgba(0,0,0,0.12),0_8px_16px_rgba(0,0,0,0.08)] ring-1 ring-black/5 bg-gray-100"
-                                            style="scrollbar-width:none;-ms-overflow-style:none">
-                                            <div class="w-full h-full flex-shrink-0 snap-center"><img src="team.png"
-                                                    alt="연구실 모임 사진" class="w-full h-full object-cover" /></div>
-                                            <div class="w-full h-full flex-shrink-0 snap-center"><img src="team2.png"
-                                                    alt="연구실 단체 사진" class="w-full h-full object-cover" /></div>
-                                        </div><button
-                                            class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 shadow-md backdrop-blur-sm transition-opacity"
-                                            aria-label="다음 이미지"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="lucide lucide-chevron-right w-5 h-5 text-gray-700"
-                                                aria-hidden="true">
-                                                <path d="m9 18 6-6-6-6"></path>
-                                            </svg></button>
-                                    </div>
-                                    <div class="flex justify-center gap-2 mt-3"><button
-                                            class="w-2 h-2 rounded-full transition-colors bg-gray-800"
-                                            aria-label="이미지 1로 이동"></button><button
-                                            class="w-2 h-2 rounded-full transition-colors bg-gray-300"
-                                            aria-label="이미지 2로 이동"></button></div>
-                                </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
+                            System <span class="text-slate-900">Optimization</span> <br> for <span class="text-slate-900">Transformative</span> AI
+                            <span class="block text-2xl sm:text-3xl lg:text-4xl text-slate-500 mt-3">@ Pusan National University</span>
+                        </h1>
+
+                        <p class="text-lg sm:text-xl lg:text-2xl text-slate-600 font-medium leading-relaxed">
+                            Optimizing AI across the stack <br>
+                            through advanced compiler design and system-level innovation.
+                        </p>
+                        <!--세로 배열의 버튼 예시
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
+                            <a href="research.html" class="pnu-btn pnu-btn-primary">Research Areas</a>
+                            <a href="apply.html" class="pnu-btn">Get Involved</a>
+                        </div>
+                        -->
+                        <div class="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2">
+                            <a href="research.html" class="pnu-btn pnu-btn-primary">Research Areas</a>
+                            <a href="apply.html" class="pnu-btn">Get Involved</a>
+                        </div>
+                    </div>
+                    <!--가로로 넓고 세로로 짧은 사진 세로로 정렬된 예시
+                    <div class="max-w-5xl mx-auto mt-10 lg:mt-12">
+                        <div class="pnu-card overflow-hidden">
+                            <img src="team.png" alt="SOTA Lab group photo" class="w-full h-[260px] sm:h-[340px] lg:h-[420px] object-cover" />
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-4">
+                            <div class="pnu-card overflow-hidden">
+                                <img src="team2.png" alt="SOTA Lab photo" class="w-full h-[160px] sm:h-[190px] lg:h-[220px] object-cover" />
                             </div>
-                            <div class="hidden sm:block relative h-[500px] lg:h-[560px] ml-auto -mr-8">
-                                <div
-                                    class="absolute -left-23 top-5 w-[62%] h-[87%] z-20 overflow-hidden flex items-center justify-center rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.15),0_10px_20px_rgba(0,0,0,0.1)] ring-1 ring-black/5">
-                                    <img src="team.png" alt="연구실 모임 사진" class="w-full h-full object-cover" /></div>
-                                <div
-                                    class="absolute right-0 bottom-0 w-[62%] h-[87%] z-10 overflow-hidden flex items-center justify-center rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.15),0_10px_20px_rgba(0,0,0,0.1)] ring-1 ring-black/5">
-                                    <img src="team2.png" alt="연구실 단체 사진" class="w-full h-full object-cover" /></div>
-                                <div
-                                    class="absolute -top-6 -right-10 w-40 h-40 bg-blue-100 rounded-full opacity-60 blur-3xl -z-10">
-                                </div>
-                                <div
-                                    class="absolute -bottom-16 -left-6 w-52 h-52 bg-indigo-100 rounded-full opacity-50 blur-3xl -z-10">
-                                </div>
+                            <div class="pnu-card overflow-hidden">
+                                <img src="team.png" alt="SOTA Lab activity" class="w-full h-[160px] sm:h-[190px] lg:h-[220px] object-cover" />
                             </div>
                         </div>
                     </div>
+                    -->
+                    <div class="max-w-5xl mx-auto mt-10 lg:mt-12">
+                        <!--가로로 길고 세로로 짧은 이미지 세로로 정렬
+                        <div class="pnu-photo-stack">
+                            <div class="pnu-photo pnu-photo-1">
+                                <img src="team.png" alt="SOTA Lab group photo" />
+                            </div>
+                            <div class="pnu-photo pnu-photo-2">
+                                <img src="team2.png" alt="SOTA Lab photo" />
+                            </div>
+                            <div class="pnu-photo pnu-photo-3">
+                                <img src="team.png" alt="SOTA Lab activity" />
+                            </div>
+                        </div>
+                        -->
+                        <div class="pnu-photo-row">
+                            <div class="pnu-photo">
+                                <img src="teamX.png" alt="">
+                            </div>
+                            <!--
+                            <div class="pnu-photo">
+                                <img src="team2.png" alt="">
+                            </div>
+                            
+                            <div class="pnu-photo">
+                                <img src="team.png" alt="">
+                            </div>
+                            -->
+                        </div>
+                    </div>
                 </div>
+                <!--
                 <div class="mt-1 lg:mt-8 max-w-[1400px] mx-auto px-6 lg:px-10">
                     <div class="w-full bg-transparent py-6 lg:py-8 overflow-hidden">
                         <div class="relative">
@@ -647,7 +650,9 @@
                         </div>
                     </div>
                 </div>
+            -->
             </section>
+            <!--section추가 예시
             <section class="relative bg-slate-50">
                 <div
                     class="max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20 pb-12 lg:pb-16 h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] max-h-[800px] lg:max-h-[850px] overflow-y-auto lg:overflow-hidden">
@@ -671,14 +676,16 @@
                             have the opportunity to work on cutting-edge research projects in a collaborative and
                             supportive environment.</p>
                         <p class="text-base lg:text-lg text-gray-600 leading-relaxed">If you are interested in joining
-                            our team, please refer to the <a href="apply.html"
-                                class="group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors"><span
+                            our team, please refer to the
+                            <마우스를 올리면 변하고 클릭하면 해당 페이지로 넘어가는 글씨 예시> 
+                            <a href="apply.html" class="group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors"><span
                                     aria-hidden="true"
                                     class="absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70"></span><span
-                                    class="relative">Apply</span></a> <!-- -->page.</p>
+                                    class="relative">Apply</span></a> page.</p>
                     </div>
                 </div>
             </section>
+        -->
             <section class="relative bg-slate-50">
                 <div class="max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20 pb-12 flex-1">
                     <div class="space-y-6">
@@ -686,6 +693,7 @@
                                 class="relative inline-block px-2"><span aria-hidden="true"
                                     class="absolute inset-x-0 bottom-[0.22em] h-[0.72em] rounded-sm -skew-x-12 bg-amber-200/70"></span><span
                                     class="relative">FAQ</span></span></h2>
+                        <!--FAQ 섹션
                         <div class="space-y-6">
                             <div class="border-b border-gray-200 pb-4">
                                 <h3 class="text-base lg:text-lg font-semibold text-gray-900">What is your research group
@@ -712,13 +720,13 @@
                                         class="group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors"><span
                                             aria-hidden="true"
                                             class="absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70"></span><span
-                                            class="relative">Apply</span></a> <!-- -->page.</p>
+                                            class="relative">Apply</span></a> page.</p>
                             </div>
                             <div class="border-b border-gray-200 pb-4">
                                 <h3 class="text-base lg:text-lg font-semibold text-gray-900">Do I need to have any
                                     qualifications to join your research group?</h3>
                                 <p class="mt-2 text-base lg:text-lg text-gray-600 leading-relaxed">We strongly recommend
-                                    individuals who are interested in joining our research group to complete a<!-- -->
+                                    individuals who are interested in joining our research group to complete a
                                     <a href="apply.html"
                                         class="group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors"><span
                                             aria-hidden="true"
@@ -733,8 +741,8 @@
                                 <h3 class="text-base lg:text-lg font-semibold text-gray-900">Can undergraduate students
                                     apply to join your research group?</h3>
                                 <p class="mt-2 text-base lg:text-lg text-gray-600 leading-relaxed">Yes, undergraduate
-                                    students are welcome to apply to join our research group as<!-- --> <a
-                                        href="apply.html"
+                                    students are welcome to apply to join our research group as
+                                    <a href="apply.html"
                                         class="group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors"><span
                                             aria-hidden="true"
                                             class="absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70"></span><span
@@ -754,8 +762,8 @@
                                 <h3 class="text-base lg:text-lg font-semibold text-gray-900">I have more questions. How
                                     can I get more information?</h3>
                                 <p class="mt-2 text-base lg:text-lg text-gray-600 leading-relaxed">If you have
-                                    additional questions, feel free to ask our<!-- --> <a
-                                        href="https://wehere.ai/chat/yonsei-dli"
+                                    additional questions, feel free to ask our
+                                    <a href="https://wehere.ai/chat/yonsei-dli"
                                         class="group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors"><span
                                             aria-hidden="true"
                                             class="absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70"></span><span
@@ -767,42 +775,122 @@
                                             class="relative">Apply</span></a> page.</p>
                             </div>
                         </div>
+                        -->
                     </div>
                 </div>
             </section>
         </div><!--$--><!--/$-->
     </div>
+    <!--가로 배열 footer 예시
     <footer class="border-t border-gray-200 bg-gray-100">
         <div class="max-w-[1400px] mx-auto px-6 lg:px-10 py-5">
-            <div class="flex flex-wrap items-center justify-center gap-x-15 gap-y-2 text-sm lg:text-base text-gray-600">
-                <span>✉️ donalee@yonsei.ac.kr</span><span>🏫 Yonsei Engineering Research Park (YERP) 425B</span><span>50
-                    Yonsei-ro, Seodaemun-gu, Seoul, Republic of Korea (03722)</span></div>
+            <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-2 text-sm lg:text-base text-slate-600">
+                <span>🏫 Pusan National University</span><span>📍 Busan, Republic of Korea</span><span>✉️ contact@sota.pusan.ac.kr</span>
+            </div>
         </div>
     </footer>
-    <script src="_next/static/chunks/5e9060b42d61798b.js" id="_R_" async=""></script>
-    <script>(self.__next_f = self.__next_f || []).push([0])</script>
-    <script>self.__next_f.push([1, "1:\"$Sreact.fragment\"\n2:I[79404,[\"/_next/static/chunks/80ce20f37610bdf5.js\"],\"default\"]\n3:I[88287,[\"/_next/static/chunks/f74a6859e1c4d5e3.js\",\"/_next/static/chunks/062ae79751df2759.js\"],\"default\"]\n4:I[74895,[\"/_next/static/chunks/f74a6859e1c4d5e3.js\",\"/_next/static/chunks/062ae79751df2759.js\"],\"default\"]\nd:I[52576,[\"/_next/static/chunks/f74a6859e1c4d5e3.js\",\"/_next/static/chunks/062ae79751df2759.js\"],\"default\"]\n:HL[\"/_next/static/chunks/c14fd4c5f002e132.css\",\"style\"]\n:HL[\"https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css\",\"style\"]\n"])</script>
-    <script>self.__next_f.push([1, "0:{\"P\":null,\"b\":\"0b1M6vRScNvCpEh3GfV9e\",\"c\":[\"\",\"\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/c14fd4c5f002e132.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/80ce20f37610bdf5.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"ko\",\"children\":[[\"$\",\"head\",null,{\"children\":[\"$\",\"link\",null,{\"rel\":\"stylesheet\",\"href\":\"https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css\"}]}],[\"$\",\"body\",null,{\"className\":\"min-h-screen flex flex-col bg-white\",\"style\":{\"fontFamily\":\"\\\"Pretendard\\\", -apple-system, BlinkMacSystemFont, system-ui, Roboto, \\\"Helvetica Neue\\\", \\\"Segoe UI\\\", sans-serif\"},\"children\":[[\"$\",\"$L2\",null,{}],[\"$\",\"div\",null,{\"className\":\"flex-1 pt-16 md:pt-20 lg:pt-24\",\"children\":[\"$\",\"$L3\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L4\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]}],[\"$\",\"footer\",null,{\"className\":\"border-t border-gray-200 bg-gray-100\",\"children\":[\"$\",\"div\",null,{\"className\":\"max-w-[1400px] mx-auto px-6 lg:px-10 py-5\",\"children\":[\"$\",\"div\",null,{\"className\":\"flex flex-wrap items-center justify-center gap-x-15 gap-y-2 text-sm lg:text-base text-gray-600\",\"children\":[[\"$\",\"span\",null,{\"children\":\"✉️ donalee@yonsei.ac.kr\"}],[\"$\",\"span\",null,{\"children\":\"🏫 Yonsei Engineering Research Park (YERP) 425B\"}],[\"$\",\"span\",null,{\"children\":\"50 Yonsei-ro, Seodaemun-gu, Seoul, Republic of Korea (03722)\"}]]}]}]}]]}]]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"script\",null,{\"type\":\"application/ld+json\",\"dangerouslySetInnerHTML\":{\"__html\":\"{\\\"@context\\\":\\\"https://schema.org\\\",\\\"@type\\\":\\\"ResearchOrganization\\\",\\\"name\\\":\\\"Data \u0026 Language Intelligence Lab\\\",\\\"alternateName\\\":\\\"DLI Lab\\\",\\\"url\\\":\\\"https://dli.yonsei.ac.kr\\\",\\\"logo\\\":\\\"https://dli.yonsei.ac.kr/team.png\\\",\\\"email\\\":\\\"donalee@yonsei.ac.kr\\\",\\\"department\\\":{\\\"@type\\\":\\\"Organization\\\",\\\"name\\\":\\\"Yonsei University\\\"},\\\"address\\\":{\\\"@type\\\":\\\"PostalAddress\\\",\\\"streetAddress\\\":\\\"Yonsei Engineering Research Park (YERP) 425B, 50 Yonsei-ro\\\",\\\"addressLocality\\\":\\\"Seodaemun-gu\\\",\\\"addressRegion\\\":\\\"Seoul\\\",\\\"postalCode\\\":\\\"03722\\\",\\\"addressCountry\\\":\\\"KR\\\"},\\\"description\\\":\\\"Empowering AI with real-world data \u0026 human language insights.\\\"}\"}}],[\"$\",\"section\",null,{\"className\":\"relative\",\"children\":[[\"$\",\"div\",null,{\"className\":\"absolute inset-0 -z-10\",\"children\":[[\"$\",\"div\",null,{\"className\":\"absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-100/40 to-indigo-100/50\"}],[\"$\",\"div\",null,{\"className\":\"absolute top-0 left-0 right-0 h-[55%] bg-gradient-to-b from-white/70 to-transparent\"}],[\"$\",\"div\",null,{\"className\":\"absolute bottom-0 right-0 w-[65%] h-[65%] bg-gradient-to-tl from-blue-100/50 via-purple-50/40 to-transparent\"}],[\"$\",\"div\",null,{\"className\":\"absolute top-20 left-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl\"}],[\"$\",\"div\",null,{\"className\":\"absolute top-1/3 right-20 w-80 h-80 bg-indigo-200/30 rounded-full blur-3xl\"}]]}],\"$L5\",\"$L6\"]}],\"$L7\",\"$L8\",\"$L9\"]}],[\"$La\"],\"$Lb\"]}],{},null,false,false]},null,false,false],\"$Lc\",false]],\"m\":\"$undefined\",\"G\":[\"$d\",[]],\"S\":true}\n"])</script>
-    <script>self.__next_f.push([1, "e:I[1303,[\"/_next/static/chunks/80ce20f37610bdf5.js\",\"/_next/static/chunks/f5e9d4b77051b533.js\"],\"default\"]\n1b:I[95087,[\"/_next/static/chunks/80ce20f37610bdf5.js\",\"/_next/static/chunks/f5e9d4b77051b533.js\"],\"default\"]\n20:I[51858,[\"/_next/static/chunks/f74a6859e1c4d5e3.js\",\"/_next/static/chunks/062ae79751df2759.js\"],\"OutletBoundary\"]\n21:\"$Sreact.suspense\"\n23:I[51858,[\"/_next/static/chunks/f74a6859e1c4d5e3.js\",\"/_next/static/chunks/062ae79751df2759.js\"],\"ViewportBoundary\"]\n25:I[51858,[\"/_next/static/chunks/f74a6859e1c4d5e3.js\",\"/_next/static/chunks/062ae79751df2759.js\"],\"MetadataBoundary\"]\n:HL[\"/team.png\",\"image\"]\n:HL[\"/team2.png\",\"image\"]\n:HL[\"/sponsors/42dot.png\",\"image\"]\n:HL[\"/sponsors/hyundai.png\",\"image\"]\n:HL[\"/sponsors/iitp.png\",\"image\"]\n:HL[\"/sponsors/lg_electronics.png\",\"image\"]\n:HL[\"/sponsors/ministry_of_science_and_ICT.png\",\"image\"]\n:HL[\"/sponsors/naver.png\",\"image\"]\n:HL[\"/sponsors/nrf.png\",\"image\"]\n:HL[\"/sponsors/theta_cloud.png\",\"image\"]\n"])</script>
-    <script>self.__next_f.push([1, "5:[\"$\",\"div\",null,{\"className\":\"max-w-[1400px] mx-auto px-6 lg:px-10 pt-20 lg:pt-24 pb-12 lg:pb-14\",\"children\":[\"$\",\"div\",null,{\"className\":\"grid gap-10 lg:gap-12 lg:grid-cols-2 items-center\",\"children\":[[\"$\",\"div\",null,{\"className\":\"space-y-4 max-w-xl mx-auto lg:mx-0 text-center lg:text-left\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight\",\"children\":[[\"$\",\"span\",null,{\"className\":\"block\",\"children\":\"Data \u0026 Language\"}],[\"$\",\"span\",null,{\"className\":\"block\",\"children\":\"Intelligence Lab\"}],[\"$\",\"span\",null,{\"className\":\"block text-3xl sm:text-4xl lg:text-[3.25rem] text-gray-500 mt-2\",\"children\":\"@ Yonsei University\"}]]}],[\"$\",\"p\",null,{\"className\":\"text-lg sm:text-xl lg:text-2xl text-gray-500 font-medium\",\"children\":\"Empowering AI with real-world data \u0026 human language insights\"}]]}],[\"$\",\"div\",null,{\"className\":\"w-full\",\"children\":[[\"$\",\"div\",null,{\"className\":\"sm:hidden\",\"children\":[\"$\",\"$Le\",null,{\"images\":[{\"src\":\"/team.png\",\"alt\":\"연구실 모임 사진\"},{\"src\":\"/team2.png\",\"alt\":\"연구실 단체 사진\"}]}]}],[\"$\",\"div\",null,{\"className\":\"hidden sm:block relative h-[500px] lg:h-[560px] ml-auto -mr-8\",\"children\":[[\"$\",\"div\",null,{\"className\":\"absolute -left-23 top-5 w-[62%] h-[87%] z-20 overflow-hidden flex items-center justify-center rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.15),0_10px_20px_rgba(0,0,0,0.1)] ring-1 ring-black/5\",\"children\":[\"$\",\"img\",null,{\"src\":\"/team.png\",\"alt\":\"연구실 모임 사진\",\"className\":\"w-full h-full object-cover\"}]}],[\"$\",\"div\",null,{\"className\":\"absolute right-0 bottom-0 w-[62%] h-[87%] z-10 overflow-hidden flex items-center justify-center rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.15),0_10px_20px_rgba(0,0,0,0.1)] ring-1 ring-black/5\",\"children\":[\"$\",\"img\",null,{\"src\":\"/team2.png\",\"alt\":\"연구실 단체 사진\",\"className\":\"w-full h-full object-cover\"}]}],[\"$\",\"div\",null,{\"className\":\"absolute -top-6 -right-10 w-40 h-40 bg-blue-100 rounded-full opacity-60 blur-3xl -z-10\"}],[\"$\",\"div\",null,{\"className\":\"absolute -bottom-16 -left-6 w-52 h-52 bg-indigo-100 rounded-full opacity-50 blur-3xl -z-10\"}]]}]]}]]}]}]\n"])</script>
-    <script>self.__next_f.push([1, "6:[\"$\",\"div\",null,{\"className\":\"mt-1 lg:mt-8 max-w-[1400px] mx-auto px-6 lg:px-10\",\"children\":[\"$\",\"div\",null,{\"className\":\"w-full bg-transparent py-6 lg:py-8 overflow-hidden\",\"children\":[\"$\",\"div\",null,{\"className\":\"relative\",\"children\":[\"$\",\"div\",null,{\"className\":\"flex gap-12 lg:gap-16 animate-sponsor-scroll\",\"children\":[[\"$\",\"div\",\"0\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":false,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}],[\"$\",\"div\",\"1\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],\"$Lf\",\"$L10\",\"$L11\",\"$L12\"]}],\"$L13\",\"$L14\",\"$L15\",\"$L16\",\"$L17\",\"$L18\",\"$L19\",\"$L1a\"]}]}]}]}]\n"])</script>
-    <script>self.__next_f.push([1, "7:[\"$\",\"section\",null,{\"className\":\"relative bg-slate-50\",\"children\":[\"$\",\"div\",null,{\"className\":\"max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20 pb-12 lg:pb-16 h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] max-h-[800px] lg:max-h-[850px] overflow-y-auto lg:overflow-hidden\",\"children\":[\"$\",\"$L1b\",null,{}]}]}]\n"])</script>
-    <script>self.__next_f.push([1, "8:[\"$\",\"section\",null,{\"className\":\"relative bg-white\",\"children\":[\"$\",\"div\",null,{\"className\":\"max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20 pb-16 lg:pb-24\",\"children\":[\"$\",\"div\",null,{\"className\":\"space-y-6\",\"children\":[[\"$\",\"h2\",null,{\"className\":\"text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight\",\"children\":[\"$\",\"span\",null,{\"className\":\"relative inline-block px-2\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.22em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"Now Hiring!\"}]]}]}],[\"$\",\"p\",null,{\"className\":\"text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":[\"Our research group is currently seeking \",[\"$\",\"span\",null,{\"className\":\"font-semibold text-gray-900\",\"children\":\"talented and passionate students (MS/PhD)\"}],\" as well as \",[\"$\",\"span\",null,{\"className\":\"font-semibold text-gray-900\",\"children\":\"undergraduate research interns\"}],\" to join our team.\"]}],[\"$\",\"p\",null,{\"className\":\"text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":\"As a member of our team, you will have the opportunity to work on cutting-edge research projects in a collaborative and supportive environment.\"}],[\"$\",\"p\",null,{\"className\":\"text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":[\"If you are interested in joining our team, please refer to the \",[\"$\",\"a\",null,{\"href\":\"/apply\",\"className\":\"group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"Apply\"}]]}],\" \",\"page.\"]}]]}]}]}]\n"])</script>
-    <script>self.__next_f.push([1, "9:[\"$\",\"section\",null,{\"className\":\"relative bg-slate-50\",\"children\":[\"$\",\"div\",null,{\"className\":\"max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20 pb-12 flex-1\",\"children\":[\"$\",\"div\",null,{\"className\":\"space-y-6\",\"children\":[[\"$\",\"h2\",null,{\"className\":\"text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight\",\"children\":[\"$\",\"span\",null,{\"className\":\"relative inline-block px-2\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.22em] h-[0.72em] rounded-sm -skew-x-12 bg-amber-200/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"FAQ\"}]]}]}],[\"$\",\"div\",null,{\"className\":\"space-y-6\",\"children\":[[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"What is your research group focused on?\"}],[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":\"Our research group is broadly focused on natural language processing (NLP) and data mining (DM), with a particular emphasis on the real-world applications of large language models (LLMs) as reasoning agents. We study how to enhance the reasoning and decision-making capabilities of LLMs, especially in information/knowledge retrieval, human-level data analysis, and personalized applications.\"}]]}],[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"Are you currently accepting new members?\"}],[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":\"Yes, we are currently accepting new members. We welcome passionate students (MS/PhD) and undergraduate research interns to join our team.\"}]]}],[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"How do I apply to join your research group?\"}],[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":[\"To apply to join our research group, please refer to the \",[\"$\",\"a\",null,{\"href\":\"/apply\",\"className\":\"group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"Apply\"}]]}],\" \",\"page.\"]}]]}],[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"Do I need to have any qualifications to join your research group?\"}],[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":[\"We strongly recommend individuals who are interested in joining our research group to complete a\",\" \",[\"$\",\"a\",null,{\"href\":\"/apply\",\"className\":\"group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"Research Internship\"}]]}],\" with us before applying for a graduate research position. This will give you the opportunity to learn more about our research and determine if it is the right fit for you. Additionally, having relevant research experience and a passion for our research area will be helpful in making a strong application.\"]}]]}],[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[\"$L1c\",\"$L1d\"]}],\"$L1e\",\"$L1f\"]}]]}]}]}]\n"])</script>
-    <script>self.__next_f.push([1, "a:[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/f5e9d4b77051b533.js\",\"async\":true,\"nonce\":\"$undefined\"}]\nb:[\"$\",\"$L20\",null,{\"children\":[\"$\",\"$21\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@22\"}]}]\nc:[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$L23\",null,{\"children\":\"$@24\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$L25\",null,{\"children\":[\"$\",\"$21\",null,{\"name\":\"Next.Metadata\",\"children\":\"$@26\"}]}]}],null]}]\n"])</script>
-    <script>self.__next_f.push([1, "f:[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}]\n10:[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}]\n11:[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}]\n12:[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]\n"])</script>
-    <script>self.__next_f.push([1, "13:[\"$\",\"div\",\"2\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "14:[\"$\",\"div\",\"3\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "15:[\"$\",\"div\",\"4\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "16:[\"$\",\"div\",\"5\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "17:[\"$\",\"div\",\"6\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "18:[\"$\",\"div\",\"7\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "19:[\"$\",\"div\",\"8\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "1a:[\"$\",\"div\",\"9\",{\"className\":\"flex items-center gap-12 lg:gap-16 shrink-0\",\"aria-hidden\":true,\"children\":[[\"$\",\"div\",\"42dot\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/42dot.png\",\"alt\":\"42dot\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Hyundai\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/hyundai.png\",\"alt\":\"Hyundai\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"IITP\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/iitp.png\",\"alt\":\"IITP\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"LG Electronics\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-24 lg:h-32 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/lg_electronics.png\",\"alt\":\"LG Electronics\",\"className\":\"h-full w-auto object-contain max-w-[290px] lg:max-w-[360px]\"}]}]}],[\"$\",\"div\",\"Ministry of Science and ICT\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-16 lg:h-20 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/ministry_of_science_and_ICT.png\",\"alt\":\"Ministry of Science and ICT\",\"className\":\"h-full w-auto object-contain max-w-[175px] lg:max-w-[225px]\"}]}]}],[\"$\",\"div\",\"Naver\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/naver.png\",\"alt\":\"Naver\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"NRF\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-12 lg:h-16 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/nrf.png\",\"alt\":\"NRF\",\"className\":\"h-full w-auto object-contain max-w-[145px] lg:max-w-[175px]\"}]}]}],[\"$\",\"div\",\"Theta Cloud\",{\"className\":\"flex-shrink-0 flex items-center justify-center\",\"children\":[\"$\",\"div\",null,{\"className\":\"h-20 lg:h-24 w-auto\",\"children\":[\"$\",\"img\",null,{\"src\":\"/sponsors/theta_cloud.png\",\"alt\":\"Theta Cloud\",\"className\":\"h-full w-auto object-contain max-w-[225px] lg:max-w-[270px]\"}]}]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "1c:[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"Can undergraduate students apply to join your research group?\"}]\n1d:[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":[\"Yes, undergraduate students are welcome to apply to join our research group as\",\" \",[\"$\",\"a\",null,{\"href\":\"/apply\",\"className\":\"group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"Research Interns\"}]]}],\". We offer opportunities for undergraduate students to gain research experience and contribute to ongoing research projects.\"]}]\n1e:[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"What kind of mentorship and guidance can I expect as a research group member?\"}],[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":\"As a research group member, you can expect mentorship and guidance from the research group leader and senior members of the group. We offer regular group meetings, one-on-one meetings, and training opportunities from the support of our members.\"}]]}]\n1f:[\"$\",\"div\",null,{\"className\":\"border-b border-gray-200 pb-4\",\"children\":[[\"$\",\"h3\",null,{\"className\":\"text-base lg:text-lg font-semibold text-gray-900\",\"children\":\"I have more questions. How can I get more information?\"}],[\"$\",\"p\",null,{\"className\":\"mt-2 text-base lg:text-lg text-gray-600 leading-relaxed\",\"children\":[\"If you have additional questions, feel free to ask our\",\" \",[\"$\",\"a\",null,{\"href\":\"https://wehere.ai/chat/yonsei-dli\",\"className\":\"group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"AI Assistant\"}]]}],\", or contact us directly via email through the \",[\"$\",\"a\",null,{\"href\":\"/apply\",\"className\":\"group relative inline-block px-1 font-medium text-blue-700 hover:text-blue-800 transition-colors\",\"children\":[[\"$\",\"span\",null,{\"aria-hidden\":true,\"className\":\"absolute inset-x-0 bottom-[0.18em] h-[0.72em] rounded-sm -skew-x-12 bg-sky-200/70 transition-colors group-hover:bg-sky-300/70\"}],[\"$\",\"span\",null,{\"className\":\"relative\",\"children\":\"Apply\"}]]}],\" page.\"]}]]}]\n"])</script>
-    <script>self.__next_f.push([1, "24:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n"])</script>
-    <script>self.__next_f.push([1, "26:[[\"$\",\"title\",\"0\",{\"children\":\"DLI Lab - Data \u0026 Language Intelligence @ Yonsei University\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"DLI Lab at Yonsei University empowers AI with real-world data \u0026 human language insights. We research LLM, Information Retrieval, Recommender Systems, and User Modeling.\"}],[\"$\",\"meta\",\"2\",{\"name\":\"keywords\",\"content\":\"DLI Lab,Yonsei University,연세대학교,Data \u0026 Language Intelligence,Large Language Models,LLM,Data Mining,Data Mining Lab,Information Retrieval,Recommender Systems,Real-world Data AI,User Modeling,AI Agents\"}],[\"$\",\"meta\",\"3\",{\"name\":\"robots\",\"content\":\"index, follow\"}],[\"$\",\"meta\",\"4\",{\"property\":\"og:title\",\"content\":\"DLI Lab - Data \u0026 Language Intelligence @ Yonsei University\"}],[\"$\",\"meta\",\"5\",{\"property\":\"og:description\",\"content\":\"DLI Lab at Yonsei University empowers AI with real-world data \u0026 human language insights. We research LLM, Information Retrieval, Recommender Systems, and User Modeling.\"}],[\"$\",\"meta\",\"6\",{\"property\":\"og:url\",\"content\":\"https://dli.yonsei.ac.kr\"}],[\"$\",\"meta\",\"7\",{\"property\":\"og:site_name\",\"content\":\"DLI Lab\"}],[\"$\",\"meta\",\"8\",{\"property\":\"og:locale\",\"content\":\"en_US\"}],[\"$\",\"meta\",\"9\",{\"property\":\"og:image\",\"content\":\"https://dli.yonsei.ac.kr/team.png\"}],[\"$\",\"meta\",\"10\",{\"property\":\"og:image:width\",\"content\":\"1200\"}],[\"$\",\"meta\",\"11\",{\"property\":\"og:image:height\",\"content\":\"630\"}],[\"$\",\"meta\",\"12\",{\"property\":\"og:image:alt\",\"content\":\"DLI Lab\"}],[\"$\",\"meta\",\"13\",{\"property\":\"og:type\",\"content\":\"website\"}],[\"$\",\"meta\",\"14\",{\"name\":\"twitter:card\",\"content\":\"summary_large_image\"}],[\"$\",\"meta\",\"15\",{\"name\":\"twitter:title\",\"content\":\"DLI Lab - Data \u0026 Language Intelligence @ Yonsei University\"}],[\"$\",\"meta\",\"16\",{\"name\":\"twitter:description\",\"content\":\"DLI Lab at Yonsei University empowers AI with real-world data \u0026 human language insights. We research LLM, Information Retrieval, Recommender Systems, and User Modeling.\"}],[\"$\",\"meta\",\"17\",{\"name\":\"twitter:image\",\"content\":\"https://dli.yonsei.ac.kr/team.png\"}],[\"$\",\"meta\",\"18\",{\"name\":\"twitter:image:width\",\"content\":\"1200\"}],[\"$\",\"meta\",\"19\",{\"name\":\"twitter:image:height\",\"content\":\"630\"}],[\"$\",\"meta\",\"20\",{\"name\":\"twitter:image:alt\",\"content\":\"DLI Lab\"}]]\n"])</script>
-    <script>self.__next_f.push([1, "22:null\n"])</script>
+    -->
+    <footer class="pnu-footer">
+        <div class="pnu-footer-inner max-w-[1400px] mx-auto px-6 lg:px-10">
+            <div class="pnu-footer-grid">
+                <div class="pnu-footer-brand">
+                    <div class="pnu-footer-title">SOTA Lab</div>
+                    <p class="pnu-footer-desc">
+                    System Optimization for Transformative AI — compiler, architecture, and runtime systems.
+                    </p>
+                </div>
+
+                <div class="pnu-footer-links">
+                    <div class="pnu-footer-head">Explore</div>
+                    <a href="research.html">Research</a>
+                    <a href="publications.html">Publications</a>
+                    <a href="members.html">Members</a>
+                    <a href="apply.html">Join</a>
+                </div>
+
+                <div class="pnu-footer-contact">
+                    <div class="pnu-footer-head">Contact</div>
+                    <div class="pnu-footer-meta">Pusan National University, Busan, KR</div>
+                    <a class="pnu-footer-mail" href="mailto:contact@sota.pusan.ac.kr">contact@sota.pusan.ac.kr</a>
+                </div>
+            </div>
+
+            <div class="pnu-footer-bottom">
+                <span>© <span id="pnu-year"></span> SOTA Lab</span>
+                <span class="pnu-footer-sep">|</span>
+                <span>Built for research & open collaboration</span>
+            </div>
+        </div>
+
+        <script>
+            (function(){ 
+            var el = document.getElementById('pnu-year'); 
+            if(el) el.textContent = new Date().getFullYear(); 
+            })();
+        </script>
+    </footer>
+    <script>
+    (function(){
+        const btn = document.getElementById('mobileMenuBtn');
+        const sheet = document.getElementById('mobileMenuSheet');
+        const backdrop = document.getElementById('mobileMenuBackdrop');
+        const closeBtn = document.getElementById('mobileMenuClose');
+
+        if(!btn || !sheet || !backdrop) return;
+
+        const open = () => {
+            document.documentElement.classList.add('pnu-mobile-open');
+            sheet.hidden = false;
+            backdrop.hidden = false;
+            btn.setAttribute('aria-expanded','true');
+        };
+
+        const close = () => {
+            document.documentElement.classList.remove('pnu-mobile-open');
+            btn.setAttribute('aria-expanded','false');
+            window.setTimeout(() => {
+            sheet.hidden = true;
+            backdrop.hidden = true;
+            }, 220);
+        };
+
+        const isOpen = () => document.documentElement.classList.contains('pnu-mobile-open');
+
+        btn.addEventListener('click', () => (isOpen() ? close() : open()));
+        backdrop.addEventListener('click', close);
+        if(closeBtn) closeBtn.addEventListener('click', close);
+
+        sheet.addEventListener('click', (e) => {
+            const a = e.target.closest('a');
+            if(a) close();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && isOpen()) close();
+        });
+
+        window.addEventListener('resize', () => {
+            if(window.innerWidth >= 768 && isOpen()) close();
+        });
+    })();
+    </script>
+    <script>
+    (function(){
+        let currentPath = window.location.pathname.split("/").pop();
+        if(currentPath === "") currentPath = "index.html";
+
+        const navLinks = document.querySelectorAll(".pnu-nav-link");
+
+        navLinks.forEach(link => {
+            const linkPath = link.getAttribute("href");
+            if(linkPath === currentPath){
+            link.classList.add("pnu-nav-link-cta");
+            }
+        });
+    })();
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/layout.js"></script>
 </body>
 
 </html>
