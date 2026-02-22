@@ -861,7 +861,7 @@
 
         const isOpen = () => document.documentElement.classList.contains('pnu-mobile-open');
 
-        btn.addEventListener('click', () => (isOpen() ? close() : open()));
+        btn.addEventListener('pointerup', () => (isOpen() ? close() : open()));
         backdrop.addEventListener('click', close);
         if(closeBtn) closeBtn.addEventListener('click', close);
 
@@ -893,20 +893,6 @@
             }
         });
     })();
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const btn = document.getElementById("mobileMenuBtn");
-            if (!btn) return;
-
-            const toggle = (e) => {
-                e.preventDefault();
-                document.documentElement.classList.toggle("pnu-mobile-open");
-            };
-
-            btn.addEventListener("click", toggle, { passive: false });
-            btn.addEventListener("touchend", toggle, { passive: false });
-        });
     </script>
     <script src="js/main.js"></script>
     <script src="js/layout.js"></script>
