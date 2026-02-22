@@ -835,49 +835,61 @@
         </script>
     </footer>
     <script>
-    (function(){
-        const btn = document.getElementById('mobileMenuBtn');
-        const sheet = document.getElementById('mobileMenuSheet');
-        const backdrop = document.getElementById('mobileMenuBackdrop');
-        const closeBtn = document.getElementById('mobileMenuClose');
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('mobileMenuBtn');
+            const sheet = document.getElementById('mobileMenuSheet');
+            const backdrop = document.getElementById('mobileMenuBackdrop');
+            if (!btn || !sheet || !backdrop) return;
 
-        if(!btn || !sheet || !backdrop) return;
+            const isOpen = () => document.documentElement.classList.contains('pnu-mobile-open');
 
-        const open = () => {
-            document.documentElement.classList.add('pnu-mobile-open');
-            sheet.hidden = false;
-            backdrop.hidden = false;
-            btn.setAttribute('aria-expanded','true');
-        };
+            const open = () => {
+                sheet.hidden = false;
+                backdrop.hidden = false;
+                document.documentElement.classList.add('pnu-mobile-open');
+                btn.setAttribute('aria-expanded', 'true');
+            };
 
-        const close = () => {
-            document.documentElement.classList.remove('pnu-mobile-open');
-            btn.setAttribute('aria-expanded','false');
-            window.setTimeout(() => {
-            sheet.hidden = true;
-            backdrop.hidden = true;
-            }, 220);
-        };
+            const close = () => {
+                document.documentElement.classList.remove('pnu-mobile-open');
+                btn.setAttribute('aria-expanded', 'false');
 
-        const isOpen = () => document.documentElement.classList.contains('pnu-mobile-open');
+                // 애니메이션 끝난 뒤 hidden 처리
+                const dur = 220;
+                window.setTimeout(() => {
+                    if (!isOpen()) {
+                        sheet.hidden = true;
+                        backdrop.hidden = true;
+                    }
+                }, dur);
+            };
 
-        btn.addEventListener('pointerup', () => (isOpen() ? close() : open()));
-        backdrop.addEventListener('click', close);
-        if(closeBtn) closeBtn.addEventListener('click', close);
+            // ✅ 버튼 탭: pointerup 하나만 사용 + 전파 차단
+            btn.addEventListener('pointerup', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                isOpen() ? close() : open();
+            });
 
-        sheet.addEventListener('click', (e) => {
-            const a = e.target.closest('a');
-            if(a) close();
+            // ✅ 백드롭 탭 닫기: 전파 차단
+            backdrop.addEventListener('pointerup', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                close();
+            });
+
+            // ✅ 메뉴 바깥 클릭/탭 닫기 (capture 단계로 받아서 안정화)
+            document.addEventListener('pointerup', (e) => {
+                if (!isOpen()) return;
+                if (sheet.contains(e.target) || btn.contains(e.target)) return;
+                close();
+            }, true);
+
+            // ESC 닫기
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isOpen()) close();
+            });
         });
-
-        window.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape' && isOpen()) close();
-        });
-
-        window.addEventListener('resize', () => {
-            if(window.innerWidth >= 768 && isOpen()) close();
-        });
-    })();
     </script>
     <script>
     (function(){
@@ -899,3 +911,4 @@
 </body>
 
 </html>
+
