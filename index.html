@@ -867,7 +867,7 @@
             // 버튼 탭: pointerup 하나만 사용 + 전파 차단
             btn.addEventListener('pointerup', (e) => {
                 e.preventDefault();
-                e.stopPropagation();
+                e.stopImmediatePropagation();
                 isOpen() ? close() : open();
             });
 
@@ -883,7 +883,7 @@
                 if (!isOpen()) return;
                 if (sheet.contains(e.target) || btn.contains(e.target)) return;
                 close();
-            }, true);
+            });
 
             // ESC 닫기
             document.addEventListener('keydown', (e) => {
