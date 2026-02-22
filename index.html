@@ -841,10 +841,14 @@
             const backdrop = document.getElementById('mobileMenuBackdrop');
             if (!btn || !sheet || !backdrop) return;
 
-            let openState = false;
+            let hideTimer = null;
             const DUR = 220; // CSS transition 시간(ms)과 맞추기
 
+            const isOpen = () => document.documentElement.classList.contains('pnu-mobile-open');
+
             const open = () => {
+                if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+
                 sheet.hidden = false;
                 backdrop.hidden = false;
 
@@ -853,19 +857,20 @@
 
                 document.documentElement.classList.add('pnu-mobile-open');
                 btn.setAttribute('aria-expanded', 'true');
-                openState = true;
             };
 
             const close = () => {
                 document.documentElement.classList.remove('pnu-mobile-open');
                 btn.setAttribute('aria-expanded', 'false');
-                openState = false;
 
-                window.setTimeout(() => {
-                    if (!openState) {
+                if (hideTimer) clearTimeout(hideTimer);
+                hideTimer = window.setTimeout(() => {
+
+                    if (!isOpen()) {
                         sheet.hidden = true;
                         backdrop.hidden = true;
                     }
+                    hideTimer = null;
                 }, DUR);
             };
             const toggle = (e) => {
@@ -883,31 +888,31 @@
                 e.stopPropagation();
                 close();
             });
-
-            // 메뉴 바깥 클릭/탭 닫기 (capture 단계로 받아서 안정화)
+            
+            //링크 클릭 시 닫기
             sheet.addEventListener('click', (e) => {
                 const a = e.target.closest('a');
                 if (a) close();
             });
 
-            // 메뉴 바깥 클릭/탭 닫기
+            // X 버튼 닫기 (data-mobile-close="true")
+            sheet.addEventListener('click', (e) => {
+                const closeBtn = e.target.closest('[data-mobile-close="true"]');
+                if (!closeBtn) return;
+                e.preventDefault();
+                close();
+            });
+
+            // 메뉴 바깥 클릭 닫기
             document.addEventListener('click', (e) => {
-                if (!openState) return;
+                if (!isOpen()) return;
                 if (sheet.contains(e.target) || btn.contains(e.target)) return;
                 close();
             });
 
             // ESC 닫기
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && openState) close();
-            });
-
-            // (선택) 메뉴 안의 X 버튼이 있다면: data-mobile-close 달아주면 자동으로 닫힘
-            sheet.addEventListener('click', (e) => {
-                const closeBtn = e.target.closest('[data-mobile-close="true"]');
-                if (!closeBtn) return;
-                e.preventDefault();
-                close();
+                if (e.key === 'Escape' && isOpen()) close();
             });
         });
     </script>
