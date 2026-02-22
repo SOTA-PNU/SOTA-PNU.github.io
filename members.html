@@ -53,583 +53,150 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-y-14">
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900">
-                            <span class="relative inline-block px-2">
-                                <span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-rose-200/70"></span>
-                                    <span class="relative">Professor
-                                </span>
-                            </span>
-                        </h2>
-                        <div class="flex justify-center">
-                            <div class="group w-full max-w-4xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col lg:flex-row h-auto lg:h-[340px]">
-                                <div class="flex-shrink-0 w-full lg:w-[40%] h-56 lg:h-full lg:rounded-l-2xl overflow-hidden bg-gray-100">
-                                    <img src="/assets/images/members/yonginkwon.png"
-                                        alt="Dongha Lee"
-                                        class="w-full h-full object-contain lg:object-cover transform-none" /></div>
-                                        <!--교수님 프로필-->
-                                <div class="flex-1 px-7 lg:px-8 pt-7 lg:pt-8 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-3 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-xl lg:text-2xl font-bold text-gray-900">Yongin Kwon</h3>
-                                                <span
-                                                    class="text-base lg:text-lg font-semibold text-blue-600">Professor</span><span
-                                                    class="text-sm lg:text-base text-gray-600 block">yongin@pusan.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="h-auto lg:h-[125px] overflow-y-auto flex pt-3 lg:pt-0 bio-scrollbar items-center lg:items-center">
-                                            <p class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-sm lg:text-base">
-                                                Assistant Professor
-                                                  School of Computer Science and Engineering
-                                                  Pusan National University</p>
+                <div class="space-y-14 pnu-members-wrap">
+                    <!-- ============ Featured / Professor (always visible) ============ -->
+                    <section class="pnu-featured">
+                        <div class="pnu-featured-inner">
+                            <div class="pnu-featured-photo">
+                                <img src="/assets/images/members/yonginkwon.png" alt="Yongin Kwon" />
+                            </div>
+
+                            <div>
+                                <div class="pnu-featured-title">
+                                    <div>
+                                        <div class="pnu-featured-name">Yongin Kwon</div>
+                                        <div class="pnu-featured-role">
+                                            <span class="pnu-tag is-lead">Professor</span>
+                                            <span class="pnu-tag">Pusan National University</span>
+                                            <span class="pnu-tag">Systems • Compilers • NPU</span>
                                         </div>
                                     </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10">
-                                            <a href="https://scholar.google.com/citations?user=yE3yVhIAAAAJ&hl"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/google_scholar.png" alt="Google Scholar"
-                                                    class="w-7 h-7" /></a>
-                                            <!--
-                                            <a href="https://donalee.github.io"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a>-->
-                                        </div>
-                                    </div>
+                                </div>
+
+                                <div class="pnu-featured-desc">
+                                    Assistant Professor, School of Computer Science and Engineering
+                                    System Optimization for Transformative AI @ PNU
+                                </div>
+
+                                <div class="pnu-featured-links">
+                                    <a class="pnu-linkbtn" href="mailto:yongin@pusan.ac.kr">
+                                        <img src="icons/mail.png" alt="" /> Email
+                                    </a>
+                                    <a class="pnu-linkbtn" href="https://scholar.google.com/citations?user=yE3yVhIAAAAJ&hl" target="_blank" rel="noreferrer">
+                                        <img src="icons/google_scholar.png" alt="" /> Scholar
+                                    </a>
+                                    <!-- 필요하면 -->
+                                    <!--
+                                    <a class="pnu-linkbtn" href="https://example.com" target="_blank" rel="noreferrer">
+                                        <img src="icons/personal_page.png" alt="" /> Homepage
+                                    </a>
+                                    -->
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200" data-member-group="phd">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-sky-200/70"></span><span
-                                    class="relative">PhD</span></span></h2>
-                        <!--박사 과정 예시
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/adf8132ed67157921d89a55c9df5c83283a74d79-458x590.jpg"
-                                        alt="Jeongeun Lee" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Jeongeun Lee</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">PhD</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">ljeadec31@yonsei.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Multi-modal personalization</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://jeongeunnn-e.github.io" target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>
+                    </section>
+                    <!-- ============ PhD (filterable) ============ -->
+                    <section class="pnu-member-group" data-member-group="phd">
+                        <div class="pnu-member-head">
+                            <div class="pnu-member-title">PhD</div>
+                            <div class="pnu-member-sub">Doctoral Researchers</div>
                         </div>
-                    -->
-                    </div>
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200" data-member-group="msphd">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-violet-200/65"></span><span
-                                    class="relative">MS/PhD</span></span></h2>
-                        <!-- MS/PhD 예시          
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/b97a74ce08f241bd44b577047dfd7e15c6a6e125-348x346.png"
-                                        alt="Sangam Lee" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Sangam Lee</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">MS/PhD</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">salee@yonsei.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Information Retrieval, Retrieval-augmented Generation, Parametric
-                                                Knowledge</p>
-                                        </div>
+
+                        <div class="pnu-member-grid">
+                        <!-- 카드 예시: 필요 개수만큼 복붙 -->
+                            <article class="pnu-member-card">
+                                <div class="pnu-member-strip"></div>
+                                <div class="pnu-member-body">
+                                    <div class="pnu-member-avatar">
+                                        <img src="/assets/images/members/placeholder.png" alt="Member photo" />
                                     </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://scholar.google.com/citations?user=LwM5KkIAAAAJ&amp;hl=ko"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/google_scholar.png" alt="Google Scholar"
-                                                    class="w-7 h-7" /></a><a href="https://augustinlib.github.io/"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a></div>
+                                    <div class="pnu-member-info">
+                                        <div class="pnu-member-name">Name Here</div>
+                                        <div class="pnu-member-meta">
+                                            <span class="pnu-tag">PhD</span>
+                                            <span class="pnu-member-email">write email</span>
+                                        </div>
+                                        <div class="pnu-member-note">Research keywords / short bio.</div>
+                                        <div class="pnu-member-actions">
+                                            <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
+                                                <img src="icons/personal_page.png" alt="" /> Page
+                                            </a>
+                                            <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
+                                                <img src="icons/google_scholar.png" alt="" /> Scholar
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </article>
                         </div>
-                    -->
-                    </div>    <!--석사과정-->
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200" data-member-group="master">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-emerald-200/65"></span><span
-                                    class="relative">Master</span></span></h2>
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="/assets/images/members/chohyunjun.jpg"
-                                        alt="Hyunjun Cho" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Hyunjun Cho</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Master</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">lckc9811@gmail.com</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Compiler, NPU</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://hyunjun1234.github.io/" target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 링크드인 예시
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/f1ec3ae0f12c7e127d5fc528c9a6dab69f8dc632-748x746.png"
-                                        alt="Sunghwan Kim" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Sunghwan Kim</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Master</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">happysnail06@yonsei.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Agentic Systems, NLP Applications</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://www.linkedin.com/in/sunghwan-kim-b09408338/"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/linkedin.png" alt="LinkedIn" class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>-->
+                    </section>
+
+                    <!-- ============ MS/PhD (filterable) ============ -->
+                    <section class="pnu-member-group" data-member-group="msphd">
+                        <div class="pnu-member-head">
+                            <div class="pnu-member-title">MS/PhD</div>
+                            <div class="pnu-member-sub">Integrated Program</div>
                         </div>
-                    </div>    
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200" data-member-group="industry">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-indigo-200/70"></span><span
-                                    class="relative">Industry Researchers</span></span></h2>
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <!-- industry researchers 예시
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/c285c8751e5e74bc49cb628bf03d9d11359c1902-416x416.png"
-                                        alt="Uitaek Lee" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Uitaek Lee</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">PhD (KEPCO)</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">dtmaster@yonsei.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Industrial Applications of LLMs, Few-Shot Fault Prognosis, Anomaly
-                                                Detection</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/c0f766a4b64d63fa83b1f5a125c65cdf8419440f-680x874.png"
-                                        alt="Minchae Lim" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Minchae Lim</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Master (Samsung
-                                                    Electronics)</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">mr.comkorea@gmail.com</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/eab1be064f4c19f216681c9fe909e4a282b73a86-1280x1646.png"
-                                        alt="Wonjae Lee" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Wonjae Lee</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Master (Samsung
-                                                    Electronics)</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">dnjswo0926@gmail.com</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        -->
+
+                        <div class="pnu-member-grid">
+                        <!-- 필요 개수만큼 -->
                         </div>
-                    </div>
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200" data-member-group="undergrad">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-amber-200/70"></span><span
-                                    class="relative">Undergrad</span></span></h2>
-                        <!--학부  
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/650fb83134f8ba36a78a2d04c9a73d56c8c22111-1796x1796.png"
-                                        alt="Junseong Lee" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Junseong Lee</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Undergrad
-                                                    Intern</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">brulee@yonsei.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://junseongleee.github.io/CV_WEBSITE/#home" target="_blank"
-                                                rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/7fc9079999ad22112409281981f7f7210596c230-1906x2521.jpg"
-                                        alt="Jinwook Jeong" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Jinwook Jeong
-                                                </h3><span class="text-sm lg:text-base text-gray-600">Undergrad
-                                                    Intern</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">mech991011@gmail.com</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/7baec1f2a8b7925e479776a22afce58e6183066f-2526x3248.jpg"
-                                        alt="Wooseok Jeong" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Wooseok Jeong
-                                                </h3><span class="text-sm lg:text-base text-gray-600">Undergrad
-                                                    Intern</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">oseoko8@gmail.com</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"></div>
-                                    </div>
-                                </div>
-                            </div>
+                    </section>
+
+                    <!-- ============ Master (filterable) ============ -->
+                    <section class="pnu-member-group" data-member-group="master">
+                        <div class="pnu-member-head">
+                            <div class="pnu-member-title">Master</div>
+                            <div class="pnu-member-sub">Graduate Researchers</div>
                         </div>
-                    -->
-                    </div>
-                    <div class="space-y-6 pb-10 border-b-2 border-gray-200" data-member-group="collaborators">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-teal-200/70"></span><span
-                                    class="relative">Collaborators</span></span></h2>
-                        <!--협력자
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/5f2882ce284bc12cd94d90e35999b1022f50a3ba-814x814.png"
-                                        alt="Jinyoung Yeo" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Jinyoung Yeo</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">LangAGI Lab</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">jinyeo@yonsei.ac.kr</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
+
+                        <div class="pnu-member-grid">
+                            <article class="pnu-member-card">
+                                <div class="pnu-member-strip"></div>
+                                <div class="pnu-member-body">
+                                    <div class="pnu-member-avatar">
+                                        <img src="/assets/images/members/chohyunjun.jpg" alt="Hyunjun Cho" />
                                     </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a href="https://jinyeo.weebly.com"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/weebly.png" alt="Weebly" class="w-7 h-7" /></a></div>
+                                    <div class="pnu-member-info">
+                                        <div class="pnu-member-name">Hyunjun Cho</div>
+                                        <div class="pnu-member-meta">
+                                            <span class="pnu-tag">Master</span>
+                                            <span class="pnu-member-email">lckc9811@gmail.com</span>
+                                        </div>
+                                        <div class="pnu-member-note">Compiler • NPU • Systems</div>
+                                        <div class="pnu-member-actions">
+                                            <a class="pnu-mini" href="https://hyunjun1234.github.io/" target="_blank" rel="noreferrer">
+                                                <img src="icons/personal_page.png" alt="" /> Page
+                                            </a>
+                                        </div> 
                                     </div>
                                 </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/eb9169cde2324dfb7f7af7abf045ff481d708b42-654x656.png"
-                                        alt="Wonseok Jeong" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Wonseok Jeong
-                                                </h3><span class="text-sm lg:text-base text-gray-600">Startup
-                                                    Project</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">fredriccliver@gmail.com</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://www.linkedin.com/in/fredriccliver/" target="_blank"
-                                                rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/linkedin.png" alt="LinkedIn" class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>
+                            </article>
                         </div>
-                    -->
-                    </div>
-                    <div class="space-y-6 pb-10 lg:pb-14" data-member-group="alumni">
-                        <h2 class="text-xl lg:text-2xl font-semibold text-gray-900"><span
-                                class="relative inline-block px-2"><span aria-hidden="true"
-                                    class="absolute inset-x-0 bottom-[0.18em] h-[0.55em] rounded-sm -skew-x-12 bg-slate-200/70"></span><span
-                                    class="relative">Alumni</span></span></h2>
-                        <!--졸업생
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/4e1d710454e1b7c875f7ed9cb96efe3e1b95d69f-2046x2046.jpg"
-                                        alt="Hyunseo Kim" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Hyunseo Kim</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Alumni (M.S., Feb
-                                                    2026)</span><span class="text-xs lg:text-sm text-gray-600 block">LG
-                                                    Electronics</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Conversational Search, Recommender Systems, Personalized Agents</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a
-                                                href="https://hyunseo318.github.io" target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/450e11695383bb47db3d216beaa429c21e70d636-979x979.jpg"
-                                        alt="Seoyeon Kim" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Seoyeon Kim</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Alumni (M.S., Aug
-                                                    2025)</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">Sendbird</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Knowledge-augmented LLMs, multilinguality of LLMs</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"><a href="https://emseoyk.github.io/"
-                                                target="_blank" rel="noreferrer"
-                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 transition-colors duration-200"><img
-                                                    src="icons/personal_page.png" alt="Personal Page"
-                                                    class="w-7 h-7" /></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="group w-full max-w-2xl mx-auto rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex h-[260px]">
-                                <div class="flex-shrink-0 w-[40%] rounded-l-2xl overflow-hidden bg-gray-100"><img
-                                        src="https://cdn.sanity.io/images/l016ip9y/production/2715c4191f25dcff8205c6fa652e291b16249e5f-130x130.png"
-                                        alt="Sungho Ko" class="w-full h-full object-cover transform-none" /></div>
-                                <div class="flex-1 px-5 lg:px-6 pt-5 lg:pt-6 pb-2 flex flex-col h-full">
-                                    <div class="flex flex-col flex-1 min-h-0">
-                                        <div class="space-y-2.5 flex-shrink-0">
-                                            <div class="space-y-1">
-                                                <h3 class="text-lg lg:text-xl font-bold text-gray-900">Sungho Ko</h3>
-                                                <span class="text-sm lg:text-base text-gray-600">Alumni (M.S., Aug
-                                                    2025)</span><span
-                                                    class="text-xs lg:text-sm text-gray-600 block">Boston Consulting
-                                                    Group</span>
-                                            </div>
-                                            <div class="border-t border-gray-200"></div>
-                                        </div>
-                                        <div
-                                            class="flex-1 min-h-0 max-h-[86px] overflow-y-auto flex bio-scrollbar items-center">
-                                            <p
-                                                class="text-gray-600 leading-relaxed text-left whitespace-pre-line break-words text-xs lg:text-sm">
-                                                Knowledge-augmented LLMs, Question Answering, Large Language Models</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-3 pt-2 mt-auto">
-                                        <div class="border-t border-gray-200"></div>
-                                        <div class="flex items-center gap-2.5 h-10"></div>
-                                    </div>
-                                </div>
-                            </div>
+                    </section>
+
+                    <!-- ============ Undergrad (filterable) ============ -->
+                    <section class="pnu-member-group" data-member-group="undergrad">
+                        <div class="pnu-member-head">
+                            <div class="pnu-member-title">Undergrad</div>
+                            <div class="pnu-member-sub">Undergraduate Researchers</div>
                         </div>
-                    -->
-                    </div>
+
+                        <div class="pnu-member-grid">
+                        <!-- 필요 개수만큼 -->
+                        </div>
+                    </section>
+
+                    <!-- ============ Alumni (filterable) ============ -->
+                    <section class="pnu-member-group" data-member-group="alumni">
+                        <div class="pnu-member-head">
+                            <div class="pnu-member-title">Alumni</div>
+                            <div class="pnu-member-sub">Past Members</div>
+                        </div>
+                        <div class="pnu-member-grid">
+                        <!-- 필요 개수만큼 -->
+                        </div>
+                    </section>
                 </div>
             </section>
         </main><!--$--><!--/$-->

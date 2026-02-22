@@ -20,6 +20,14 @@ html,body{background:#fff; color:var(--sota-ink);}
 .hover\:text-blue-800:hover{color:var(--sota-accent-2) !important;}
 .bg-sky-200\/70{background:rgba(186,230,253,.55) !important;}
 
+.sota-accent{
+  color: var(--sota-accent);
+  transition: color .2s ease;
+}
+.sota-accent:hover{
+  color: var(--sota-accent-2);
+}
+
 /* Hero background: subtle geometric mesh */
 .pnu-hero{
   position:relative;
@@ -855,3 +863,311 @@ body{ padding-top: 96px; }
   border-color: rgba(109,40,217,.25);
   box-shadow: 0 12px 28px rgba(109,40,217,.15);
 }
+
+/* =========================
+   Members Directory (NEW)
+   ========================= */
+
+.pnu-members-wrap{
+  position:relative;
+}
+
+/* Featured professor banner */
+.pnu-featured{
+  border-radius:28px;
+  border:1px solid rgba(15,23,42,.10);
+  background:
+    radial-gradient(1200px 280px at 15% 20%, rgba(99,102,241,.14), transparent 58%),
+    radial-gradient(900px 260px at 85% 55%, rgba(16,185,129,.12), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,250,252,.92));
+  box-shadow: 0 18px 60px rgba(2,6,23,.10);
+  overflow:hidden;
+}
+
+.pnu-featured-inner{
+  display:grid;
+  grid-template-columns: 220px 1fr;
+  gap:22px;
+  padding:22px;
+  align-items:center;
+}
+
+@media (max-width: 900px){
+  .pnu-featured-inner{ grid-template-columns: 1fr; }
+}
+
+.pnu-featured-photo{
+  width: 200px;
+  height: 200px;
+  border-radius: 26px;
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,.10);
+  background:#fff;
+  box-shadow: 0 14px 40px rgba(2,6,23,.12);
+}
+
+.pnu-featured-photo img{
+  width:100%; height:100%; object-fit:cover;
+}
+
+.pnu-featured-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pnu-featured-name{
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: rgba(15,23,42,.96);
+  line-height:1.05;
+}
+
+.pnu-featured-role{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+
+.pnu-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  padding:.42rem .78rem;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,.12);
+  background: rgba(255,255,255,.70);
+  font-weight: 800;
+  font-size: 12px;
+  color: rgba(15,23,42,.80);
+}
+
+.pnu-tag.is-lead{
+  background: linear-gradient(180deg, rgba(15,23,42,.94), rgba(15,23,42,.86));
+  border-color: rgba(15,23,42,.90);
+  color: rgba(255,255,255,.92);
+  box-shadow: 0 12px 26px rgba(2,6,23,.18);
+}
+
+.pnu-featured-desc{
+  margin-top:14px;
+  color: rgba(15,23,42,.70);
+  line-height:1.65;
+  font-size: 14px;
+  max-width: 72ch;
+  white-space: pre-line;
+}
+
+.pnu-featured-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:16px;
+}
+
+.pnu-linkbtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:40px;
+  padding:0 14px;
+  border-radius: 999px;
+  border:1px solid rgba(15,23,42,.12);
+  background: rgba(255,255,255,.78);
+  font-weight: 850;
+  font-size: 13px;
+  color: rgba(15,23,42,.84);
+  text-decoration:none;
+  box-shadow: 0 10px 24px rgba(2,6,23,.08);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+
+.pnu-linkbtn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(2,6,23,.12);
+  border-color: rgba(15,23,42,.18);
+}
+
+.pnu-linkbtn img{
+  width:18px; height:18px;
+}
+
+/* Group section: headline + rail line */
+.pnu-member-group{
+  position:relative;
+  padding-top: 6px;
+}
+
+.pnu-member-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom: 14px;
+}
+
+.pnu-member-title{
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: rgba(15,23,42,.92);
+}
+
+.pnu-member-sub{
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.55);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* New card grid */
+.pnu-member-grid{
+  display:grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pnu-member-card{
+  grid-column: span 4;
+  border-radius: 22px;
+  border:1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.86);
+  box-shadow: 0 14px 40px rgba(2,6,23,.08);
+  overflow:hidden;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.pnu-member-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(37,99,235,.22);
+  box-shadow: 0 22px 62px rgba(2,6,23,.12);
+}
+
+@media (max-width: 1024px){
+  .pnu-member-card{ grid-column: span 6; }
+}
+@media (max-width: 640px){
+  .pnu-member-card{ grid-column: span 12; }
+}
+
+/* Card header strip (non-original look) */
+.pnu-member-strip{
+  height: 64px;
+  background:
+    linear-gradient(135deg, rgba(99,102,241,.12), rgba(16,185,129,.10)),
+    linear-gradient(180deg, rgba(2,6,23,.02), rgba(2,6,23,0));
+  border-bottom: 1px solid rgba(15,23,42,.06);
+}
+
+.pnu-member-body{
+  padding: 16px;
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+}
+
+.pnu-member-avatar{
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,.10);
+  background:#f1f5f9;
+  box-shadow: 0 12px 28px rgba(2,6,23,.10);
+  flex: 0 0 auto;
+  margin-top: -26px; /* overlap into strip */
+}
+
+.pnu-member-avatar img{
+  width:100%; height:100%; object-fit:cover;
+}
+
+.pnu-member-info{
+  min-width:0;
+  flex: 1 1 auto;
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+}
+
+.pnu-member-name{
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  color: rgba(15,23,42,.94);
+  line-height:1.1;
+}
+
+.pnu-member-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15,23,42,.62);
+}
+
+.pnu-member-email{
+  font-weight: 850;
+  color: rgba(15,23,42,.62);
+}
+
+.pnu-member-note{
+  padding-top: 10px;
+  border-top: 1px dashed rgba(15,23,42,.14);
+  color: rgba(15,23,42,.66);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.pnu-member-actions{
+  margin-top: 10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap: 8px;
+}
+
+.pnu-mini{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border:1px solid rgba(15,23,42,.10);
+  background: rgba(248,250,252,.92);
+  text-decoration:none;
+  font-weight: 900;
+  font-size: 12px;
+  color: rgba(15,23,42,.78);
+  transition: transform .15s ease, border-color .15s ease;
+}
+.pnu-mini:hover{
+  transform: translateY(-1px);
+  border-color: rgba(15,23,42,.18);
+}
+.pnu-mini img{ width:16px; height:16px; }
+
+/* Optional: small count badge (if you want later) 
+.pnu-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width: 32px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border:1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.70);
+  font-size: 12px;
+  font-weight: 950;
+  color: rgba(15,23,42,.72);
+}*/
