@@ -61,6 +61,7 @@ html,body{background:#fff; color:var(--sota-ink);}
   background-repeat:repeat;
   opacity:.80;
   transform:skewY(-2deg);
+  pointer-events:none;
 }
 
 .pnu-hero-bg::after{
