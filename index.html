@@ -864,21 +864,21 @@
                 }, dur);
             };
 
-            // ✅ 버튼 탭: pointerup 하나만 사용 + 전파 차단
+            // 버튼 탭: pointerup 하나만 사용 + 전파 차단
             btn.addEventListener('pointerup', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 isOpen() ? close() : open();
             });
 
-            // ✅ 백드롭 탭 닫기: 전파 차단
+            // 백드롭 탭 닫기: 전파 차단
             backdrop.addEventListener('pointerup', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 close();
             });
 
-            // ✅ 메뉴 바깥 클릭/탭 닫기 (capture 단계로 받아서 안정화)
+            // 메뉴 바깥 클릭/탭 닫기 (capture 단계로 받아서 안정화)
             document.addEventListener('pointerup', (e) => {
                 if (!isOpen()) return;
                 if (sheet.contains(e.target) || btn.contains(e.target)) return;
@@ -892,19 +892,19 @@
         });
     </script>
     <script>
-    (function(){
-        let currentPath = window.location.pathname.split("/").pop();
-        if(currentPath === "") currentPath = "index.html";
+        (function(){
+            let currentPath = window.location.pathname.split("/").pop();
+            if(currentPath === "") currentPath = "index.html";
 
-        const navLinks = document.querySelectorAll(".pnu-nav-link");
+            const navLinks = document.querySelectorAll(".pnu-nav-link");
 
-        navLinks.forEach(link => {
-            const linkPath = link.getAttribute("href");
-            if(linkPath === currentPath){
-            link.classList.add("pnu-nav-link-cta");
-            }
-        });
-    })();
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute("href");
+                if(linkPath === currentPath){
+                link.classList.add("pnu-nav-link-cta");
+                }
+            });
+        })();
     </script>
     <script src="js/main.js"></script>
     <script src="js/layout.js"></script>
