@@ -43,51 +43,95 @@
                         </div>
                     </div>
                 </div>
-                <!--
-                <div class="flex flex-col items-center space-y-10">
-                    <div class="w-full max-w-5xl space-y-4 text-center">
-                        <div class="border-t border-gray-200 pt-6">
-                            <h2 class="text-xl lg:text-2xl font-bold text-gray-900 mb-4"><span
-                                    class="relative inline-block px-2"><span aria-hidden="true"
-                                        class="absolute inset-x-0 bottom-[0.22em] h-[0.72em] rounded-sm -skew-x-12 bg-amber-200/70"></span><span
-                                        class="relative">Real-world Data to Artificial Intelligence</span></span></h2>
-                            <ul class="space-y-3 text-base lg:text-lg text-gray-700 leading-loose text-left">
-                                <li>• LLM-driven insight discovery and decision making</li>
-                                <li>• User modeling, profiling, and simulation for personalized AI</li>
-                                <li>• AI agents for manufacturing, industrial processes, and operational optimization</li>
-                                <li>• Prediction, forecasting, anomaly detection, and intelligent monitoring</li>
-                            </ul>
+            </section>
+            <section class="pnu-research" id="research">
+                <div class="spark"></div>
+                <div class="wrap">
+                    <div class="kicker"><span class="dot"></span>Research</div>
+                    <h2>DNN/SNN 통합 컴파일러 & SW 플랫폼</h2>
+                    <p>
+                    상용 포맷으로 표현된 AI 모델을 <b>MLIR</b>로 통합하고, 최적화/코드생성/실행/디버깅까지
+                    전 과정을 한 번에 제공하는 통합 프레임워크를 지향합니다.
+                    </p>
+
+                    <div class="hero">
+                    <!-- Left: What we build -->
+                        <div class="card">
+                            <div class="pill"><b>Goal</b> End-to-end Compile · Run · Debug</div>
+                            <div class="grid">
+                                <div class="card" style="padding:14px">
+                                    <div class="pill"><b>Frontends</b> ONNX · snnTorch</div>
+                                    <p>오픈 생태계 입력 수용</p>
+                                </div>
+                                <div class="card" style="padding:14px">
+                                    <div class="pill"><b>Core</b> MLIR Optimization</div>
+                                    <p>백엔드 독립 최적화/변환</p>
+                                </div>
+                                <div class="card" style="padding:14px">
+                                    <div class="pill"><b>Backends</b> CPU · GPU  DNN · SNN</div>
+                                    <p>타겟별 코드 생성 및 통합</p>
+                                </div>
+                            </div>
+
+                            <div class="footer">
+                                <div class="mini">Includes: Runtime · Simulator · Debugger · Profiler · IDE</div>
+                                <a class="btn" href="#research-roadmap">Roadmap ↓</a>
+                            </div>
+                        </div>
+
+                    <!-- Right: Why it matters + challenges -->
+                        <div class="card">
+                            <div class="pill"><b>Why</b> Hybrid xNN (DNN+SNN)</div>
+                            <p>
+                            DNN의 인식률과 SNN의 효율성을 결합하는 하이브리드 모델(xNN)의 부상으로,
+                            <b>DNN과 SNN을 동시에 지원</b>하는 컴파일러/SDK의 필요성이 커지고 있습니다.
+                            </p>
+
+                            <div class="steps">
+                                <div class="step">
+                                    <div class="num">1</div>
+                                    <div>
+                                        <h4>SNN 모델 다양성</h4>
+                                        <p>뉴런/학습 방식이 다양해 컴파일 복잡도 증가</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="num">2</div>
+                                    <div>
+                                        <h4>Spatial mapping 난이도</h4>
+                                        <p>non-von-Neumann 구조에서 배치/라우팅이 핵심 병목</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="num">3</div>
+                                    <div>
+                                        <h4>QoS 런타임</h4>
+                                        <p>이종 코어에서 효율/서비스 품질을 동시에 보장</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="w-full max-w-5xl space-y-4 text-center">
-                        <div class="border-t border-gray-200 pt-6">
-                            <h2 class="text-xl lg:text-2xl font-bold text-gray-900 mb-4"><span
-                                    class="relative inline-block px-2"><span aria-hidden="true"
-                                        class="absolute inset-x-0 bottom-[0.22em] h-[0.72em] rounded-sm -skew-x-12 bg-amber-200/70"></span><span
-                                        class="relative">Large Language Models</span></span></h2>
-                            <ul class="space-y-3 text-base lg:text-lg text-gray-700 leading-loose text-left">
-                                <li>• Advancing knowledge integration and reasoning capabilities of LLMs</li>
-                                <li>• Reward modeling, evaluation, and benchmarking for reliable LLMs</li>
-                                <li>• On-device and edge LLMs for lightweight, efficient, and privacy-preserving
-                                    intelligence</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-5xl space-y-4 text-center">
-                        <div class="border-t border-gray-200 pt-6">
-                            <h2 class="text-xl lg:text-2xl font-bold text-gray-900 mb-4"><span
-                                    class="relative inline-block px-2"><span aria-hidden="true"
-                                        class="absolute inset-x-0 bottom-[0.22em] h-[0.72em] rounded-sm -skew-x-12 bg-amber-200/70"></span><span
-                                        class="relative">Information Retrieval &amp; Recommendation</span></span></h2>
-                            <ul class="space-y-3 text-base lg:text-lg text-gray-700 leading-loose text-left">
-                                <li>• Representation learning and data encoders for retrieval and recommendation</li>
-                                <li>• Reasoning-aware and explainable search/recommender systems</li>
-                                <li>• Conversational and interactive search/recommender systems</li>
-                            </ul>
+
+                    <!-- Roadmap -->
+                    <div class="card" id="research-roadmap" style="margin-top:14px">
+                        <div class="pill"><b>Roadmap</b> 1Y → 4Y</div>
+                        <div class="grid" style="margin-top:10px">
+                            <div class="card" style="padding:14px">
+                                <div class="pill"><b>Year 1</b> Baseline</div>
+                                <p>프레임워크 구축, MLIR 요구사항 설계, SNN ISA/시뮬레이터 착수</p>
+                            </div>
+                            <div class="card" style="padding:14px">
+                                <div class="pill"><b>Year 2</b> Prototype</div>
+                                <p>인터페이스/API, MLIR 최적화 모듈, 하이브리드 변환/런타임 프로토타입</p>
+                            </div>
+                            <div class="card" style="padding:14px">
+                                <div class="pill"><b>Year 3–4</b> Scale</div>
+                                <p>sLLM 포함 벤치마크 검증, 백엔드 고도화, SW 공개/통합개발환경 연동</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                -->
             </section>
         </main><!--$--><!--/$-->
     </div>

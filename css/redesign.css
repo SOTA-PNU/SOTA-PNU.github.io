@@ -1172,3 +1172,37 @@ body{ padding-top: 96px; }
   font-weight: 950;
   color: rgba(15,23,42,.72);
 }*/
+
+.pnu-research{--bg:#0b1220;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.10);--txt:#e8eefc;--mut:rgba(232,238,252,.72);--acc:#60a5fa;--acc2:#22c55e;
+      background:radial-gradient(900px 380px at 20% 0%, rgba(96,165,250,.20), transparent 60%),
+                 radial-gradient(760px 360px at 85% 15%, rgba(34,197,94,.14), transparent 55%),
+                 linear-gradient(180deg, #070b14, var(--bg));
+      color:var(--txt); border-radius:28px; padding:40px 22px; overflow:hidden; border:1px solid rgba(255,255,255,.08);
+    }
+    .pnu-research .wrap{max-width:1100px;margin:0 auto}
+    .pnu-research .kicker{display:inline-flex;gap:8px;align-items:center;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+    .pnu-research .dot{width:8px;height:8px;border-radius:999px;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+    .pnu-research h2{margin:10px 0 10px;font-size:34px;line-height:1.1;letter-spacing:-.02em}
+    .pnu-research p{margin:0;color:var(--mut);font-size:15px;line-height:1.6}
+    .pnu-research .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch;margin-top:18px}
+    @media (max-width:900px){.pnu-research .hero{grid-template-columns:1fr}}
+    .pnu-research .card{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:18px;backdrop-filter: blur(10px)}
+    .pnu-research .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    @media (max-width:900px){.pnu-research .grid{grid-template-columns:1fr}}
+    .pnu-research .pill{display:inline-flex;gap:8px;align-items:center;padding:7px 10px;border-radius:999px;border:1px solid var(--bd);background:rgba(0,0,0,.18);color:var(--mut);font-size:12px}
+    .pnu-research .pill b{color:var(--txt)}
+    .pnu-research .steps{margin-top:12px;display:grid;gap:10px}
+    .pnu-research .step{display:flex;gap:10px;align-items:flex-start}
+    .pnu-research .num{flex:0 0 auto;width:28px;height:28px;border-radius:10px;
+      background:linear-gradient(135deg, rgba(96,165,250,.25), rgba(34,197,94,.18));
+      border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-weight:800}
+    .pnu-research .step h4{margin:0 0 2px;font-size:14px}
+    .pnu-research .step p{margin:0;font-size:13px}
+    .pnu-research .footer{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+    .pnu-research .btn{display:inline-flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.22);color:var(--txt);text-decoration:none;font-weight:700}
+    .pnu-research .btn:hover{transform:translateY(-1px);transition:.15s}
+    .pnu-research .mini{font-size:12px;color:var(--mut)}
+    .pnu-research .spark{position:absolute;inset:auto -120px -160px auto;width:420px;height:420px;border-radius:999px;
+      background:radial-gradient(circle at 30% 30%, rgba(96,165,250,.20), transparent 55%);
+      filter: blur(2px);opacity:.9;pointer-events:none}
