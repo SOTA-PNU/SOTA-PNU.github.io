@@ -27,7 +27,10 @@
     <meta name="twitter:image:alt" content="SOTA Lab" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <link rel="stylesheet" href="css/redesign.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages.css" />
 </head>
 
 <body class="min-h-screen flex flex-col bg-white"
@@ -270,53 +273,8 @@
     </div>
     <!--아래배너-->
     <div id="siteFooter"></div>
-    <script src="js/main.js"></script>
     <script src="js/layout.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const filterWrap = document.getElementById("memberFilters");
-            if (!filterWrap) return;
-
-            const buttons = Array.from(filterWrap.querySelectorAll("button[data-filter]"));
-            const groups = Array.from(document.querySelectorAll("[data-member-group]"));
-
-            function setActive(btn) {
-                buttons.forEach(b => b.classList.toggle("is-active", b === btn));
-            }
-
-            function applyFilter(filter) {
-                const onlyAll = new Set(["industry", "collaborators"]); // all일 때만 보이게 할 그룹
-
-                groups.forEach(sec => {
-                    const group = (sec.getAttribute("data-member-group") || "").trim();
-
-                    // industry / collaborators는 all에서만 표시
-                    if (onlyAll.has(group)) {
-                        sec.style.display = (filter === "all") ? "" : "none";
-                        return;
-                    }
-
-                    // 기본 규칙: all이면 전부, 아니면 해당 그룹만
-                    const show = (filter === "all") || (group === filter);
-                    sec.style.display = show ? "" : "none";
-                });
-            }
-
-            // default
-            const defaultBtn = buttons.find(b => b.dataset.filter === "all") || buttons[0];
-            setActive(defaultBtn);
-            applyFilter(defaultBtn.dataset.filter);
-
-            // click
-            buttons.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const filter = btn.dataset.filter;
-                    setActive(btn);
-                    applyFilter(filter);
-                });
-            });
-        });
-    </script>
+    <script src="js/pages/members.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,582 @@
+.pnu-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  color: #0b1220;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.pnu-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+}
+
+.pnu-chip.is-active {
+  background: linear-gradient(180deg, rgba(221, 214, 254, 0.75), rgba(255, 255, 255, 0.85));
+  border-color: rgba(109, 40, 217, 0.25);
+  box-shadow: 0 12px 28px rgba(109, 40, 217, 0.15);
+}
+
+.pnu-year-block {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .pnu-year-block {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pnu-year-badge {
+  position: sticky;
+  top: 100px;
+  border-radius: 20px;
+  padding: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(248, 250, 252, 0.85));
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 900px) {
+  .pnu-year-badge {
+    position: relative;
+    top: auto;
+  }
+}
+
+.pnu-pub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pnu-pub-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 18px;
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+  overflow: hidden;
+}
+
+.pnu-pub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  border-color: rgba(37, 99, 235, 0.22);
+}
+
+.pnu-pub-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(255, 255, 255, 0.9));
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.pnu-venue-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-size: 0.95rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+.pnu-venue-meta {
+  font-size: 0.8rem;
+  color: rgba(15, 23, 42, 0.6);
+  font-weight: 700;
+}
+
+.pnu-venue-conf {
+  background: rgba(16, 185, 129, 0.1);
+  color: #065f46;
+  border-color: rgba(16, 185, 129, 0.18);
+}
+
+.pnu-venue-top {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.pnu-pub-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 6px;
+}
+
+.pnu-pub-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pnu-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pnu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(248, 250, 252, 0.9);
+  color: #0b1220;
+}
+
+.pnu-badge-award {
+  background: rgba(251, 191, 36, 0.18);
+  border-color: rgba(251, 191, 36, 0.35);
+  color: #92400e;
+}
+
+.pnu-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pnu-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.pnu-link:hover {
+  transform: translateY(-1px);
+}
+
+.pnu-link-paper {
+  background: rgba(56, 189, 248, 0.12);
+  color: #075985;
+  border-color: rgba(56, 189, 248, 0.22);
+}
+
+.pnu-link-code {
+  background: rgba(167, 139, 250, 0.12);
+  color: #5b21b6;
+  border-color: rgba(167, 139, 250, 0.22);
+}
+
+.pnu-title {
+  font-size: 1.02rem;
+  line-height: 1.25;
+  font-weight: 900;
+  color: #0b1220;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 1024px) {
+  .pnu-title {
+    font-size: 1.12rem;
+  }
+}
+
+.pnu-authors {
+  font-size: 0.86rem;
+  line-height: 1.15;
+  color: rgba(15, 23, 42, 0.7);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pnu-authors-strong {
+  color: #0b1220;
+  font-weight: 900;
+}
+
+.pnu-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.pnu-meta {
+  font-size: 0.78rem;
+  color: rgba(15, 23, 42, 0.55);
+  font-weight: 800;
+}
+
+.pnu-dot {
+  color: rgba(15, 23, 42, 0.35);
+  font-weight: 900;
+}
+
+.pnu-pub-awarded::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(900px 220px at 0% 50%, rgba(251, 191, 36, 0.18), transparent 55%);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .pnu-pub-card {
+    grid-template-columns: 1fr;
+  }
+
+  .pnu-pub-side {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pnu-authors {
+    white-space: normal;
+  }
+}
+
+.pnu-members-wrap {
+  position: relative;
+}
+
+.pnu-featured {
+  border-radius: 28px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background:
+    radial-gradient(1200px 280px at 15% 20%, rgba(99, 102, 241, 0.14), transparent 58%),
+    radial-gradient(900px 260px at 85% 55%, rgba(16, 185, 129, 0.12), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.92));
+  box-shadow: 0 18px 60px rgba(2, 6, 23, 0.1);
+  overflow: hidden;
+}
+
+.pnu-featured-inner {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 22px;
+  padding: 22px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .pnu-featured-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pnu-featured-photo {
+  width: 200px;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.12);
+}
+
+.pnu-featured-photo img {
+  width: 100%;
+  height: auto;
+  object-fit: block;
+}
+
+.pnu-featured-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.pnu-featured-name {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: rgba(15, 23, 42, 0.96);
+  line-height: 1.05;
+}
+
+.pnu-featured-role {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.pnu-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.78rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  font-weight: 800;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.8);
+}
+
+.pnu-tag.is-lead {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.86));
+  border-color: rgba(15, 23, 42, 0.9);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.18);
+}
+
+.pnu-featured-desc {
+  margin-top: 14px;
+  color: rgba(15, 23, 42, 0.7);
+  line-height: 1.65;
+  font-size: 14px;
+  max-width: 72ch;
+  white-space: pre-line;
+}
+
+.pnu-featured-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.pnu-linkbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.78);
+  font-weight: 850;
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.84);
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+}
+
+.pnu-linkbtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.12);
+  border-color: rgba(15, 23, 42, 0.18);
+}
+
+.pnu-linkbtn img {
+  width: 18px;
+  height: 18px;
+}
+
+.pnu-member-group {
+  position: relative;
+  padding-top: 6px;
+}
+
+.pnu-member-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.pnu-member-title {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: rgba(15, 23, 42, 0.92);
+}
+
+.pnu-member-sub {
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15, 23, 42, 0.55);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pnu-member-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pnu-member-card {
+  grid-column: span 4;
+  border-radius: 22px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.08);
+  overflow: hidden;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.pnu-member-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.22);
+  box-shadow: 0 22px 62px rgba(2, 6, 23, 0.12);
+}
+
+@media (max-width: 1024px) {
+  .pnu-member-card {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 640px) {
+  .pnu-member-card {
+    grid-column: span 12;
+  }
+}
+
+.pnu-member-strip {
+  height: 64px;
+  background:
+    linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(16, 185, 129, 0.1)),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.02), rgba(2, 6, 23, 0));
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.pnu-member-body {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.pnu-member-avatar {
+  width: 64px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #f1f5f9;
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.1);
+  flex: 0 0 auto;
+  margin-top: -26px;
+}
+
+.pnu-member-avatar img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.pnu-member-info {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pnu-member-name {
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  color: rgba(15, 23, 42, 0.94);
+  line-height: 1.1;
+}
+
+.pnu-member-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.pnu-member-email {
+  font-weight: 850;
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.pnu-member-note {
+  padding-top: 10px;
+  border-top: 1px dashed rgba(15, 23, 42, 0.14);
+  color: rgba(15, 23, 42, 0.66);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.pnu-member-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pnu-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(248, 250, 252, 0.92);
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.78);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.pnu-mini:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 23, 42, 0.18);
+}
+
+.pnu-mini img {
+  width: 16px;
+  height: 16px;
+}

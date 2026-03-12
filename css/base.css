@@ -1,0 +1,104 @@
+:root {
+  --sota-ink: #0f172a;
+  --sota-ink-2: #334155;
+  --sota-muted: #64748b;
+  --sota-line: rgba(15, 23, 42, 0.1);
+  --sota-soft: rgba(15, 23, 42, 0.04);
+  --sota-accent: #0b3b8f;
+  --sota-accent-2: #2563eb;
+}
+
+html,
+body {
+  background: #fff;
+  color: var(--sota-ink);
+}
+
+.hover\:text-blue-600:hover {
+  color: var(--sota-accent) !important;
+}
+
+.text-blue-700 {
+  color: var(--sota-accent) !important;
+}
+
+.hover\:text-blue-800:hover {
+  color: var(--sota-accent-2) !important;
+}
+
+.bg-sky-200\/70 {
+  background: rgba(186, 230, 253, 0.55) !important;
+}
+
+.sota-accent {
+  color: var(--sota-accent);
+  transition: color 0.2s ease;
+}
+
+.sota-accent:hover {
+  color: var(--sota-accent-2);
+}
+
+.pnu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.05rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: 1px solid var(--sota-line);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--sota-ink);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.pnu-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.1);
+  border-color: rgba(15, 23, 42, 0.18);
+}
+
+.pnu-btn-primary {
+  background: var(--sota-ink);
+  color: #fff;
+  border-color: rgba(15, 23, 42, 0.9);
+}
+
+.pnu-btn-primary:hover {
+  color: #fff;
+}
+
+.pnu-section-title {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.35rem;
+}
+
+.pnu-section-title::after {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  right: 0.15rem;
+  bottom: 0.18em;
+  height: 0.55em;
+  background: rgba(37, 99, 235, 0.12);
+  border-radius: 0.25rem;
+  z-index: -1;
+}
+
+.pnu-card {
+  border: 1px solid var(--sota-line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+}
+
+.pnu-card:hover {
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
+}

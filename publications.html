@@ -25,7 +25,10 @@
     <meta name="twitter:image:alt" content="SOTA Lab" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <link rel="stylesheet" href="css/redesign.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages.css" />
 </head>
 
 <body class="min-h-screen flex flex-col bg-white"
@@ -1278,53 +1281,8 @@
         </main><!--$--><!--/$-->
     </div>
     <div id="siteFooter"></div>
-    <script src="js/main.js"></script>
     <script src="js/layout.js"></script>
-    <script>
-        (function () {
-            const filterBar = document.getElementById('pubFilters');
-            if (!filterBar) return;
-
-            const chips = Array.from(filterBar.querySelectorAll('[data-filter]'));
-            const cards = Array.from(document.querySelectorAll('.pnu-pub-card'));
-            const yearBlocks = Array.from(document.querySelectorAll('.pnu-year-block'));
-
-            function normalizeTags(tagStr) {
-                return (tagStr || '')
-                    .split(',')
-                    .map(s => s.trim().toLowerCase())
-                    .filter(Boolean);
-            }
-
-            function applyFilter(filterKey) {
-            // chip active UI
-                chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === filterKey));
-
-            // show/hide cards
-                cards.forEach(card => {
-                    const tags = normalizeTags(card.getAttribute('data-tags'));
-                    const show = (filterKey === 'all') || tags.includes(filterKey);
-                    card.style.display = show ? '' : 'none';
-                });
-
-            // year block 숨김(해당 연도에 보여줄 카드가 0개면)
-                yearBlocks.forEach(block => {
-                    const visibleCards = Array.from(block.querySelectorAll('.pnu-pub-card'))
-                        .filter(c => c.style.display !== 'none');
-                    block.style.display = visibleCards.length ? '' : 'none';
-                });
-            }
-
-            filterBar.addEventListener('click', (e) => {
-                const btn = e.target.closest('[data-filter]');
-                if (!btn) return;
-                applyFilter(btn.dataset.filter);
-            });
-
-            // default = all
-            applyFilter('all');
-        })();
-    </script>
+    <script src="js/pages/publications.js"></script>
 </body>
 
 </html>
