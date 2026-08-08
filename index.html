@@ -806,88 +806,9 @@
             })();
         </script>
     </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('mobileMenuBtn');
-            const sheet = document.getElementById('mobileMenuSheet');
-            const backdrop = document.getElementById('mobileMenuBackdrop');
-            if (!btn || !sheet || !backdrop) return;
-
-            let hideTimer = null;
-            const DUR = 220; // CSS transition 시간(ms)과 맞추기
-
-            const isOpen = () => document.documentElement.classList.contains('pnu-mobile-open');
-
-            const open = () => {
-                if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-
-                sheet.hidden = false;
-                backdrop.hidden = false;
-
-                // reflow 한 번 주고 class 붙이면 애니메이션이 더 안정적
-                void sheet.offsetHeight;
-
-                document.documentElement.classList.add('pnu-mobile-open');
-                btn.setAttribute('aria-expanded', 'true');
-            };
-
-            const close = () => {
-                document.documentElement.classList.remove('pnu-mobile-open');
-                btn.setAttribute('aria-expanded', 'false');
-
-                if (hideTimer) clearTimeout(hideTimer);
-                hideTimer = window.setTimeout(() => {
-
-                    if (!isOpen()) {
-                        sheet.hidden = true;
-                        backdrop.hidden = true;
-                    }
-                    hideTimer = null;
-                }, DUR);
-            };
-            const toggle = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                openState ? close() : open();
-            };
-
-            // 버튼 탭: pointerup 하나만 사용 + 전파 차단
-            btn.addEventListener('click', toggle);
-
-            // 백드롭 탭 닫기: 전파 차단
-            backdrop.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                close();
-            });
-            
-            //링크 클릭 시 닫기
-            sheet.addEventListener('click', (e) => {
-                const a = e.target.closest('a');
-                if (a) close();
-            });
-
-            // X 버튼 닫기 (data-mobile-close="true")
-            sheet.addEventListener('click', (e) => {
-                const closeBtn = e.target.closest('[data-mobile-close="true"]');
-                if (!closeBtn) return;
-                e.preventDefault();
-                close();
-            });
-
-            // 메뉴 바깥 클릭 닫기
-            document.addEventListener('click', (e) => {
-                if (!isOpen()) return;
-                if (sheet.contains(e.target) || btn.contains(e.target)) return;
-                close();
-            });
-
-            // ESC 닫기
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && isOpen()) close();
-            });
-        });
-    </script>
+    <!-- 모바일 메뉴 토글은 js/layout.js 한 곳에서만 처리한다.
+         (여기에 있던 중복 스크립트는 정의되지 않은 openState 를 참조해
+          클릭할 때마다 ReferenceError 를 던지고 있었다) -->
     <script>
         (function(){
             let currentPath = window.location.pathname.split("/").pop();
@@ -903,8 +824,6 @@
             });
         })();
     </script>
-    <script src="js/main.js"></script>
-    <script src="js/layout.js"></script>
 </body>
 
 </html>
