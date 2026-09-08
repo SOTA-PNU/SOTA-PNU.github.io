@@ -1,0 +1,9 @@
+{
+  "name": "sota-pnu-site",
+  "private": true,
+  "description": "SOTA Lab homepage (GitHub Pages) + Google Sheet → publications sync tooling",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "sync": "node tools/sync_from_sheet.mjs"
+  }
+}
