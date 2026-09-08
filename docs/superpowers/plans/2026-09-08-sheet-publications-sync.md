@@ -24,7 +24,7 @@
 - Apps Script V8 runtime: `lib.js` must not use ES modules, optional chaining, or `??`. Arrow functions, `const/let`, template literals, `Array.prototype.includes`, `String.prototype.normalize` are fine. Export pattern: `var PubLib = (function(){ ... })(); if (typeof module !== 'undefined' && module.exports) module.exports = PubLib;`
 - No npm dependencies. Tests run with `node --test tests/*.test.js` on Node ≥ 20.
 - Card markup/classes must equal the current `publications.html` cards exactly (class names: `pnu-year-block`, `pnu-year-badge`, `pnu-pub-list`, `pnu-pub-card`, `pnu-pub-awarded`, `pnu-pub-side`, `pnu-venue-pill`, `pnu-venue-conf`, `pnu-venue-top`, `pnu-venue-meta`, `pnu-pub-main`, `pnu-pub-top`, `pnu-badges`, `pnu-badge`, `pnu-badge-award`, `pnu-links`, `pnu-link`, `pnu-link-paper`, `pnu-link-code`, `pnu-title`, `pnu-authors`, `pnu-meta-row`, `pnu-meta`, `pnu-dot`).
-- Repo constants: repo `SOTA-PNU/SOTA-PNU.github.io`, branch `main`, path `data/publications.json`, sheet id `1Iz3_QLSXu6Ovww27wobo3JcsCSPZrhWN-OwEQnwjnc4`, tab `논문 등록`, log tab `홈페이지 갱신 로그`.
+- Repo constants: repo `SOTA-PNU/SOTA-PNU.github.io`, branch `main`, path `data/publications.json`, sheet id (never committed: `tools/sheet-id.local` / `SOTA_SHEET_ID`), tab `논문 등록`, log tab `홈페이지 갱신 로그`.
 - GitHub token lives only in Apps Script **Script Properties** key `GITHUB_TOKEN`. Never written to a cell, log, or repo.
 - All text rendered into HTML goes through `esc()`; URLs must match `/^https?:\/\//i` or are dropped.
 - Shell: this session's harness rejects compound shell commands inside the worktree. Run **one simple command per Bash call** (no `&&` chains, no `cd`, no heredocs). Write scripts to files first, then run them.
@@ -1009,7 +1009,7 @@ const require = createRequire(import.meta.url);
 const lib = require('../apps-script/lib.js');
 const here = path.dirname(fileURLToPath(import.meta.url));
 
-const SHEET_ID = '1Iz3_QLSXu6Ovww27wobo3JcsCSPZrhWN-OwEQnwjnc4';
+const SHEET_ID = readSheetId(); // env SOTA_SHEET_ID or tools/sheet-id.local (gitignored)
 const TAB = '논문 등록';
 const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(TAB)}`;
 

@@ -37,8 +37,14 @@ var PubLib = (function () {
     return String(v == null ? '' : v).trim();
   }
 
+  // 화면에 그대로 나가는 값: 셀 안의 줄바꿈/연속 공백을 한 칸으로 정리한다
+  function text(v) {
+    return String(v == null ? '' : v).replace(/\s+/g, ' ').trim();
+  }
+
+  // 헤더 비교용: 전각 괄호 등을 반각으로(NFKC) 바꾸고 공백을 모두 제거
   function normalizeHeader(h) {
-    return String(h == null ? '' : h).replace(/\s+/g, '');
+    return String(h == null ? '' : h).normalize('NFKC').replace(/\s+/g, '');
   }
 
   function headerIndex(headers) {
@@ -73,6 +79,8 @@ var PubLib = (function () {
     if (!(y >= 1900 && y <= 2100)) return null;
     if (m != null && !(m >= 1 && m <= 12)) return null;
     if (d != null && !(d >= 1 && d <= 31)) return null;
+    // 달력에 없는 날짜(2월 31일 등) 거르기
+    if (m != null && d != null && new Date(Date.UTC(y, m - 1, d)).getUTCDate() !== d) return null;
     var iso = String(y);
     if (m != null) iso += '-' + pad2(m);
     if (m != null && d != null) iso += '-' + pad2(d);
@@ -86,8 +94,8 @@ var PubLib = (function () {
       return ymd(v.getFullYear(), v.getMonth() + 1, v.getDate());
     }
     if (typeof v === 'number') {
-      // 스프레드시트 시리얼: 1899-12-30 기준 일수
-      var ms = Date.UTC(1899, 11, 30) + Math.round(v) * 86400000;
+      // 스프레드시트 시리얼: 1899-12-30 기준 일수 (소수는 시:분이므로 버린다)
+      var ms = Date.UTC(1899, 11, 30) + Math.floor(v) * 86400000;
       var dt = new Date(ms);
       return ymd(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
     }
@@ -181,7 +189,10 @@ var PubLib = (function () {
     }
     var m = v.match(/\(([A-Z][A-Za-z0-9-]{1,10})\)/);
     if (m) return m[1];
-    return v.split(/\s+/)[0].replace(/[,:;]+$/, '');
+    // 첫 단어로 대체하되 "2025 IEEE …" 처럼 연도로 시작하면 그 다음 단어를 쓴다
+    var words = v.split(/\s+/).map(function (w) { return w.replace(/^[,:;(]+|[,:;)]+$/g, ''); })
+      .filter(function (w) { return w && !/^\d+$/.test(w); });
+    return words.length ? words[0] : v.split(/\s+/)[0].replace(/[,:;]+$/, '');
   }
 
   function slugify(title) {
@@ -230,11 +241,11 @@ var PubLib = (function () {
       if (!isTruthy(get(COLUMNS.publish))) return;
       if (isTruthy(get(COLUMNS.exclude))) return;
 
-      var titleKo = str(get(COLUMNS.titleKo));
-      var titleEn = str(get(COLUMNS.titleEn));
+      var titleKo = text(get(COLUMNS.titleKo));
+      var titleEn = text(get(COLUMNS.titleEn));
       if (!titleKo && !titleEn) { warnings.push(rowNo + '행: 제목 없음 → 제외'); return; }
 
-      var venue = str(get(COLUMNS.venue));
+      var venue = text(get(COLUMNS.venue));
       var domestic = isDomestic(get(COLUMNS.type), venue);
       var title = domestic ? (titleKo || titleEn) : (titleEn || titleKo);
 
@@ -253,6 +264,9 @@ var PubLib = (function () {
 
       if (!venue) warnings.push(rowNo + '행 "' + title.slice(0, 30) + '": 저널명/학회명 없음 → 카드에 학회명이 비어 보임');
 
+      var authors = mergeAuthors(get(COLUMNS.first), get(COLUMNS.co), get(COLUMNS.corr));
+      if (!authors.length) warnings.push(rowNo + '행 "' + title.slice(0, 30) + '": 저자 없음 → 카드에 저자 줄이 비어 보임');
+
       pubs.push({
         id: '',
         year: year,
@@ -260,15 +274,15 @@ var PubLib = (function () {
         type: detectKind(get(COLUMNS.kind), get(COLUMNS.type), venue),
         tier: domestic ? 'normal' : 'top',
         venue: venue,
-        venueShort: detectVenueShort(get(COLUMNS.venueShort), venue),
+        venueShort: text(get(COLUMNS.venueShort)) ? text(get(COLUMNS.venueShort)) : detectVenueShort('', venue),
         title: title,
         titleKo: titleKo,
         titleEn: titleEn,
-        authors: mergeAuthors(get(COLUMNS.first), get(COLUMNS.co), get(COLUMNS.corr)),
-        keywords: str(get(COLUMNS.keywords)),
+        authors: authors,
+        keywords: text(get(COLUMNS.keywords)),
         paperUrl: paperUrl,
         codeUrl: codeUrl,
-        award: str(get(COLUMNS.award)),
+        award: text(get(COLUMNS.award)),
         _order: i
       });
     });
@@ -305,8 +319,11 @@ var PubLib = (function () {
     return JSON.stringify(doc, null, 2) + '\n';
   }
 
+  // generatedAt(실행 시각)만 다른 경우를 "변경 없음"으로 보기 위한 비교.
+  // schemaVersion 이 바뀌면 논문 목록이 같아도 업로드해야 한다.
   function samePublications(a, b) {
     if (!a || !b || !a.publications || !b.publications) return false;
+    if (a.schemaVersion !== b.schemaVersion) return false;
     return JSON.stringify(a.publications) === JSON.stringify(b.publications);
   }
 
@@ -325,6 +342,7 @@ var PubLib = (function () {
     REQUIRED_HEADERS: REQUIRED_HEADERS,
     WEBSITE_HEADERS: WEBSITE_HEADERS,
     str: str,
+    text: text,
     normalizeHeader: normalizeHeader,
     headerIndex: headerIndex,
     cell: cell,

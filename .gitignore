@@ -1,0 +1,5 @@
+# 시트 ID (공개 저장소에 커밋하지 않는다 — tools/sync_from_sheet.mjs 참고)
+tools/sheet-id.local
+
+.DS_Store
+node_modules/

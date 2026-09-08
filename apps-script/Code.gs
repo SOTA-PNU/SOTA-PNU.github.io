@@ -42,6 +42,8 @@ function readPublicationRows_() {
 
 function buildPublications_() {
   var data = readPublicationRows_();
+  // 날짜 셀은 스크립트 시간대로 해석된다. Apps Script 프로젝트 설정(appsscript.json)의
+  // timeZone 이 시트 시간대(Asia/Seoul)와 다르면 날짜가 하루 밀릴 수 있다 — README 5장 참고.
   var result = PubLib.convertRows(data.headers, data.rows, { today: new Date() });
   var doc = PubLib.buildDocument(result, { generatedAt: new Date().toISOString(), source: CONFIG.sheetName });
   return { doc: doc, warnings: result.warnings };
@@ -94,7 +96,8 @@ function syncPublicationsToGitHub() {
       log_(started, user, b.doc.count, '변경 없음', b.warnings);
       return;
     }
-    var message = 'chore(publications): sync ' + b.doc.count + ' papers from sheet' + (user ? '\n\nTriggered-by: ' + user : '');
+    // 커밋 메시지는 공개 저장소에 남으므로 실행자 이메일을 넣지 않는다 (기록은 아래 로그 탭에만).
+    var message = 'chore(publications): sync ' + b.doc.count + ' papers from sheet';
     var commit = githubPutFile_(token, PubLib.serialize(b.doc), message, remote ? remote.sha : null);
     log_(started, user, b.doc.count, commit.html_url, b.warnings);
     ui.alert('완료', '업로드했습니다. 1~2분 후 홈페이지에 반영됩니다.\n\n' + CONFIG.siteUrl + '\n커밋: ' + commit.html_url, ui.ButtonSet.OK);
@@ -232,7 +235,8 @@ function explainStatus_(r) {
   var hints = {
     401: '토큰이 만료되었거나 잘못되었습니다 → 메뉴 "GitHub 토큰 설정" 에서 다시 설정하세요.',
     403: '토큰에 권한이 없습니다 (Contents: Read and write 필요) → 토큰을 다시 발급하세요.',
-    404: '저장소 또는 파일 경로를 찾을 수 없습니다 → CONFIG.repo / CONFIG.path 와 토큰의 저장소 접근 범위를 확인하세요.'
+    404: '저장소 또는 파일 경로를 찾을 수 없습니다 → 설정값(저장소 ' + CONFIG.repo + ', 브랜치 ' +
+      CONFIG.branch + ', 경로 ' + CONFIG.path + ')과 토큰의 저장소 접근 범위를 확인하세요.'
   };
   var msg = '';
   try { msg = JSON.parse(r.body).message || ''; } catch (e) { msg = String(r.body || '').slice(0, 200); }

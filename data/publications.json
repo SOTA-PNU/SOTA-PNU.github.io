@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-08T06:27:23.783Z",
+  "generatedAt": "2026-09-08T07:40:17.399Z",
   "source": "논문 등록",
   "count": 58,
   "publications": [
@@ -90,7 +90,7 @@
         "김용주",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Edge AI · NPU · Asynchronous Queue",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -138,7 +138,7 @@
         "권용인",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "Compiler Optimization · Model Pruning",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -181,7 +181,7 @@
         "차주형",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "NUMA · Multi-Accelerator · Compiler",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -201,7 +201,7 @@
         "권용인",
         "차주형"
       ],
-      "keywords": "",
+      "keywords": "Compiler · MLIR · RISC-V",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -223,7 +223,7 @@
         "차주형",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "On-device AI · Face Recognition",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -244,7 +244,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Vision-Language Model · Robotics",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -269,7 +269,7 @@
         "권용인",
         "배장호"
       ],
-      "keywords": "",
+      "keywords": "Path Planning · Deep Learning",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -293,7 +293,7 @@
         "박제만",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "Auto-Tuning · Deep Learning Inference",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -317,7 +317,7 @@
         "박제만",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "Auto-Tuning · Deep Learning Inference",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -338,7 +338,7 @@
         "권용인",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "Quantization · Vision Transformer",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -366,7 +366,7 @@
         "권용인",
         "백윤흥"
       ],
-      "keywords": "",
+      "keywords": "Architecture",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -389,7 +389,7 @@
         "오지훈",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "LLM · Quantization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -431,7 +431,7 @@
         "권용인",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "NPU · Data Transfer Optimization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -454,7 +454,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "ML-Guided Autotuning · Accelerator",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -477,7 +477,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Edge AI · Performance Evaluation",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -501,7 +501,7 @@
         "이충한",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "On-device AI · Face Recognition",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -523,7 +523,7 @@
         "권용인",
         "김대영"
       ],
-      "keywords": "",
+      "keywords": "Computational Efficiency · Model performance",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -546,7 +546,7 @@
         "권진세",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "LLM Inference · Systems Optimization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -592,7 +592,7 @@
         "권진세",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Edge devices · deep learning",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -637,7 +637,7 @@
         "권용인",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "NPU · Real-Time Systems",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -661,7 +661,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Compiler · Auto-Tuning",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -682,7 +682,7 @@
         "권용인",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "NPU · Data Transfer",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -702,7 +702,7 @@
         "차주형",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Embedded Systems · Virtualization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -723,7 +723,7 @@
         "오세현",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Heterogeneous Systems · DNN",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -747,7 +747,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Compiler Framework · Heterogeneous Systems",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -771,7 +771,7 @@
         "안민욱",
         "최성준"
       ],
-      "keywords": "",
+      "keywords": "Robotics · Preference Learning",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -794,7 +794,7 @@
         "권용인",
         "김형신"
       ],
-      "keywords": "",
+      "keywords": "Quantization · Vision Transformer",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -819,7 +819,7 @@
         "권용인",
         "하상태"
       ],
-      "keywords": "",
+      "keywords": "LLM · Memory Optimization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -843,7 +843,7 @@
         "박제만",
         "송환준"
       ],
-      "keywords": "",
+      "keywords": "Quantization · Vision Transformer",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -864,7 +864,7 @@
         "권용인",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "Edge AI · Accelerator Analysis",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -888,7 +888,7 @@
         "박제만",
         "이제민"
       ],
-      "keywords": "",
+      "keywords": "Auto-Tuning · Deep Learning Inference",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -908,7 +908,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Compiler · NPU Interface",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -929,7 +929,7 @@
         "이제민",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Multicore Optimization · Profiling",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -955,7 +955,7 @@
         "Michael Frank",
         "Guido Araujo"
       ],
-      "keywords": "",
+      "keywords": "Tensor Optimization · NPU",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -976,7 +976,7 @@
         "박제만",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Heterogeneous Computing · Scheduling",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -997,7 +997,7 @@
         "박제만",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Graph Learning · NLP",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1018,7 +1018,7 @@
         "이주빈",
         "권용인"
       ],
-      "keywords": "",
+      "keywords": "Profiling · Scheduling · ArmCL",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1042,7 +1042,7 @@
         "박준모",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Compiler Scheduler · Heterogeneous Systems",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1064,7 +1064,7 @@
         "이제민",
         "하상태"
       ],
-      "keywords": "",
+      "keywords": "Compiler-Informed Pruning · Efficient DNN",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1086,7 +1086,7 @@
         "권용인",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Post-training Quantization · CNN",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1109,7 +1109,7 @@
         "이제민",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "HLS · Deep Learning Accelerator",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1132,7 +1132,7 @@
         "박제만",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Compiler Extension · Mixed-Precision Quantization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1155,7 +1155,7 @@
         "박제만",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Parallel Execution · Neural Network Acceleration",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1178,7 +1178,7 @@
         "김영주",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Operator Fusion · Quantization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1193,7 +1193,7 @@
       "venueShort": "IEMEK",
       "title": "HLS 기반 딥러닝 가속 하드웨어의 ISA 확장을 통한 성능 향상",
       "titleKo": "HLS 기반 딥러닝 가속 하드웨어의 ISA 확장을 통한 성능 향상",
-      "titleEn": "Performance Improvement by Extending ISA of a HLS Based\nDeep Learning Accelerator",
+      "titleEn": "Performance Improvement by Extending ISA of a HLS Based Deep Learning Accelerator",
       "authors": [
         "권용인",
         "김영주",
@@ -1201,7 +1201,7 @@
         "이제민",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "HLS · ISA Extension",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1224,7 +1224,7 @@
         "김영주",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Profiling · Graph Partitioning",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1247,7 +1247,7 @@
         "김영주",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Operator Fusion · CNN Acceleration",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1270,7 +1270,7 @@
         "이제민",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Tiling · Scheduling Optimization",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1293,7 +1293,7 @@
         "김영주",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Compiler Optimization · Object Detection",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
@@ -1316,7 +1316,7 @@
         "김영주",
         "김태호"
       ],
-      "keywords": "",
+      "keywords": "Code Generation · Embedded AI",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""

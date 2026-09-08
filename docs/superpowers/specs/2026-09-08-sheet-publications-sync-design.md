@@ -25,7 +25,7 @@
   header/footer는 `js/layout.js`가 `partials/*.html`을 fetch해서 주입한다(이미 JS 의존).
 - `publications.html`: 연도별 `pnu-year-block` 안에 `pnu-pub-card` 53개가 손으로 작성됨.
   하단 인라인 스크립트가 `data-tags`로 필터링. 1289행에 `</spanㅌㄴ>` 오타 존재.
-- 시트(`1Iz3_QLSXu6Ovww27wobo3JcsCSPZrhWN-OwEQnwjnc4`): 링크 공개(읽기).
+- 시트(ID 는 공개 저장소에 커밋하지 않는다 — `tools/sheet-id.local` 또는 `SOTA_SHEET_ID` 환경변수): 링크 공개(읽기).
   `논문 등록` 탭 헤더(A~U): 검증 · Publish · SCI/학회 · 발표일자 · 저널명/학회명 · 학술지 상위(%) · 기관 ·
   제목(한글) · 제목(영어) · 호 · ISSN/등록번호 · 출판국/개최국 · 1저자 · 공동 · 교신 · 실적기관 · mrnIF(2024) ·
   비고 · 사사 문구 · 사사 비율 · PDF. 실제 논문 61행(Publish=1 59행).

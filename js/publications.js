@@ -68,7 +68,7 @@
     return years.map(function (y) {
       return '<div class="pnu-year-block">' +
         '<div class="pnu-year-badge"><div class="text-sm text-slate-500 font-semibold">Year</div>' +
-        '<div class="text-3xl font-extrabold tracking-tight text-slate-900">' + y + '</div></div>' +
+        '<div class="text-3xl font-extrabold tracking-tight text-slate-900">' + esc(y) + '</div></div>' +
         '<div class="pnu-pub-list">' + byYear[y].map(cardHtml).join('') + '</div>' +
       '</div>';
     }).join('');

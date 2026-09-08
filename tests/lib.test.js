@@ -18,10 +18,18 @@ function row(o) {
 }
 module.exports = { H, COL, row };
 
-test('normalizeHeader strips all whitespace', () => {
+test('normalizeHeader strips all whitespace and NFKC-folds full-width characters', () => {
   assert.equal(lib.normalizeHeader('호 \n(SCI 경우)'), '호(SCI경우)');
   assert.equal(lib.normalizeHeader(' Paper 링크 '), 'Paper링크');
   assert.equal(lib.normalizeHeader(null), '');
+  // 한글 IME 로 입력한 전각 괄호도 같은 헤더로 인식해야 한다
+  assert.equal(lib.normalizeHeader('제목（한글）'), lib.normalizeHeader('제목(한글)'));
+});
+
+test('text collapses internal newlines and runs of spaces', () => {
+  assert.equal(lib.text('Performance Improvement by\nExtending  ISA'), 'Performance Improvement by Extending ISA');
+  assert.equal(lib.text('  a  '), 'a');
+  assert.equal(lib.text(null), '');
 });
 
 test('headerIndex maps normalized headers to first index', () => {
@@ -63,9 +71,17 @@ test('parseDate: Date object (local getters)', () => {
   assert.equal(lib.parseDate(new Date('invalid')), null);
 });
 
-test('parseDate: spreadsheet serial number (1899-12-30 epoch)', () => {
+test('parseDate: spreadsheet serial number (1899-12-30 epoch), fraction = time of day', () => {
   assert.deepEqual(lib.parseDate(44014), { year: 2020, iso: '2020-07-02' });
   assert.deepEqual(lib.parseDate(45047), { year: 2023, iso: '2023-05-01' });
+  // 날짜+시각 셀: 소수부는 버린다 (반올림하면 다음 날이 된다)
+  assert.deepEqual(lib.parseDate(44014.75), { year: 2020, iso: '2020-07-02' });
+});
+
+test('parseDate: rejects days that do not exist on the calendar', () => {
+  assert.equal(lib.parseDate('2026.02.31'), null);
+  assert.equal(lib.parseDate('2025.02.29'), null);
+  assert.deepEqual(lib.parseDate('2024.02.29'), { year: 2024, iso: '2024-02-29' }); // 윤년
 });
 
 test('parseDate: strings in Korean/ISO formats, partial dates, trailing text', () => {
@@ -151,6 +167,8 @@ test('detectVenueShort: override → map → parenthesized acronym → first wor
   assert.equal(lib.detectVenueShort('', 'Some New Venue (SNV) 2025'), 'SNV');
   assert.equal(lib.detectVenueShort('', 'Unknown Venue Name'), 'Unknown');
   assert.equal(lib.detectVenueShort('', ''), '');
+  // 연도로 시작하는 이름은 연도가 pill 이 되면 안 된다
+  assert.equal(lib.detectVenueShort('', '2027 Symposium on Unlisted Things'), 'Symposium');
 });
 
 test('slugify: lowercase, hangul kept, punctuation → dash, max 60 chars', () => {
@@ -246,6 +264,15 @@ test('convertRows: warnings — no title (excluded), no date (kept, current year
   assert.equal(r.publications[0].paperUrl, '');
 });
 
+test('convertRows: warns when a published row has no authors, and normalizes whitespace in text fields', () => {
+  const r = conv([row({ ...base, first: '', co: '', corr: '' })]);
+  assert.deepEqual(r.publications[0].authors, []);
+  assert.match(r.warnings[0], /저자 없음/);
+  const [p] = conv([row({ ...base, ko: '비동기 큐\n파이프라인  기법', venue: 'IEMEK\nISET 2026' })]).publications;
+  assert.equal(p.title, '비동기 큐 파이프라인 기법');
+  assert.equal(p.venue, 'IEMEK ISET 2026');
+});
+
 test('convertRows: sorting year desc, date desc, empty date last, then sheet order', () => {
   const r = conv([
     row({ ...base, ko: 'A', date: '2025-01-01' }),
@@ -282,4 +309,8 @@ test('buildDocument / serialize / samePublications', () => {
   const doc3 = lib.buildDocument(conv([row({ ...base, ko: 'changed' })]), { generatedAt: 'other' });
   assert.equal(lib.samePublications(doc, doc3), false);
   assert.equal(lib.samePublications(doc, null), false);
+  // 스키마가 바뀌면 목록이 같아도 업로드해야 한다
+  const older = JSON.parse(JSON.stringify(doc2));
+  older.schemaVersion = 0;
+  assert.equal(lib.samePublications(doc, older), false);
 });
