@@ -118,7 +118,82 @@ var PubLib = (function () {
     return /^국내/.test(str(typeCell)) || /한국|korea/i.test(str(countryCell));
   }
 
+  // 약칭 매핑표: 저널명/학회명에 대해 위에서부터 첫 매칭. 추가/수정은 여기서.
+  var VENUE_SHORT_MAP = [
+    [/IEMEK|임베디드공학회/i, 'IEMEK'],
+    [/\bKIPS\b|정보처리학회|\bASK\b/i, 'KIPS'],
+    [/NeurIPS/i, 'NeurIPS'],
+    [/\bICCV\b|ICCV-W/i, 'ICCV'],
+    [/\bECCV\b|ECCV-W/i, 'ECCV'],
+    [/\bCGO\b|CGO-W/i, 'CGO'],
+    [/\bLCTES\b/i, 'LCTES'],
+    [/\bCASES\b/i, 'CASES'],
+    [/\bIJCAI\b/i, 'IJCAI'],
+    [/\bIROS\b/i, 'IROS'],
+    [/\bICRA\b/i, 'ICRA'],
+    [/Future Generation Computer Systems/i, 'FGCS'],
+    [/Transactions on Embedded Computing/i, 'TECS'],
+    [/Transactions on Mobile Computing/i, 'TMC'],
+    [/ETRI\s*Journal/i, 'ETRI Journal'],
+    [/Parallel and Distributed Computing/i, 'JPDC'],
+    [/Internet of Things Journal/i, 'IEEE IoT-J'],
+    [/전자공학회/i, 'IEIE'],
+    [/한국\s*컴퓨터\s*종합/i, 'KCC'],
+    [/통신학회/i, 'KICS'],
+    [/기계학회/i, 'KSME'],
+    [/AICompS/i, 'AICompS'],
+    [/\bACK\b/i, 'ACK'],
+    [/Workload Characterization|\bIISWC\b/i, 'IISWC']
+  ];
+  var TYPE_JOURNAL_HINT = /\bSCI\b|\bKCI\b|저널|논문지|학회지|\bjournal\b/i;
+  var VENUE_JOURNAL_HINT = /저널|논문지|학회지|\bjournal\b|\btransactions\b/i;
+  var WORKSHOP_HINT = /workshop|-W\b|\bWIP\b/i;
+
+  function detectKind(kindCell, typeCell, venueCell) {
+    var k = str(kindCell).toLowerCase();
+    if (k === 'conference' || k === 'journal' || k === 'workshop') return k;
+    if (TYPE_JOURNAL_HINT.test(str(typeCell)) || VENUE_JOURNAL_HINT.test(str(venueCell))) return 'journal';
+    if (WORKSHOP_HINT.test(str(venueCell))) return 'workshop';
+    return 'conference';
+  }
+
+  function detectVenueShort(shortCell, venueCell) {
+    var s = str(shortCell);
+    if (s) return s;
+    var v = str(venueCell);
+    if (!v) return '';
+    for (var i = 0; i < VENUE_SHORT_MAP.length; i++) {
+      if (VENUE_SHORT_MAP[i][0].test(v)) return VENUE_SHORT_MAP[i][1];
+    }
+    var m = v.match(/\(([A-Z][A-Za-z0-9-]{1,10})\)/);
+    if (m) return m[1];
+    return v.split(/\s+/)[0].replace(/[,:;]+$/, '');
+  }
+
+  function slugify(title) {
+    return str(title).toLowerCase()
+      .replace(/[^0-9a-z가-힣]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60)
+      .replace(/-+$/, '');
+  }
+
+  function normalizeTitle(title) {
+    return str(title).normalize('NFKC').toLowerCase().replace(/[^0-9a-z가-힣]+/g, '');
+  }
+
+  function checkUrl(v) {
+    var u = str(v);
+    return /^https?:\/\//i.test(u) ? u : '';
+  }
+
   return {
+    VENUE_SHORT_MAP: VENUE_SHORT_MAP,
+    detectKind: detectKind,
+    detectVenueShort: detectVenueShort,
+    slugify: slugify,
+    normalizeTitle: normalizeTitle,
+    checkUrl: checkUrl,
     COLUMNS: COLUMNS,
     REQUIRED_HEADERS: REQUIRED_HEADERS,
     WEBSITE_HEADERS: WEBSITE_HEADERS,

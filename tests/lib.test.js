@@ -103,3 +103,69 @@ test('isDomestic: 국내* type or Korea country', () => {
   assert.equal(lib.isDomestic('국제학술, BK IF 1', ''), false);
   assert.equal(lib.isDomestic('', ''), false);
 });
+
+test('detectKind: explicit 구분 wins (case-insensitive)', () => {
+  assert.equal(lib.detectKind('Journal', '국내학술', 'anything'), 'journal');
+  assert.equal(lib.detectKind('workshop', 'SCI Q1', 'x'), 'workshop');
+  assert.equal(lib.detectKind('Conference', 'SCI Q1', 'Transactions on X'), 'conference');
+});
+
+test('detectKind: journal hints in type or venue', () => {
+  assert.equal(lib.detectKind('', 'SCI Q2', 'ACM Transactions on Embedded Computing Systems'), 'journal');
+  assert.equal(lib.detectKind('', 'KCI 우수', '전자공학회논문지'), 'journal');
+  assert.equal(lib.detectKind('', '국내학술', '전자공학회논문지'), 'journal');
+  assert.equal(lib.detectKind('', '국내저널', '한국정보처리학회'), 'journal');
+  assert.equal(lib.detectKind('', 'SCI Q3', 'ETRI Journal'), 'journal');
+});
+
+test('detectKind: workshop hints, else conference; "Science" is not SCI', () => {
+  assert.equal(lib.detectKind('', '국제학술', 'NeurIPS-W ML4SYS 2024'), 'workshop');
+  assert.equal(lib.detectKind('', '국제학술', 'CASES 2025 WIP'), 'workshop');
+  assert.equal(lib.detectKind('', '국제학술', 'ICCV Workshop on ACVR'), 'workshop');
+  assert.equal(lib.detectKind('', '국내학술', 'IEMEK Symposium on Embedded Technology (ISET) 2026'), 'conference');
+  assert.equal(lib.detectKind('', '국제학술', 'Conference on Computer Science 2025'), 'conference');
+  assert.equal(lib.detectKind('', 'BK IF 4', 'IJCAI 2025'), 'conference');
+});
+
+test('detectVenueShort: override → map → parenthesized acronym → first word', () => {
+  assert.equal(lib.detectVenueShort('MyPill', 'NeurIPS 2025'), 'MyPill');
+  assert.equal(lib.detectVenueShort('', 'IEMEK Symposium on Embedded Technology (ISET) 2026'), 'IEMEK');
+  assert.equal(lib.detectVenueShort('', '대한임베디드공학회 학술 대회 (추계) 2024'), 'IEMEK');
+  assert.equal(lib.detectVenueShort('', 'Annual Symposium of KIPS (ASK) 2026'), 'KIPS');
+  assert.equal(lib.detectVenueShort('', '한국정보처리학회 학술 발표회'), 'KIPS');
+  assert.equal(lib.detectVenueShort('', 'NeurIPS-W ML4SYS 2024'), 'NeurIPS');
+  assert.equal(lib.detectVenueShort('', 'FUTURE GENERATION COMPUTER SYSTEMS'), 'FGCS');
+  assert.equal(lib.detectVenueShort('', 'ACM Transactions on Embedded Computing Systems'), 'TECS');
+  assert.equal(lib.detectVenueShort('', 'Transactions on Mobile Computing'), 'TMC');
+  assert.equal(lib.detectVenueShort('', 'ETRI Journal'), 'ETRI Journal');
+  assert.equal(lib.detectVenueShort('', 'Journal of Parallel and Distributed Computing'), 'JPDC');
+  assert.equal(lib.detectVenueShort('', 'IEEE Internet of Things Journal'), 'IEEE IoT-J');
+  assert.equal(lib.detectVenueShort('', '전자공학회논문지'), 'IEIE');
+  assert.equal(lib.detectVenueShort('', '한국 컴퓨터 종합 학술 대회 2020'), 'KCC');
+  assert.equal(lib.detectVenueShort('', '한국통신학회 종합 학술 발표회 (동계) 2023'), 'KICS');
+  assert.equal(lib.detectVenueShort('', 'CGO-W C4ML 2025'), 'CGO');
+  assert.equal(lib.detectVenueShort('', 'Some New Venue (SNV) 2025'), 'SNV');
+  assert.equal(lib.detectVenueShort('', 'Unknown Venue Name'), 'Unknown');
+  assert.equal(lib.detectVenueShort('', ''), '');
+});
+
+test('slugify: lowercase, hangul kept, punctuation → dash, max 60 chars', () => {
+  assert.equal(lib.slugify('AgenticShop: Benchmarking Agentic Product Curation'), 'agenticshop-benchmarking-agentic-product-curation');
+  assert.equal(lib.slugify('타일링과 스케줄링: 딥러닝 가속'), '타일링과-스케줄링-딥러닝-가속');
+  assert.equal(lib.slugify('x'.repeat(100)).length, 60);
+  assert.equal(lib.slugify('  --a--  '), 'a');
+});
+
+test('normalizeTitle: NFKC, lowercase, only alnum+hangul', () => {
+  assert.equal(lib.normalizeTitle(' Tiling and Scheduling: Machine code! '), 'tilingandschedulingmachinecode');
+  assert.equal(lib.normalizeTitle('타일링과 스케줄링: 딥러닝'), '타일링과스케줄링딥러닝');
+  assert.equal(lib.normalizeTitle(null), '');
+});
+
+test('checkUrl: only http(s)', () => {
+  assert.equal(lib.checkUrl(' https://arxiv.org/abs/1 '), 'https://arxiv.org/abs/1');
+  assert.equal(lib.checkUrl('http://x.y'), 'http://x.y');
+  assert.equal(lib.checkUrl('arxiv.org/abs/1'), '');
+  assert.equal(lib.checkUrl('javascript:alert(1)'), '');
+  assert.equal(lib.checkUrl(''), '');
+});
