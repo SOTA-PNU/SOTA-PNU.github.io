@@ -78,21 +78,23 @@
   function initFilters(doc) {
     var filterBar = doc.getElementById('pubFilters');
     if (!filterBar) return;
-    var chips = Array.prototype.slice.call(filterBar.querySelectorAll('[data-filter]'));
-    var cards = Array.prototype.slice.call(doc.querySelectorAll('.pnu-pub-card'));
-    var yearBlocks = Array.prototype.slice.call(doc.querySelectorAll('.pnu-year-block'));
+    var slice = function (list) { return Array.prototype.slice.call(list); };
 
     function normalizeTags(tagStr) {
       return (tagStr || '').split(',').map(function (s) { return s.trim().toLowerCase(); }).filter(Boolean);
     }
+    // 카드/연도 블록은 호출 시점에 다시 조회한다 (재렌더 뒤에도 최신 목록을 필터링)
     function applyFilter(filterKey) {
+      var chips = slice(filterBar.querySelectorAll('[data-filter]'));
+      var cards = slice(doc.querySelectorAll('.pnu-pub-card'));
+      var yearBlocks = slice(doc.querySelectorAll('.pnu-year-block'));
       chips.forEach(function (c) { c.classList.toggle('is-active', c.dataset.filter === filterKey); });
       cards.forEach(function (card) {
         var tags = normalizeTags(card.getAttribute('data-tags'));
         card.style.display = (filterKey === 'all' || tags.indexOf(filterKey) !== -1) ? '' : 'none';
       });
       yearBlocks.forEach(function (block) {
-        var visible = Array.prototype.slice.call(block.querySelectorAll('.pnu-pub-card'))
+        var visible = slice(block.querySelectorAll('.pnu-pub-card'))
           .filter(function (c) { return c.style.display !== 'none'; });
         block.style.display = visible.length ? '' : 'none';
       });
