@@ -17,7 +17,6 @@ var PubLib = (function () {
     venue: '저널명/학회명',
     titleKo: '제목(한글)',
     titleEn: '제목(영어)',
-    country: '출판국/개최국',
     first: '1저자',
     co: '공동',
     corr: '교신',
@@ -114,8 +113,11 @@ var PubLib = (function () {
     return out;
   }
 
-  function isDomestic(typeCell, countryCell) {
-    return /^국내/.test(str(typeCell)) || /한국|korea/i.test(str(countryCell));
+  // 국내 논문 판정: 유형이 '국내…' 이거나 KCI 이거나 저널/학회명에 한글이 있으면 국내.
+  // ('출판국/개최국' 은 개최 장소라 국제 학회가 한국에서 열린 경우(LCTES 2025 등)를 잘못 잡으므로 쓰지 않는다)
+  function isDomestic(typeCell, venueCell) {
+    var t = str(typeCell);
+    return /^국내/.test(t) || /\bKCI\b/i.test(t) || /[가-힣]/.test(str(venueCell));
   }
 
   // 약칭 매핑표: 저널명/학회명에 대해 위에서부터 첫 매칭. 추가/수정은 여기서.
@@ -123,8 +125,20 @@ var PubLib = (function () {
     [/IEMEK|임베디드공학회/i, 'IEMEK'],
     [/\bKIPS\b|정보처리학회|\bASK\b/i, 'KIPS'],
     [/NeurIPS/i, 'NeurIPS'],
-    [/\bICCV\b|ICCV-W/i, 'ICCV'],
-    [/\bECCV\b|ECCV-W/i, 'ECCV'],
+    [/\bICCV\b|ICCV-W|International Conference on Computer Vision/i, 'ICCV'],
+    [/\bECCV\b|ECCV-W|European Conference on Computer Vision/i, 'ECCV'],
+    [/\bCVPR\b|Computer Vision and Pattern Recognition/i, 'CVPR'],
+    [/\bICML\b/, 'ICML'],
+    [/\bICLR\b/, 'ICLR'],
+    [/\bAAAI\b/, 'AAAI'],
+    [/\bMLSys\b/i, 'MLSys'],
+    [/\bASPLOS\b/, 'ASPLOS'],
+    [/\bPLDI\b/, 'PLDI'],
+    [/\bMICRO\b/, 'MICRO'],
+    [/\bISCA\b/, 'ISCA'],
+    [/\bHPCA\b/, 'HPCA'],
+    [/\bDAC\b/, 'DAC'],
+    [/\bICCAD\b/, 'ICCAD'],
     [/\bCGO\b|CGO-W/i, 'CGO'],
     [/\bLCTES\b/i, 'LCTES'],
     [/\bCASES\b/i, 'CASES'],
@@ -220,7 +234,8 @@ var PubLib = (function () {
       var titleEn = str(get(COLUMNS.titleEn));
       if (!titleKo && !titleEn) { warnings.push(rowNo + '행: 제목 없음 → 제외'); return; }
 
-      var domestic = isDomestic(get(COLUMNS.type), get(COLUMNS.country));
+      var venue = str(get(COLUMNS.venue));
+      var domestic = isDomestic(get(COLUMNS.type), venue);
       var title = domestic ? (titleKo || titleEn) : (titleEn || titleKo);
 
       var parsed = parseDate(get(COLUMNS.date));
@@ -236,7 +251,6 @@ var PubLib = (function () {
       if (paperRaw && !paperUrl) warnings.push(rowNo + '행: Paper 링크 형식 오류(http/https 필요) → 무시');
       if (codeRaw && !codeUrl) warnings.push(rowNo + '행: Code 링크 형식 오류(http/https 필요) → 무시');
 
-      var venue = str(get(COLUMNS.venue));
       if (!venue) warnings.push(rowNo + '행 "' + title.slice(0, 30) + '": 저널명/학회명 없음 → 카드에 학회명이 비어 보임');
 
       pubs.push({

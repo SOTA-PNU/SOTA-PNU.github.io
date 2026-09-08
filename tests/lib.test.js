@@ -94,13 +94,15 @@ test('mergeAuthors keeps first→co→corr order and dedupes (first occurrence w
   assert.deepEqual(lib.mergeAuthors('', '', ''), []);
 });
 
-test('isDomestic: 국내* type or Korea country', () => {
+test('isDomestic: 국내* type, KCI, or Hangul venue name (host country is NOT used)', () => {
   assert.equal(lib.isDomestic('국내학술', ''), true);
-  assert.equal(lib.isDomestic('국내저널', '한국'), true);
-  assert.equal(lib.isDomestic('SCI Q3', '한국'), true);
-  assert.equal(lib.isDomestic('국제학술', 'Korea'), true);
-  assert.equal(lib.isDomestic('SCI Q1', '미국'), false);
-  assert.equal(lib.isDomestic('국제학술, BK IF 1', ''), false);
+  assert.equal(lib.isDomestic('국내저널', '한국정보처리학회'), true);
+  assert.equal(lib.isDomestic('KCI 우수', '전자공학회논문지'), true);
+  assert.equal(lib.isDomestic('국제학술', '대한임베디드공학회 학술 대회 (추계) 2024'), true);
+  assert.equal(lib.isDomestic('SCI Q3', 'ETRI Journal'), false);
+  assert.equal(lib.isDomestic('BK IF 2', 'LCTES 2025'), false);       // 서울 개최지만 국제 학회
+  assert.equal(lib.isDomestic('국제학술', 'CGO-W C4ML 2025'), false);
+  assert.equal(lib.isDomestic('SCI Q1', ''), false);
   assert.equal(lib.isDomestic('', ''), false);
 });
 
@@ -144,6 +146,8 @@ test('detectVenueShort: override → map → parenthesized acronym → first wor
   assert.equal(lib.detectVenueShort('', '한국 컴퓨터 종합 학술 대회 2020'), 'KCC');
   assert.equal(lib.detectVenueShort('', '한국통신학회 종합 학술 발표회 (동계) 2023'), 'KICS');
   assert.equal(lib.detectVenueShort('', 'CGO-W C4ML 2025'), 'CGO');
+  assert.equal(lib.detectVenueShort('', 'European Conference on Computer Vision'), 'ECCV');
+  assert.equal(lib.detectVenueShort('', '2025 IEEE International Conference on Consumer Electronics (ICCE)'), 'ICCE');
   assert.equal(lib.detectVenueShort('', 'Some New Venue (SNV) 2025'), 'SNV');
   assert.equal(lib.detectVenueShort('', 'Unknown Venue Name'), 'Unknown');
   assert.equal(lib.detectVenueShort('', ''), '');
@@ -200,7 +204,8 @@ test('convertRows: record shape, key order, derived fields (domestic)', () => {
 });
 
 test('convertRows: international → English title, tier top; falls back to other language', () => {
-  const intl = { ...base, type: 'SCI Q1', country: '미국', venue: 'Transactions on Mobile Computing' };
+  // country 는 판정에 쓰이지 않는다: 한국 개최여도 국제 학회
+  const intl = { ...base, type: 'SCI Q1', country: '한국', venue: 'Transactions on Mobile Computing' };
   let [p] = conv([row(intl)]).publications;
   assert.equal(p.title, 'Async Queue Pipelining');
   assert.equal(p.tier, 'top');
