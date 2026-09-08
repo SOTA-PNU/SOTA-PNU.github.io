@@ -11,24 +11,42 @@
 ## 1. 최초 설치 (한 번만, 저장소 쓰기 권한이 있는 사람이)
 
 ### 1-1. GitHub 토큰 발급
-1. GitHub → 우측 상단 프로필 → **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**
-2. 설정
-   - Token name: `sota-sheet-sync`
-   - Expiration: 1 year (만료되면 1-4 "GitHub 토큰 설정" 으로 교체)
-   - Resource owner: **SOTA-PNU** (조직). 목록에 없으면 조직 Settings → Third-party Access → Personal access tokens 에서 fine-grained 토큰 허용 필요. 허용이 어려우면 **Tokens (classic)** 에서 `public_repo` 스코프로 발급해도 됩니다.
-   - Repository access: **Only select repositories** → `SOTA-PNU.github.io`
-   - Permissions → Repository permissions → **Contents: Read and write** (Metadata 는 자동으로 Read)
-3. **Generate token** → 토큰 문자열을 복사 (다시 볼 수 없으니 바로 1-4 에 붙여넣기)
+
+바로 가기: **https://github.com/settings/personal-access-tokens/new**
+
+메뉴로 찾으려면 우측 상단 프로필 → **Settings** → 왼쪽 사이드바를 **맨 아래까지 스크롤** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**.
+사이드바가 길어서 대부분 여기서 못 찾습니다. Developer settings 는 **개인 계정 설정**에만 있고 조직·저장소 설정에는 없습니다.
+
+채울 값:
+
+| 항목 | 값 |
+|---|---|
+| Token name | `sota-sheet-sync` |
+| Expiration | 1 year (만료되면 1-4 "GitHub 토큰 설정" 으로 교체) |
+| Resource owner | **SOTA-PNU** (조직) |
+| Repository access | **Only select repositories** → `SOTA-PNU.github.io` |
+| Permissions | **Contents: Read and write** (아래 설명 참고) |
+
+**Permissions 는 목록이 아니라 검색해서 추가하는 방식입니다.** 처음에는 `Repositories 0` 과 "No repository permissions added yet" 만 보이는 것이 정상입니다.
+1. 오른쪽 위 **`+ Add permissions`** 클릭
+2. 검색창에 `Contents` 입력 후 선택
+3. 접근 수준을 **Read and write** 로 변경
+4. `Metadata: Read-only` 가 자동으로 함께 추가됩니다 (필수 의존 권한이므로 지우지 마세요)
+
+필요한 권한은 Contents 하나뿐입니다. 마지막으로 **Generate token** → 토큰 문자열을 복사해서 바로 1-4 에 붙여넣으세요 (다시 볼 수 없습니다).
+
+> **조직 승인이 필요할 수 있습니다.** Resource owner 목록에 SOTA-PNU 가 없거나 토큰 상태가 `Pending` 이면, 조직 소유자가 조직 Settings → Third-party Access → Personal access tokens 에서 승인해야 합니다.
+> 승인이 어려우면 https://github.com/settings/tokens 에서 **Generate new token (classic)** → `public_repo` 스코프 하나만 체크해도 동작합니다. 다만 그 계정의 **모든 공개 저장소** 쓰기 권한이 생기므로 fine-grained 를 우선 시도하세요.
 
 ### 1-2. Apps Script 코드 넣기
 1. 시트 상단 메뉴 **확장 프로그램 → Apps Script**
 2. **새 파일 3개**를 만들고(`+` → 스크립트) 저장소의 파일 내용을 그대로 붙여넣기
 
-   | Apps Script 에서 만들 파일 | 붙여넣을 저장소 파일 |
+   | Apps Script 에서 만들 파일 | 붙여넣을 내용 (GitHub 에서 복사 아이콘 클릭) |
    |---|---|
-   | `pubLib.gs` | `apps-script/lib.js` |
-   | `pubSeed.gs` | `apps-script/seed.js` |
-   | `pubSite.gs` | `apps-script/Code.gs` |
+   | `pubLib.gs` | [`apps-script/lib.js`](https://github.com/SOTA-PNU/SOTA-PNU.github.io/blob/main/apps-script/lib.js) |
+   | `pubSeed.gs` | [`apps-script/seed.js`](https://github.com/SOTA-PNU/SOTA-PNU.github.io/blob/main/apps-script/seed.js) |
+   | `pubSite.gs` | [`apps-script/Code.gs`](https://github.com/SOTA-PNU/SOTA-PNU.github.io/blob/main/apps-script/Code.gs) |
 
    > ⚠️ 이미 있는 `Code.gs`(대시보드 `[갱신]` 스크립트)를 **덮어쓰지 마세요.** 파일 이름은 아무거나 상관없고, 위 이름은 기존 파일과 겹치지 않게 하려는 것뿐입니다.
 
