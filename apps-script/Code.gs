@@ -65,8 +65,22 @@ function summarize_(doc, warnings) {
 
 // ---------------------------------------------------------------- 메뉴 동작
 
+// pubLib.gs / pubSeed.gs 를 붙여넣지 않았거나 저장하지 않으면 여기서 걸린다.
+// (메뉴는 PubLib 없이도 만들어지므로 메뉴가 보인다고 설치가 끝난 것은 아니다)
+function requirePubLib_(ui) {
+  if (typeof PubLib !== 'undefined' && PubLib && PubLib.WEBSITE_HEADERS) return true;
+  ui.alert('설치가 덜 되었습니다',
+    'pubLib.gs 파일을 찾을 수 없습니다.\n\n' +
+    'Apps Script 편집기에서 새 스크립트 파일 pubLib.gs 를 만들고 저장소의 apps-script/lib.js 내용을 ' +
+    '전부 붙여넣은 뒤 저장(💾)하고 다시 실행하세요.\n' +
+    '이미 있다면 파일 맨 위가 "var PubLib = (function () {" 로 시작하는지 확인하세요.',
+    ui.ButtonSet.OK);
+  return false;
+}
+
 function previewPublications() {
   var ui = SpreadsheetApp.getUi();
+  if (!requirePubLib_(ui)) return;
   try {
     var b = buildPublications_();
     ui.alert('미리보기', summarize_(b.doc, b.warnings), ui.ButtonSet.OK);
@@ -77,6 +91,7 @@ function previewPublications() {
 
 function syncPublicationsToGitHub() {
   var ui = SpreadsheetApp.getUi();
+  if (!requirePubLib_(ui)) return;
   var user = getUserEmail_();
   var started = new Date();
   try {
@@ -129,12 +144,24 @@ function configureGitHubToken() {
 
 function setupWebsiteColumns() {
   var ui = SpreadsheetApp.getUi();
+  if (!requirePubLib_(ui)) return;
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.sheetName);
-  if (!sh) { ui.alert('"' + CONFIG.sheetName + '" 탭이 없습니다.'); return; }
+  if (!sh) { ui.alert('"' + CONFIG.sheetName + '" 탭을 찾을 수 없습니다. 탭 이름을 확인하세요.'); return; }
 
   var lastCol = sh.getLastColumn();
   var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
   var idx = PubLib.headerIndex(headers);
+
+  // 시트의 실제 열 개수가 데이터 폭과 같으면 오른쪽에 쓸 칸이 없어 setValue 가 실패한다.
+  // 부족한 만큼 먼저 열을 만들어 둔다.
+  var missing = PubLib.WEBSITE_HEADERS.filter(function (name) {
+    return idx[PubLib.normalizeHeader(name)] == null;
+  });
+  var maxCol = sh.getMaxColumns();
+  if (missing.length && maxCol < lastCol + missing.length) {
+    sh.insertColumnsAfter(maxCol, lastCol + missing.length - maxCol);
+  }
+
   var added = [];
   PubLib.WEBSITE_HEADERS.forEach(function (name) {
     if (idx[PubLib.normalizeHeader(name)] != null) return;
