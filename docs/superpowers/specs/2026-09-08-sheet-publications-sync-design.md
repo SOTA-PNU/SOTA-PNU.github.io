@@ -232,3 +232,14 @@
 - 특허·수상·홍보 등 다른 탭.
 - Apps Script 프로젝트 자동 배포(clasp) — 수동 붙여넣기로 충분.
 - 기존 대시보드 `[갱신]` 스크립트 수정.
+
+## 11. 변경 이력
+
+### 2026-09-08 — 구현 중 확정한 변경 (위 §4~§7 보다 우선)
+1. **`구분` 값 3종**: `Conference` / `Journal` / `Workshop`. JSON `type` ∈ `conference|journal|workshop`. Workshop 카드는 `data-tags="conference,workshop"`, 라벨 `Workshop`. 자동 판정: 저널 힌트가 없고 저널명이 `/workshop|-W\b|\bWIP\b/i` 에 맞으면 workshop.
+2. **국내 판정**: `SCI/학회` 가 `국내` 로 시작 **또는 `KCI` 포함 또는 저널/학회명에 한글 포함** → 국내. `출판국/개최국` 은 사용하지 않는다 (개최지라서 서울 개최 LCTES 2025, 제주 개최 IJCAI 2024 를 국내로 잘못 잡았음).
+3. **tier 규칙**: 국내가 아니면 `top`(파란 pill), 국내면 `normal`. (기존 "BK IF / SCI Q1" 규칙은 현 사이트와 13/51 불일치, 이 규칙은 48/51 일치)
+4. **seed 는 `키워드` 만 채움**: 현 사이트 카드에는 링크·수상·굵은 저자가 없고 pill 텍스트가 일관되지 않아, 약칭은 항상 자동 판정(`약칭` 열로 override). 약칭 매핑표에 ECCV/ICCV 정식 명칭과 CVPR·ICML·ICLR·AAAI·MLSys·ASPLOS·PLDI·MICRO·ISCA·HPCA·DAC·ICCAD·IISWC 추가.
+5. **부분 날짜 허용**: `date` 는 `YYYY` / `YYYY-MM` / `YYYY-MM-DD`. 없거나 해석 불가 → 경고 + 올해, `date=""`.
+6. **`Publish` 판정**: boolean true, 0이 아닌 숫자, 문자열 `true`/`1`/`y`/`yes`(대소문자 무시). 저널명이 비어 있으면 경고를 내고 게시는 유지(pill 은 `—`).
+7. **필터 바인딩**: 클릭 시점에 카드/연도 블록을 다시 조회한다 (재렌더 후에도 동작). 브라우저 진입점은 가짜 DOM 통합 테스트(`tests/browser-entry.test.js`)로 검증.

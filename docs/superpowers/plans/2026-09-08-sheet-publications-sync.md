@@ -17,6 +17,7 @@
 3. **Seed fills `키워드` only.** The current site has no Paper/Code links, awards, or bold authors on live cards, and its pill texts are inconsistent (`IEMEK` / `ISET` / `대한임베디드공학회 2024` for the same society). Pills are therefore always auto-derived (override via `약칭` column). Seed = `{normalizedTitle → {keywords, title}}` extracted from the current `publications.html`.
 4. **Partial dates allowed:** `date` may be `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` (string sort still works). Missing/unparseable → warning + `year = today.getFullYear()`, `date = ""`.
 5. **`Publish` truthiness:** boolean `true`, number ≠ 0, or string `true`/`1`/`y`/`yes` (case-insensitive). Apps Script `getValues()` returns booleans for checkboxes; the CSV export returns `"TRUE"`.
+6. **(added during Task 6) Domestic predicate:** `isDomestic(typeCell, venueCell)` = type starts with `국내` OR type contains `KCI` OR venue contains Hangul. `출판국/개최국` is the *host* country and misclassified LCTES 2025 (Seoul) / IJCAI 2024 (Jeju); it is not used. `COLUMNS.country` removed.
 
 ## Global Constraints
 
