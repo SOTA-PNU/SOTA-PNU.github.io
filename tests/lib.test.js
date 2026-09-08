@@ -169,3 +169,112 @@ test('checkUrl: only http(s)', () => {
   assert.equal(lib.checkUrl('javascript:alert(1)'), '');
   assert.equal(lib.checkUrl(''), '');
 });
+
+const TODAY = new Date(2026, 8, 8);
+const conv = (rows) => lib.convertRows(H, rows, { today: TODAY });
+const base = { publish: true, type: '국내학술', date: new Date(2026, 4, 13), venue: 'IEMEK Symposium on Embedded Technology (ISET) 2026',
+  ko: '비동기 큐 파이프라인', en: 'Async Queue Pipelining', country: '한국', first: '조현준', co: '이지호,차주형', corr: '권용인' };
+
+test('convertRows: publish gating and exclusion', () => {
+  assert.equal(conv([row({ ...base, publish: true })]).publications.length, 1);
+  assert.equal(conv([row({ ...base, publish: 'TRUE' })]).publications.length, 1);
+  assert.equal(conv([row({ ...base, publish: 1 })]).publications.length, 1);
+  assert.equal(conv([row({ ...base, publish: false })]).publications.length, 0);
+  assert.equal(conv([row({ ...base, publish: '' })]).publications.length, 0);
+  assert.equal(conv([row({ ...base, exclude: true })]).publications.length, 0);
+});
+
+test('convertRows: record shape, key order, derived fields (domestic)', () => {
+  const [p] = conv([row(base)]).publications;
+  assert.deepEqual(Object.keys(p), ['id', 'year', 'date', 'type', 'tier', 'venue', 'venueShort', 'title', 'titleKo', 'titleEn',
+    'authors', 'keywords', 'paperUrl', 'codeUrl', 'award']);
+  assert.equal(p.id, '2026-비동기-큐-파이프라인');
+  assert.equal(p.year, 2026);
+  assert.equal(p.date, '2026-05-13');
+  assert.equal(p.type, 'conference');
+  assert.equal(p.tier, 'normal');
+  assert.equal(p.venueShort, 'IEMEK');
+  assert.equal(p.title, '비동기 큐 파이프라인');
+  assert.deepEqual(p.authors, ['조현준', '이지호', '차주형', '권용인']);
+  assert.equal(p.keywords, '');
+});
+
+test('convertRows: international → English title, tier top; falls back to other language', () => {
+  const intl = { ...base, type: 'SCI Q1', country: '미국', venue: 'Transactions on Mobile Computing' };
+  let [p] = conv([row(intl)]).publications;
+  assert.equal(p.title, 'Async Queue Pipelining');
+  assert.equal(p.tier, 'top');
+  assert.equal(p.type, 'journal');
+  [p] = conv([row({ ...intl, en: '' })]).publications;
+  assert.equal(p.title, '비동기 큐 파이프라인');
+  [p] = conv([row({ ...base, ko: '' })]).publications;
+  assert.equal(p.title, 'Async Queue Pipelining');
+});
+
+test('convertRows: website override columns pass through', () => {
+  const [p] = conv([row({ ...base, kind: 'Workshop', short: 'ISET', kw: 'Edge AI · NPU',
+    paper: 'https://a.b/p', code: 'https://a.b/c', award: '⭐ Best Paper' })]).publications;
+  assert.equal(p.type, 'workshop');
+  assert.equal(p.venueShort, 'ISET');
+  assert.equal(p.keywords, 'Edge AI · NPU');
+  assert.equal(p.paperUrl, 'https://a.b/p');
+  assert.equal(p.codeUrl, 'https://a.b/c');
+  assert.equal(p.award, '⭐ Best Paper');
+});
+
+test('convertRows: warnings — no title (excluded), no date (kept, current year), bad url (dropped), no venue (kept)', () => {
+  const r = conv([
+    row({ ...base, ko: '', en: '' }),
+    row({ ...base, date: '' }),
+    row({ ...base, paper: 'arxiv.org/abs/1' }),
+    row({ ...base, venue: '' }),
+  ]);
+  assert.equal(r.publications.length, 3);
+  assert.equal(r.publications.find(p => p.date === '').year, 2026);
+  assert.equal(r.warnings.length, 4);
+  assert.match(r.warnings[0], /^2행: 제목 없음/);
+  assert.match(r.warnings[1], /^3행 .*발표일자 없음 → 2026년/);
+  assert.match(r.warnings[2], /^4행: Paper 링크 형식 오류/);
+  assert.match(r.warnings[3], /^5행 .*저널명\/학회명 없음/);
+  assert.equal(r.publications.find(p => p.venue === '').venueShort, '');
+  // 정렬 결과: [4행(bad url), 5행(no venue), 3행(no date)] — 같은 날짜는 시트 순서
+  assert.equal(r.publications[0].paperUrl, '');
+});
+
+test('convertRows: sorting year desc, date desc, empty date last, then sheet order', () => {
+  const r = conv([
+    row({ ...base, ko: 'A', date: '2025-01-01' }),
+    row({ ...base, ko: 'B', date: '2026-01-01' }),
+    row({ ...base, ko: 'C', date: '' }),           // year 2026 (today), no date → last within 2026
+    row({ ...base, ko: 'D', date: '2026-06-01' }),
+    row({ ...base, ko: 'E', date: '2025-01-01' }),
+  ]);
+  assert.deepEqual(r.publications.map(p => p.title), ['D', 'B', 'C', 'A', 'E']);
+});
+
+test('convertRows: duplicate ids get -2, -3 suffixes', () => {
+  const r = conv([row(base), row(base), row(base)]);
+  assert.deepEqual(r.publications.map(p => p.id),
+    ['2026-비동기-큐-파이프라인', '2026-비동기-큐-파이프라인-2', '2026-비동기-큐-파이프라인-3']);
+});
+
+test('convertRows: missing required header throws', () => {
+  const bad = H.filter(h => h !== '발표일자');
+  assert.throws(() => lib.convertRows(bad, [], { today: TODAY }), /필수 헤더 없음: 발표일자/);
+});
+
+test('buildDocument / serialize / samePublications', () => {
+  const r = conv([row(base)]);
+  const doc = lib.buildDocument(r, { generatedAt: '2026-09-08T00:00:00.000Z', source: '논문 등록' });
+  assert.deepEqual(Object.keys(doc), ['schemaVersion', 'generatedAt', 'source', 'count', 'publications']);
+  assert.equal(doc.schemaVersion, 1);
+  assert.equal(doc.count, 1);
+  const text = lib.serialize(doc);
+  assert.ok(text.endsWith('}\n'));
+  assert.deepEqual(JSON.parse(text), doc);
+  const doc2 = lib.buildDocument(conv([row(base)]), { generatedAt: 'other', source: 'x' });
+  assert.equal(lib.samePublications(doc, doc2), true);
+  const doc3 = lib.buildDocument(conv([row({ ...base, ko: 'changed' })]), { generatedAt: 'other' });
+  assert.equal(lib.samePublications(doc, doc3), false);
+  assert.equal(lib.samePublications(doc, null), false);
+});

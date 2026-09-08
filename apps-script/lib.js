@@ -187,7 +187,120 @@ var PubLib = (function () {
     return /^https?:\/\//i.test(u) ? u : '';
   }
 
+  function compareDateDesc(a, b) {
+    if (a === b) return 0;
+    if (!a) return 1;   // 빈 날짜는 뒤로
+    if (!b) return -1;
+    return a < b ? 1 : -1;
+  }
+
+  /**
+   * 시트 행 → 게시 레코드.
+   * @param {Array} headers 1행 헤더
+   * @param {Array<Array>} rows 2행부터의 값 (getValues() 결과)
+   * @param {{today?: Date}} opts today: 날짜 없는 행의 연도 기준
+   * @returns {{publications: Array, warnings: string[]}}
+   */
+  function convertRows(headers, rows, opts) {
+    opts = opts || {};
+    var today = opts.today instanceof Date ? opts.today : new Date();
+    var idx = headerIndex(headers);
+    var missing = REQUIRED_HEADERS.filter(function (h) { return idx[normalizeHeader(h)] == null; });
+    if (missing.length) throw new Error('필수 헤더 없음: ' + missing.join(', '));
+
+    var pubs = [];
+    var warnings = [];
+    (rows || []).forEach(function (row, i) {
+      var rowNo = i + 2; // 시트 행 번호 (1행 = 헤더)
+      var get = function (name) { return cell(row, idx, name); };
+      if (!isTruthy(get(COLUMNS.publish))) return;
+      if (isTruthy(get(COLUMNS.exclude))) return;
+
+      var titleKo = str(get(COLUMNS.titleKo));
+      var titleEn = str(get(COLUMNS.titleEn));
+      if (!titleKo && !titleEn) { warnings.push(rowNo + '행: 제목 없음 → 제외'); return; }
+
+      var domestic = isDomestic(get(COLUMNS.type), get(COLUMNS.country));
+      var title = domestic ? (titleKo || titleEn) : (titleEn || titleKo);
+
+      var parsed = parseDate(get(COLUMNS.date));
+      var year, date;
+      if (parsed) { year = parsed.year; date = parsed.iso; }
+      else {
+        year = today.getFullYear(); date = '';
+        warnings.push(rowNo + '행 "' + title.slice(0, 30) + '": 발표일자 없음 → ' + year + '년으로 배치');
+      }
+
+      var paperRaw = str(get(COLUMNS.paperUrl)), codeRaw = str(get(COLUMNS.codeUrl));
+      var paperUrl = checkUrl(paperRaw), codeUrl = checkUrl(codeRaw);
+      if (paperRaw && !paperUrl) warnings.push(rowNo + '행: Paper 링크 형식 오류(http/https 필요) → 무시');
+      if (codeRaw && !codeUrl) warnings.push(rowNo + '행: Code 링크 형식 오류(http/https 필요) → 무시');
+
+      var venue = str(get(COLUMNS.venue));
+      if (!venue) warnings.push(rowNo + '행 "' + title.slice(0, 30) + '": 저널명/학회명 없음 → 카드에 학회명이 비어 보임');
+
+      pubs.push({
+        id: '',
+        year: year,
+        date: date,
+        type: detectKind(get(COLUMNS.kind), get(COLUMNS.type), venue),
+        tier: domestic ? 'normal' : 'top',
+        venue: venue,
+        venueShort: detectVenueShort(get(COLUMNS.venueShort), venue),
+        title: title,
+        titleKo: titleKo,
+        titleEn: titleEn,
+        authors: mergeAuthors(get(COLUMNS.first), get(COLUMNS.co), get(COLUMNS.corr)),
+        keywords: str(get(COLUMNS.keywords)),
+        paperUrl: paperUrl,
+        codeUrl: codeUrl,
+        award: str(get(COLUMNS.award)),
+        _order: i
+      });
+    });
+
+    pubs.sort(function (a, b) {
+      return (b.year - a.year) || compareDateDesc(a.date, b.date) || (a._order - b._order);
+    });
+
+    var used = {};
+    pubs.forEach(function (p) {
+      var base = p.year + '-' + slugify(p.title);
+      var id = base, n = 1;
+      while (used[id]) id = base + '-' + (++n);
+      used[id] = true;
+      p.id = id;
+      delete p._order;
+    });
+
+    return { publications: pubs, warnings: warnings };
+  }
+
+  function buildDocument(result, meta) {
+    meta = meta || {};
+    return {
+      schemaVersion: 1,
+      generatedAt: meta.generatedAt || '',
+      source: meta.source || '논문 등록',
+      count: result.publications.length,
+      publications: result.publications
+    };
+  }
+
+  function serialize(doc) {
+    return JSON.stringify(doc, null, 2) + '\n';
+  }
+
+  function samePublications(a, b) {
+    if (!a || !b || !a.publications || !b.publications) return false;
+    return JSON.stringify(a.publications) === JSON.stringify(b.publications);
+  }
+
   return {
+    convertRows: convertRows,
+    buildDocument: buildDocument,
+    serialize: serialize,
+    samePublications: samePublications,
     VENUE_SHORT_MAP: VENUE_SHORT_MAP,
     detectKind: detectKind,
     detectVenueShort: detectVenueShort,
