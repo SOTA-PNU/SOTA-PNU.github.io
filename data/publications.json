@@ -1,9 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-08T07:40:17.399Z",
+  "generatedAt": "2026-09-08T12:22:32.396Z",
   "source": "논문 등록",
-  "count": 58,
+  "count": 59,
   "publications": [
+    {
+      "id": "2026-삥빵뽀",
+      "year": 2026,
+      "date": "2026-09-08",
+      "type": "conference",
+      "tier": "normal",
+      "venue": "삥빵뽕",
+      "venueShort": "삥빵뽕",
+      "title": "삥빵뽀ㅓㅇ",
+      "titleKo": "삥빵뽀ㅓㅇ",
+      "titleEn": "PPingPPang",
+      "authors": [
+        "홍홍",
+        "홍잉",
+        "잉앙"
+      ],
+      "keywords": "ㅁㄴㅇ",
+      "paperUrl": "",
+      "codeUrl": "",
+      "award": ""
+    },
     {
       "id": "2026-hailo-10h-엣지-npu에서-다양한-모델의-npu-매핑-범위-분석",
       "year": 2026,
