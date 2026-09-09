@@ -119,8 +119,29 @@ test('the diagnostic only calls helpers that exist in Code.gs', () => {
 });
 
 test('the diagnostic reports the running account and both libraries', () => {
-  assert.match(diag, /getUserEmail_\(\)/);
+  assert.match(diag, /diagUserEmail_\(\)/);
   assert.match(diag, /typeof PubLib === 'undefined'/);
   assert.match(diag, /typeof GalLib === 'undefined'/);
   assert.match(diag, /function diagnoseGalleryFolder/);
+});
+
+test('the diagnostic stands alone, so it still works when Code.gs is out of date', () => {
+  // 진단 도구가 진단 대상에 의존하면 정작 필요할 때 같이 고장난다
+  const codeHelpers = [...code.matchAll(/^function\s+([A-Za-z0-9_]+_)\s*\(/gm)].map((m) => m[1]);
+  const own = new Set([...diag.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]));
+  for (const fn of codeHelpers) {
+    if (own.has(fn)) continue;
+    assert.doesNotMatch(diag, new RegExp(`(?<![.\\w])${fn}\\s*\\(`), `diagnose.gs must not call Code.gs's ${fn}()`);
+  }
+  // Code.gs 의 전역 설정도 참조하지 않아야 한다
+  assert.doesNotMatch(diag, /(?<![.\w])CONFIG\./);
+  assert.doesNotMatch(diag, /(?<![.\w])GALLERY\./);
+  // 다만 라이브러리 존재 확인은 typeof 로만 (없어도 터지지 않도록)
+  assert.match(diag, /typeof setupWebsiteColumns === 'function'/);
+});
+
+test('the gallery sync asks before publishing a smaller gallery', () => {
+  assert.match(code, /describeGalleryLoss/);
+  assert.match(code, /홈페이지에서 사라지는 항목이 있습니다/);
+  assert.match(code, /취소 \(사라지는 항목 확인\)/);
 });

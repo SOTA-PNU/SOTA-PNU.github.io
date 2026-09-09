@@ -674,6 +674,15 @@ function syncGalleryToGitHub() {
       return;
     }
 
+    var loss = GalLib.describeGalleryLoss(remote, b.doc);
+    if (loss) {
+      var go = ui.alert('홈페이지에서 사라지는 항목이 있습니다', loss + '\n\n계속 진행할까요?', ui.ButtonSet.YES_NO);
+      if (go !== ui.Button.YES) {
+        logGallery_(started, user, b.doc.count, '취소 (사라지는 항목 확인)', b.warnings);
+        return;
+      }
+    }
+
     var all = b.files.concat([{ path: GALLERY.path, content: GalLib.serialize(b.doc) }]);
     var message = 'chore(gallery): sync ' + b.doc.count + ' albums from sheet' +
       (b.files.length ? ' (+' + b.files.length + ' photos)' : '');
