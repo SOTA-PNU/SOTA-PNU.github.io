@@ -27,14 +27,31 @@
     return encodeURI(s).replace(/#/g, '%23');
   }
 
-  // [표지, ...사진] 순서로 합치고 중복을 없앤다
+  // photos 항목은 "경로" 문자열과 {src, caption} 객체를 모두 받는다 (손으로 적은 예전 파일 호환)
+  function photoItem(entry) {
+    if (entry && typeof entry === 'object') {
+      return {
+        src: safeSrc(entry.src),
+        caption: String(entry.caption == null ? '' : entry.caption).replace(/\s+/g, ' ').trim()
+      };
+    }
+    return { src: safeSrc(entry), caption: '' };
+  }
+
+  // [표지, ...나머지] 순서로 합치고 중복을 없앤다
   function photosOf(album) {
-    var out = [];
-    var seen = {};
-    [safeSrc(album && album.cover)].concat(((album && album.photos) || []).map(safeSrc))
-      .forEach(function (p) {
-        if (p && !seen[p]) { seen[p] = true; out.push(p); }
-      });
+    var cover = safeSrc(album && album.cover);
+    var items = ((album && album.photos) || []).map(photoItem).filter(function (p) { return p.src; });
+    var out = [], seen = {};
+    var first = null;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].src === cover) { first = items[i]; break; }
+    }
+    if (!first && cover) first = { src: cover, caption: '' };
+    if (first) { out.push(first); seen[first.src] = true; }
+    items.forEach(function (p) {
+      if (!seen[p.src]) { seen[p.src] = true; out.push(p); }
+    });
     return out;
   }
 
@@ -116,7 +133,7 @@
     var cover = total
       ? '<button class="pnu-gallery-cover" type="button" data-index="0" aria-label="' + esc(a.title) +
         (total > 1 ? ' — 사진 ' + total + '장 크게 보기' : ' — 사진 크게 보기') + '">' +
-        '<img src="' + photos[0] + '" alt="" loading="lazy" decoding="async" width="960" height="600">' +
+        '<img src="' + photos[0].src + '" alt="" loading="lazy" decoding="async" width="960" height="600">' +
         (total > 1 ? '<span class="pnu-gallery-count">' + total + ' photos</span>' : '') +
         '</button>'
       : '<div class="pnu-gallery-cover is-empty" aria-hidden="true"></div>';
@@ -124,7 +141,7 @@
     var strip = '';
     if (total > 1) {
       var thumbs = [];
-      for (var i = 1; i <= STRIP_THUMBS && i < total; i++) thumbs.push(thumbHtml(photos[i], i, total, a.title));
+      for (var i = 1; i <= STRIP_THUMBS && i < total; i++) thumbs.push(thumbHtml(photos[i].src, i, total, a.title));
       var shown = 1 + Math.min(STRIP_THUMBS, total - 1);
       if (total > shown) {
         thumbs.push('<button class="pnu-gallery-more" type="button" data-index="' + shown +
@@ -191,6 +208,7 @@
     renderJump: renderJump,
     esc: esc,
     safeSrc: safeSrc,
+    photoItem: photoItem,
     photosOf: photosOf,
     categoryOf: categoryOf,
     dateLabel: dateLabel,
@@ -235,13 +253,18 @@
     var titleEl = document.getElementById('galleryLbTitle');
     var subEl = document.getElementById('galleryLbSub');
     var descEl = document.getElementById('galleryLbDesc');
+    var capEl = document.getElementById('galleryLbCaption');
     var countEl = document.getElementById('galleryLbCount');
     var panel = el.querySelector('.pnu-gallery-lb-panel');
     var list = [], at = 0, lastFocus = null, hideTimer = null;
 
     function show(i) {
       at = Math.max(0, Math.min(i, list.length - 1));
-      img.src = list[at];
+      img.src = list[at].src;
+      if (capEl) {
+        capEl.textContent = list[at].caption || '';
+        capEl.hidden = !list[at].caption;
+      }
       countEl.textContent = list.length > 1 ? (at + 1) + ' / ' + list.length : '';
       prev.disabled = at === 0;
       next.disabled = at === list.length - 1;
@@ -251,7 +274,7 @@
         if (i2 === at && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       });
       [at - 1, at + 1].forEach(function (j) {
-        if (list[j]) { var p = new Image(); p.src = list[j]; }
+        if (list[j]) { var p = new Image(); p.src = list[j].src; }
       });
     }
 
@@ -263,9 +286,9 @@
       subEl.textContent = [meta.date, meta.place].filter(Boolean).join(' · ');
       descEl.textContent = meta.description || '';
       descEl.hidden = !meta.description;
-      railEl.innerHTML = list.length > 1 ? list.map(function (src, i) {
+      railEl.innerHTML = list.length > 1 ? list.map(function (p, i) {
         return '<button type="button" data-rail="' + i + '" aria-label="사진 ' + (i + 1) + ' / ' + list.length + '">' +
-          '<img src="' + src + '" alt="" loading="lazy" decoding="async"></button>';
+          '<img src="' + p.src + '" alt="" loading="lazy" decoding="async"></button>';
       }).join('') : '';
       lastFocus = document.activeElement;
       if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }

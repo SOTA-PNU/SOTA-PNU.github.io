@@ -26,9 +26,35 @@ test('safeSrc percent-encodes spaces, Hangul and #', () => {
 });
 
 test('photosOf puts the cover first and removes duplicates', () => {
-  assert.deepEqual(G.photosOf(A()), ['assets/images/gallery/a/1.jpg', 'assets/images/gallery/a/2.jpg']);
+  assert.deepEqual(G.photosOf(A()).map((p) => p.src),
+    ['assets/images/gallery/a/1.jpg', 'assets/images/gallery/a/2.jpg']);
   assert.deepEqual(G.photosOf({ cover: '', photos: [] }), []);
-  assert.deepEqual(G.photosOf({ cover: 'c.jpg', photos: ['javascript:x', 'd.jpg'] }), ['c.jpg', 'd.jpg']);
+  assert.deepEqual(G.photosOf({ cover: 'c.jpg', photos: ['javascript:x', 'd.jpg'] }).map((p) => p.src),
+    ['c.jpg', 'd.jpg']);
+});
+
+test('photos accept plain paths and {src, caption}, and captions survive', () => {
+  const items = G.photosOf({
+    cover: 'a.jpg',
+    photos: [{ src: 'a.jpg', caption: '개회식  발표' }, 'b.jpg', { src: 'c.jpg', caption: '' }],
+  });
+  assert.deepEqual(items, [
+    { src: 'a.jpg', caption: '개회식 발표' },
+    { src: 'b.jpg', caption: '' },
+    { src: 'c.jpg', caption: '' },
+  ]);
+});
+
+test('a cover listed later in photos keeps its caption and still comes first', () => {
+  const items = G.photosOf({ cover: 'b.jpg', photos: ['a.jpg', { src: 'b.jpg', caption: '단체 사진' }] });
+  assert.deepEqual(items.map((p) => p.src), ['b.jpg', 'a.jpg']);
+  assert.equal(items[0].caption, '단체 사진');
+});
+
+test('photoItem rejects unsafe sources and normalizes caption whitespace', () => {
+  assert.deepEqual(G.photoItem({ src: 'javascript:x', caption: 'x' }), { src: '', caption: 'x' });
+  assert.deepEqual(G.photoItem({ src: 'a.jpg', caption: ' 두\n줄 ' }), { src: 'a.jpg', caption: '두 줄' });
+  assert.deepEqual(G.photoItem('a.jpg'), { src: 'a.jpg', caption: '' });
 });
 
 test('categoryOf whitelists, falling back to lab', () => {

@@ -42,7 +42,7 @@ test('gallery.html: no category filters and no subtitle line', () => {
 test('gallery.html: the album modal has every part the viewer fills in', () => {
   const html = read('gallery.html');
   for (const id of ['galleryLightbox', 'galleryLbPanel|pnu-gallery-lb-panel', 'galleryLbTitle', 'galleryLbSub',
-    'galleryLbDesc', 'galleryLbImg', 'galleryLbPrev', 'galleryLbNext', 'galleryLbCount', 'galleryLbRail',
+    'galleryLbDesc', 'galleryLbCaption', 'galleryLbImg', 'galleryLbPrev', 'galleryLbNext', 'galleryLbCount', 'galleryLbRail',
     'galleryLbClose']) {
     const ok = id.split('|').some((token) => html.includes(token));
     assert.ok(ok, `gallery.html is missing ${id}`);
@@ -77,7 +77,7 @@ test('css/redesign.css defines the gallery classes the renderer emits', () => {
     'pnu-gallery-more', 'pnu-gallery-track', 'pnu-gallery-year-badge', 'pnu-gallery-year-count',
     'pnu-gallery-jump', 'pnu-gallery-empty', 'pnu-gallery-empty-title', 'pnu-gallery-empty-text',
     'pnu-gallery-lightbox', 'pnu-gallery-lb-panel', 'pnu-gallery-lb-bar', 'pnu-gallery-lb-stage',
-    'pnu-gallery-lb-info', 'pnu-gallery-lb-desc', 'pnu-gallery-lb-rail', 'pnu-gallery-lb-nav',
+    'pnu-gallery-lb-info', 'pnu-gallery-lb-desc', 'pnu-gallery-lb-caption', 'pnu-gallery-lb-rail', 'pnu-gallery-lb-nav',
     'pnu-gallery-lb-close']) {
     assert.ok(css.includes('.' + cls), `css/redesign.css has no rule for .${cls}`);
   }
