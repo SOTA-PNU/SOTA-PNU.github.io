@@ -1206,3 +1206,592 @@ body{ padding-top: 96px; }
     .pnu-research .spark{position:absolute;inset:auto -120px -160px auto;width:420px;height:420px;border-radius:999px;
       background:radial-gradient(circle at 30% 30%, rgba(96,165,250,.20), transparent 55%);
       filter: blur(2px);opacity:.9;pointer-events:none}
+
+/* =========================================================
+   Gallery — "archive by time" (Direction A)
+   Publications 의 .pnu-year-block / .pnu-year-badge 리듬을 그대로 쓰고,
+   오른쪽 열만 텍스트 행 → 사진 행(필름스트립) 으로 바꾼 것.
+   색은 :root 토큰과 그 tint/alpha 만 사용한다. 새 hue 없음.
+   ========================================================= */
+
+.pnu-gallery{
+  /* .pnu-hero-bg 의 삼각 메쉬 모티프 축약본.
+     반복하지 않고 "연도 마커 / 노드" 로만 쓴다 (배경 패턴 아님). */
+  --pnu-gallery-mesh:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='rgba(15,23,42,0.18)' stroke-width='1.6'%3E%3Cpath d='M8 44 L52 14 L92 40 L52 74 Z'/%3E%3Cpath d='M52 74 L92 40 L116 82 L74 108 Z'/%3E%3Cpath d='M8 44 L52 74 L30 112'/%3E%3C/g%3E%3Cg fill='rgba(15,23,42,0.22)'%3E%3Ccircle cx='52' cy='14' r='2.2'/%3E%3Ccircle cx='92' cy='40' r='2'/%3E%3Ccircle cx='52' cy='74' r='2'/%3E%3Ccircle cx='8' cy='44' r='2'/%3E%3Ccircle cx='116' cy='82' r='2'/%3E%3Ccircle cx='74' cy='108' r='2'/%3E%3Ccircle cx='30' cy='112' r='2'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* 고정 헤더(96px) 아래로 앵커가 파묻히지 않게 */
+.pnu-gallery .pnu-year-block{ scroll-margin-top:112px; }
+
+/* ---------- 1) 툴바: 연도 점프 (칩 필터는 기존 .pnu-chip 그대로) ---------- */
+.pnu-gallery-jump{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--sota-line);
+}
+.pnu-gallery-jump[hidden]{ display:none; }
+.pnu-gallery-jump-label{
+  margin-right:2px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--sota-muted);
+}
+.pnu-gallery-jump a{
+  display:inline-flex;
+  align-items:center;
+  height:30px;
+  padding:0 11px;
+  border-radius:999px;
+  border:1px solid var(--sota-line);
+  background:rgba(255,255,255,.75);
+  font-size:13px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+  color:var(--sota-ink-2);
+  text-decoration:none;
+  transition:color .15s ease, border-color .15s ease, transform .15s ease;
+}
+.pnu-gallery-jump a:hover{
+  color:var(--sota-accent);
+  border-color:rgba(37,99,235,.28);
+  transform:translateY(-1px);
+}
+.pnu-gallery-jump a:focus-visible{ outline:2px solid var(--sota-accent-2); outline-offset:2px; }
+
+/* ---------- 2) 연도 배지: Publications 배지 + 사진 카운트 + 메쉬 노드 ---------- */
+.pnu-gallery-year-badge{ position:sticky; overflow:hidden; }  /* 나머지는 .pnu-year-badge 상속 */
+.pnu-gallery-year-badge::after{
+  content:"";
+  position:absolute;
+  right:-20px;
+  bottom:-24px;
+  width:120px;
+  height:120px;
+  background-image:var(--pnu-gallery-mesh);
+  background-size:120px 120px;
+  background-repeat:no-repeat;
+  opacity:.45;
+  pointer-events:none;
+}
+.pnu-gallery-year-count{
+  position:relative;   /* 메쉬 위로 */
+  z-index:1;
+  margin-top:10px;
+  font-size:.78rem;
+  font-weight:800;
+  line-height:1.5;
+  color:rgba(15,23,42,.55);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- 3) 트랙(스파인) + 노드 ---------- */
+.pnu-gallery-track{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  padding-left:26px;
+}
+.pnu-gallery-track::before{
+  content:"";
+  position:absolute;
+  left:7px;
+  top:14px;
+  bottom:14px;
+  width:1px;
+  background:linear-gradient(180deg,
+    rgba(15,23,42,.02),
+    rgba(15,23,42,.16) 10%,
+    rgba(15,23,42,.16) 90%,
+    rgba(15,23,42,.02));
+  pointer-events:none;
+}
+.pnu-gallery-item{ position:relative; }
+.pnu-gallery-item::before{           /* 스파인 위의 노드(45° 정사각형 = 메쉬 노드) */
+  content:"";
+  position:absolute;
+  left:-23px;                        /* 26(padding) - 7(line) - 4.5(half) + .5 */
+  top:28px;
+  width:9px;
+  height:9px;
+  border-radius:2px;
+  border:1px solid rgba(15,23,42,.28);
+  background:#fff;
+  box-shadow:0 0 0 4px #fff;         /* 라인을 끊어 노드처럼 보이게 (배경 흰색 전제) */
+  transform:rotate(45deg);
+  transition:border-color .18s ease, background .18s ease;
+  pointer-events:none;
+}
+.pnu-gallery-item:hover::before,
+.pnu-gallery-item:focus-within::before{
+  border-color:var(--sota-accent-2);
+  background:rgba(37,99,235,.16);
+}
+
+/* ---------- 4) 앨범 카드 ---------- */
+.pnu-gallery-card{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,46%) minmax(0,1fr);
+  gap:18px;
+  padding:14px;
+  border-radius:22px;
+  border:1px solid rgba(15,23,42,.12);
+  background:rgba(255,255,255,.85);
+  box-shadow:0 14px 40px rgba(15,23,42,.08);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.pnu-gallery-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 24px 60px rgba(15,23,42,.12);
+  border-color:rgba(37,99,235,.22);
+}
+
+/* 대표 사진 (버튼) */
+.pnu-gallery-cover{
+  position:relative;
+  display:block;
+  width:100%;
+  margin:0;
+  padding:0;
+  appearance:none;
+  -webkit-appearance:none;
+  font:inherit;
+  color:inherit;
+  border:1px solid var(--sota-line);
+  border-radius:16px;
+  background:var(--sota-soft);
+  overflow:hidden;
+  aspect-ratio:16 / 10;
+  cursor:zoom-in;
+}
+.pnu-gallery-cover img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scale(1.01);
+  transform-origin:center;
+  transition:transform .35s ease;
+}
+.pnu-gallery-card:hover .pnu-gallery-cover img{ transform:scale(1.05); }
+.pnu-gallery-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(180deg, rgba(255,255,255,0) 58%, rgba(15,23,42,.10));
+  pointer-events:none;
+}
+.pnu-gallery-cover:focus-visible{ outline:2px solid var(--sota-accent-2); outline-offset:3px; }
+
+/* 사진 0장 앨범: 깨진 img 대신 메쉬 프레임 */
+.pnu-gallery-cover.is-empty{ cursor:default; }
+.pnu-gallery-cover.is-empty::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:var(--pnu-gallery-mesh);
+  background-size:120px 120px;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:.35;
+}
+
+.pnu-gallery-count{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  height:26px;
+  padding:0 10px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,.10);
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:-.01em;
+  color:var(--sota-ink-2);
+}
+
+/* 본문 */
+.pnu-gallery-body{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:6px 6px 2px;
+}
+.pnu-gallery-meta{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.pnu-gallery-date{
+  font-size:.78rem;
+  font-weight:800;
+  color:rgba(15,23,42,.55);
+  font-variant-numeric:tabular-nums;
+}
+.pnu-gallery-title{
+  font-size:1.02rem;
+  line-height:1.25;
+  font-weight:900;
+  letter-spacing:-.01em;
+  color:var(--sota-ink);
+}
+@media (min-width:1024px){ .pnu-gallery-title{ font-size:1.12rem; } }
+.pnu-gallery-place{
+  font-size:.86rem;
+  font-weight:700;
+  line-height:1.4;
+  color:rgba(15,23,42,.62);
+}
+.pnu-gallery-desc{
+  font-size:.86rem;
+  line-height:1.6;
+  color:rgba(15,23,42,.68);
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+/* 카테고리 태그 — .pnu-badge 위에 얹는 modifier. 잉크/액센트 농도로만 4단계 구분 */
+.pnu-gallery-cat{ letter-spacing:.01em; }
+.pnu-gallery-cat[data-cat="conference"]{
+  background:rgba(11,59,143,.10);
+  border-color:rgba(11,59,143,.20);
+  color:var(--sota-accent);
+}
+.pnu-gallery-cat[data-cat="award"]{
+  background:var(--sota-ink);
+  border-color:var(--sota-ink);
+  color:#fff;
+}
+.pnu-gallery-cat[data-cat="lab"]{
+  background:var(--sota-soft);
+  border-color:var(--sota-line);
+  color:var(--sota-ink-2);
+}
+.pnu-gallery-cat[data-cat="seminar"]{
+  background:#fff;
+  border-color:rgba(15,23,42,.22);
+  color:var(--sota-ink-2);
+}
+
+/* 필름스트립 */
+.pnu-gallery-strip{
+  display:flex;
+  gap:8px;
+  margin-top:auto;
+  padding:10px 2px 2px;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(15,23,42,.20) transparent;
+}
+.pnu-gallery-strip::-webkit-scrollbar{ height:6px; }
+.pnu-gallery-strip::-webkit-scrollbar-thumb{ background:rgba(15,23,42,.18); border-radius:999px; }
+.pnu-gallery-strip::-webkit-scrollbar-track{ background:transparent; }
+.pnu-gallery-strip:focus-visible{ outline:2px solid var(--sota-accent-2); outline-offset:2px; border-radius:12px; }
+
+.pnu-gallery-thumb{
+  flex:0 0 auto;
+  width:62px;
+  height:62px;
+  padding:0;
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid var(--sota-line);
+  border-radius:12px;
+  background:var(--sota-soft);
+  overflow:hidden;
+  cursor:zoom-in;
+  scroll-snap-align:start;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.pnu-gallery-thumb img{ display:block; width:100%; height:100%; object-fit:cover; }
+.pnu-gallery-thumb:hover{ transform:translateY(-1px); border-color:rgba(37,99,235,.35); }
+.pnu-gallery-thumb:focus-visible{ outline:2px solid var(--sota-accent-2); outline-offset:2px; }
+
+.pnu-gallery-more{
+  flex:0 0 auto;
+  width:62px;
+  height:62px;
+  padding:0;
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px dashed rgba(15,23,42,.22);
+  border-radius:12px;
+  background:rgba(255,255,255,.70);
+  font:inherit;
+  font-size:12px;
+  font-weight:900;
+  color:var(--sota-ink-2);
+  cursor:pointer;
+  scroll-snap-align:start;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.pnu-gallery-more:hover{ transform:translateY(-1px); border-color:rgba(37,99,235,.35); color:var(--sota-accent); }
+.pnu-gallery-more:focus-visible{ outline:2px solid var(--sota-accent-2); outline-offset:2px; }
+
+/* ---------- 5) 라이트박스 ---------- */
+.pnu-gallery-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:flex;
+  flex-direction:column;
+  background:rgba(15,23,42,.90);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.pnu-gallery-lightbox[hidden]{ display:none; }   /* display:flex 가 [hidden] 을 이기지 않도록 */
+.pnu-gallery-lightbox.is-open{ opacity:1; }
+html.pnu-lightbox-open, body.pnu-lightbox-open{ overflow:hidden; }
+
+.pnu-gallery-lb-bar{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px clamp(12px,3vw,28px);
+  color:rgba(255,255,255,.92);
+}
+.pnu-gallery-lb-head{ min-width:0; }
+.pnu-gallery-lb-title{
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:-.01em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.pnu-gallery-lb-sub{
+  margin-top:2px;
+  font-size:12px;
+  font-weight:700;
+  color:rgba(255,255,255,.60);
+}
+.pnu-gallery-lb-tools{ flex:0 0 auto; display:flex; align-items:center; gap:12px; }
+.pnu-gallery-lb-count{
+  font-size:13px;
+  font-weight:900;
+  color:rgba(255,255,255,.72);
+  font-variant-numeric:tabular-nums;
+}
+.pnu-gallery-lb-close,
+.pnu-gallery-lb-nav{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  padding:0;
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  color:rgba(255,255,255,.92);
+  font:inherit;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  transition:background .15s ease, transform .15s ease, opacity .15s ease;
+}
+.pnu-gallery-lb-close:hover,
+.pnu-gallery-lb-nav:hover{ background:rgba(255,255,255,.20); }
+.pnu-gallery-lb-close:focus-visible,
+.pnu-gallery-lb-nav:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+.pnu-gallery-lb-nav[disabled]{ opacity:.28; cursor:default; }
+
+.pnu-gallery-lb-stage{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 clamp(8px,3vw,24px);
+}
+.pnu-gallery-lb-stage img{
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:14px;
+  box-shadow:0 30px 80px rgba(2,6,23,.55);
+  background:rgba(255,255,255,.04);
+}
+.pnu-gallery-lb-nav{ position:absolute; top:50%; transform:translateY(-50%); z-index:1; }
+.pnu-gallery-lb-prev{ left:clamp(6px,2vw,18px); }
+.pnu-gallery-lb-next{ right:clamp(6px,2vw,18px); }
+.pnu-gallery-lb-nav:hover{ transform:translateY(-50%) scale(1.04); }
+
+.pnu-gallery-lb-rail{
+  flex:0 0 auto;
+  display:flex;
+  gap:8px;
+  padding:12px clamp(12px,3vw,28px) 18px;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.28) transparent;
+}
+.pnu-gallery-lb-rail::-webkit-scrollbar{ height:6px; }
+.pnu-gallery-lb-rail::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.28); border-radius:999px; }
+.pnu-gallery-lb-rail button{
+  flex:0 0 auto;
+  width:56px;
+  height:56px;
+  padding:0;
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;
+  background:rgba(255,255,255,.06);
+  overflow:hidden;
+  opacity:.55;
+  cursor:pointer;
+  transition:opacity .15s ease, border-color .15s ease;
+}
+.pnu-gallery-lb-rail button img{ display:block; width:100%; height:100%; object-fit:cover; }
+.pnu-gallery-lb-rail button:hover{ opacity:.85; }
+.pnu-gallery-lb-rail button.is-current{ opacity:1; border-color:rgba(255,255,255,.85); }
+.pnu-gallery-lb-rail button:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+.pnu-gallery-lb-rail:empty{ display:none; }
+
+/* ---------- 6) 비어 있을 때 ---------- */
+.pnu-gallery-empty{
+  position:relative;
+  overflow:hidden;
+  border-radius:22px;
+  border:1px dashed rgba(15,23,42,.18);
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,250,252,.92));
+  padding:clamp(30px,5vw,58px) clamp(20px,4vw,44px);
+  text-align:center;
+}
+.pnu-gallery-empty::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-26px;
+  width:120px;
+  height:120px;
+  margin-left:-60px;
+  background-image:var(--pnu-gallery-mesh);
+  background-size:120px 120px;
+  background-repeat:no-repeat;
+  opacity:.30;
+  pointer-events:none;
+}
+.pnu-gallery-empty > *{ position:relative; z-index:1; }
+.pnu-gallery-empty-title{
+  font-size:1.15rem;
+  font-weight:900;
+  letter-spacing:-.02em;
+  color:var(--sota-ink);
+}
+.pnu-gallery-empty-text{
+  margin-top:10px;
+  font-size:.92rem;
+  line-height:1.75;
+  color:var(--sota-muted);
+}
+.pnu-gallery-empty-text a{ color:var(--sota-accent); font-weight:700; text-decoration:none; }
+.pnu-gallery-empty-text a:hover{ color:var(--sota-accent-2); text-decoration:underline; }
+.pnu-gallery-empty-reset{
+  display:inline-flex;
+  align-items:center;
+  height:28px;
+  margin:0 2px;
+  padding:0 10px;
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid var(--sota-line);
+  border-radius:999px;
+  background:rgba(255,255,255,.85);
+  font:inherit;
+  font-size:12px;
+  font-weight:800;
+  color:var(--sota-ink-2);
+  cursor:pointer;
+  transition:border-color .15s ease, color .15s ease;
+}
+.pnu-gallery-empty-reset:hover{ color:var(--sota-accent); border-color:rgba(37,99,235,.28); }
+.pnu-gallery-empty-reset:focus-visible{ outline:2px solid var(--sota-accent-2); outline-offset:2px; }
+
+/* ---------- 7) 반응형 ---------- */
+@media (max-width:1100px){
+  .pnu-gallery-card{ grid-template-columns:1fr; gap:12px; }
+  .pnu-gallery-cover{ aspect-ratio:16 / 9; }
+  .pnu-gallery-body{ padding:0 4px 2px; }
+  .pnu-gallery-item::before{ top:20px; }
+}
+
+/* .pnu-year-block 이 1열이 되는 지점 — 스파인은 접는다 */
+@media (max-width:900px){
+  .pnu-gallery-track{ padding-left:0; }
+  .pnu-gallery-track::before,
+  .pnu-gallery-item::before{ display:none; }
+  .pnu-gallery-year-badge::after{ right:-30px; bottom:-34px; opacity:.35; }
+}
+
+@media (max-width:640px){
+  .pnu-gallery-card{ padding:12px; border-radius:18px; }
+  .pnu-gallery-cover{ border-radius:14px; }
+  .pnu-gallery-title{ font-size:1rem; }
+  .pnu-gallery-desc{ -webkit-line-clamp:4; line-clamp:4; }
+  .pnu-gallery-thumb,
+  .pnu-gallery-more{ width:56px; height:56px; }
+  .pnu-gallery-lb-rail button{ width:48px; height:48px; }
+  .pnu-gallery-lb-close,
+  .pnu-gallery-lb-nav{ width:40px; height:40px; font-size:18px; }
+}
+
+/* 360px: 카드가 가로로 넘치지 않도록 최소 안전장치 */
+@media (max-width:380px){
+  .pnu-gallery-card{ padding:10px; }
+  .pnu-gallery-jump-label{ width:100%; }
+}
+
+/* ---------- 8) 모션 최소화 ---------- */
+@media (prefers-reduced-motion: reduce){
+  .pnu-gallery-card,
+  .pnu-gallery-cover img,
+  .pnu-gallery-thumb,
+  .pnu-gallery-more,
+  .pnu-gallery-item::before,
+  .pnu-gallery-jump a,
+  .pnu-gallery-lightbox,
+  .pnu-gallery-lb-close,
+  .pnu-gallery-lb-nav,
+  .pnu-gallery-lb-rail button{
+    transition:none !important;
+  }
+  .pnu-gallery-card:hover{ transform:none; }
+  .pnu-gallery-card:hover .pnu-gallery-cover img{ transform:scale(1.01); }
+  .pnu-gallery-thumb:hover,
+  .pnu-gallery-more:hover,
+  .pnu-gallery-jump a:hover{ transform:none; }
+  .pnu-gallery-lb-nav:hover{ transform:translateY(-50%); }
+  .pnu-gallery-strip,
+  .pnu-gallery-lb-rail{ scroll-behavior:auto; }
+  .pnu-gallery-lightbox{ opacity:1; }
+}
