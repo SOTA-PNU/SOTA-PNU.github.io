@@ -83,3 +83,18 @@ test('gallery paths stay under assets/images/gallery and data/gallery.json', () 
   assert.match(code, /dir:\s*'assets\/images\/gallery'/);
   assert.match(code, /path:\s*'data\/gallery\.json'/);
 });
+
+test('both syncs take a script lock, so two people pressing at once queue up', () => {
+  assert.match(code, /LockService\.getScriptLock\(\)/);
+  for (const fn of ['syncPublicationsToGitHub', 'syncGalleryToGitHub']) {
+    const start = code.indexOf(`function ${fn}(`);
+    const body = code.slice(start, code.indexOf('\nfunction ', start + 1));
+    assert.match(body, /acquireSyncLock_\(ui\)/, `${fn} must take the lock`);
+    assert.match(body, /finally \{\s*lock\.releaseLock\(\);/, `${fn} must release the lock`);
+  }
+});
+
+test('a ref that moved under us is explained, not dumped as a raw 422', () => {
+  assert.match(code, /저장소가 방금 다른 곳에서 바뀌었습니다/);
+  assert.match(code, /updRes\.status === 422/);
+});
