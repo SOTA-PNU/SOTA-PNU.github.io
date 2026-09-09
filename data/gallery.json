@@ -1,19 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "",
-  "source": "manual",
-  "count": 1,
-  "albums": [
-    {
-      "id": "sota-lab-team",
-      "title": "SOTA Lab",
-      "date": "2026-01-01",
-      "year": 2026,
-      "category": "lab",
-      "place": "부산대학교",
-      "description": "연구실 단체 사진입니다. 행사 사진을 추가하면 이 자리에 함께 표시됩니다.",
-      "cover": "assets/images/gallery/sota-lab/team.jpg",
-      "photos": ["assets/images/gallery/sota-lab/team.jpg"]
-    }
-  ]
+  "generatedAt": "2026-09-09T07:56:40.144Z",
+  "source": "갤러리",
+  "count": 0,
+  "albums": []
 }
