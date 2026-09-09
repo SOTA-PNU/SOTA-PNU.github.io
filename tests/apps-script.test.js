@@ -165,7 +165,10 @@ test('the diagnostic reports which OAuth scopes are actually granted', () => {
 test('the README explains the missing Drive scope with the exact error text', () => {
   const readme = fs.readFileSync(path.join(root, 'apps-script', 'README.md'), 'utf8');
   assert.match(readme, /You do not have permission to call DriveApp/);
-  assert.match(readme, /oauthScopes/);
+  assert.match(readme, /myaccount\.google\.com\/permissions/, 're-authorising is the first thing to try');
   assert.match(readme, /drive\.readonly/);
-  assert.match(readme, /기존 항목은 지우지 마세요/, 'replacing the array would break the dashboard script');
+  // oauthScopes 를 새로 만들면 자동으로 잡히던 권한이 사라진다 — 부분만 적으라고 안내하면 안 된다
+  assert.match(readme, /그 목록만/, 'it must warn that the array becomes authoritative');
+  assert.match(readme, /반드시 \*\*전부\*\* 적어야 합니다/);
+  assert.match(readme, /showMyScopes/, 'and show how to read the current list first');
 });
