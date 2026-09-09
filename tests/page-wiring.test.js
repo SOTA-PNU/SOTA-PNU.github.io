@@ -32,11 +32,22 @@ for (const [page, script] of [['gallery.html', 'js/gallery.js'], ['publications.
   });
 }
 
-test('gallery.html: filter chips cover exactly the categories the renderer knows', () => {
+test('gallery.html: no category filters and no subtitle line', () => {
   const html = read('gallery.html');
-  const chips = [...html.matchAll(/data-filter="([^"]+)"/g)].map((m) => m[1]);
-  const G = require('../js/gallery.js');
-  assert.deepEqual(chips, ['all'].concat(G.CATEGORIES));
+  assert.doesNotMatch(html, /data-filter=/, 'category filter chips were removed on purpose');
+  assert.doesNotMatch(html, /pnu-chip/, 'category filter chips were removed on purpose');
+  assert.doesNotMatch(html, /연도순 기록입니다/, 'the subtitle line was removed on purpose');
+});
+
+test('gallery.html: the album modal has every part the viewer fills in', () => {
+  const html = read('gallery.html');
+  for (const id of ['galleryLightbox', 'galleryLbPanel|pnu-gallery-lb-panel', 'galleryLbTitle', 'galleryLbSub',
+    'galleryLbDesc', 'galleryLbImg', 'galleryLbPrev', 'galleryLbNext', 'galleryLbCount', 'galleryLbRail',
+    'galleryLbClose']) {
+    const ok = id.split('|').some((token) => html.includes(token));
+    assert.ok(ok, `gallery.html is missing ${id}`);
+  }
+  assert.match(html, /role="dialog"[^>]*aria-modal="true"/, 'the panel must be a modal dialog');
 });
 
 test('gallery.html: the section is scoped with .pnu-gallery so the mesh variable resolves', () => {
@@ -62,11 +73,12 @@ test('css/redesign.css defines the gallery classes the renderer emits', () => {
   const css = read('css/redesign.css');
   for (const cls of ['pnu-gallery', 'pnu-gallery-item', 'pnu-gallery-card', 'pnu-gallery-cover',
     'pnu-gallery-count', 'pnu-gallery-body', 'pnu-gallery-meta', 'pnu-gallery-date', 'pnu-gallery-title',
-    'pnu-gallery-place', 'pnu-gallery-desc', 'pnu-gallery-cat', 'pnu-gallery-strip', 'pnu-gallery-thumb',
+    'pnu-gallery-place', 'pnu-gallery-desc', 'pnu-gallery-strip', 'pnu-gallery-thumb',
     'pnu-gallery-more', 'pnu-gallery-track', 'pnu-gallery-year-badge', 'pnu-gallery-year-count',
     'pnu-gallery-jump', 'pnu-gallery-empty', 'pnu-gallery-empty-title', 'pnu-gallery-empty-text',
-    'pnu-gallery-empty-reset', 'pnu-gallery-lightbox', 'pnu-gallery-lb-bar', 'pnu-gallery-lb-stage',
-    'pnu-gallery-lb-rail', 'pnu-gallery-lb-nav', 'pnu-gallery-lb-close']) {
+    'pnu-gallery-lightbox', 'pnu-gallery-lb-panel', 'pnu-gallery-lb-bar', 'pnu-gallery-lb-stage',
+    'pnu-gallery-lb-info', 'pnu-gallery-lb-desc', 'pnu-gallery-lb-rail', 'pnu-gallery-lb-nav',
+    'pnu-gallery-lb-close']) {
     assert.ok(css.includes('.' + cls), `css/redesign.css has no rule for .${cls}`);
   }
 });

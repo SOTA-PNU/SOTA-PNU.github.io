@@ -62,12 +62,11 @@ test('countLine handles singular and plural', () => {
   assert.equal(G.countLine([G.normalize(A()), G.normalize(A())]), '2 albums · 4 photos');
 });
 
-test('cardHtml: cover button, category tag, count pill and filmstrip', () => {
+test('cardHtml: cover button, date, count pill and filmstrip', () => {
   const h = G.cardHtml(A());
-  assert.match(h, /^<article class="pnu-gallery-item" id="album-a1" data-album="a1" data-tags="conference" data-photos="2">/);
+  assert.match(h, /^<article class="pnu-gallery-item" id="album-a1" data-album="a1">/);
   assert.match(h, /<button class="pnu-gallery-cover" type="button" data-index="0"/);
   assert.match(h, /<span class="pnu-gallery-count">2 photos<\/span>/);
-  assert.match(h, /<span class="pnu-badge pnu-gallery-cat" data-cat="conference">Conference<\/span>/);
   assert.match(h, /<span class="pnu-gallery-date">2026\.05\.13<\/span>/);
   assert.match(h, /<h3 class="pnu-gallery-title">ISET 2026<\/h3>/);
   assert.match(h, /<p class="pnu-gallery-place">제주<\/p>/);
@@ -79,7 +78,6 @@ test('cardHtml: a single-photo album gets no count pill and no filmstrip', () =>
   const h = G.cardHtml(A({ photos: ['assets/images/gallery/a/1.jpg'] }));
   assert.doesNotMatch(h, /pnu-gallery-count/);
   assert.doesNotMatch(h, /pnu-gallery-strip/);
-  assert.match(h, /data-photos="1"/);
 });
 
 test('cardHtml: an album with no photos renders the mesh frame, not a button', () => {
@@ -116,12 +114,16 @@ test('buildGalleryHtml groups into year blocks, newest first', () => {
   assert.equal(G.buildGalleryHtml(null), '');
 });
 
-test('empty-state copy names the active filter and offers a way back', () => {
+test('cards carry no category badge (categories are not shown on the site)', () => {
+  const h = G.cardHtml(A());
+  assert.doesNotMatch(h, /pnu-gallery-cat/);
+  assert.doesNotMatch(h, /pnu-badge/);
+  assert.doesNotMatch(h, /Conference/);
+});
+
+test('the empty state invites a first photo', () => {
   assert.match(G.EMPTY_HTML, /No albums yet/);
   assert.match(G.EMPTY_HTML, /sota@sota\.dooray\.com/);
-  const f = G.filterEmptyHtml('Award');
-  assert.match(f, /No albums in Award/);
-  assert.match(f, /class="pnu-gallery-empty-reset" type="button" data-filter="all"/);
 });
 
 test('data/gallery.json matches the schema the renderer expects', () => {
