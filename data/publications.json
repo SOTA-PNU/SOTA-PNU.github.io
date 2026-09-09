@@ -1,30 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-08T12:22:32.396Z",
+  "generatedAt": "2026-09-09T05:09:10.464Z",
   "source": "논문 등록",
-  "count": 59,
+  "count": 57,
   "publications": [
-    {
-      "id": "2026-삥빵뽀",
-      "year": 2026,
-      "date": "2026-09-08",
-      "type": "conference",
-      "tier": "normal",
-      "venue": "삥빵뽕",
-      "venueShort": "삥빵뽕",
-      "title": "삥빵뽀ㅓㅇ",
-      "titleKo": "삥빵뽀ㅓㅇ",
-      "titleEn": "PPingPPang",
-      "authors": [
-        "홍홍",
-        "홍잉",
-        "잉앙"
-      ],
-      "keywords": "ㅁㄴㅇ",
-      "paperUrl": "",
-      "codeUrl": "",
-      "award": ""
-    },
     {
       "id": "2026-hailo-10h-엣지-npu에서-다양한-모델의-npu-매핑-범위-분석",
       "year": 2026,
@@ -160,29 +139,6 @@
         "이제민"
       ],
       "keywords": "Compiler Optimization · Model Pruning",
-      "paperUrl": "",
-      "codeUrl": "",
-      "award": ""
-    },
-    {
-      "id": "2026-validity-aware-multi-level-autotuning-for-efficient-tensor-p",
-      "year": 2026,
-      "date": "",
-      "type": "journal",
-      "tier": "top",
-      "venue": "ACM Transactions on Embedded Computing Systems",
-      "venueShort": "TECS",
-      "title": "Validity-Aware Multi-Level Autotuning for Efficient Tensor Program Generation",
-      "titleKo": "",
-      "titleEn": "Validity-Aware Multi-Level Autotuning for Efficient Tensor Program Generation",
-      "authors": [
-        "차주형",
-        "이문영",
-        "권진세",
-        "이제민",
-        "권용인"
-      ],
-      "keywords": "",
       "paperUrl": "",
       "codeUrl": "",
       "award": ""
