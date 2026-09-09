@@ -93,11 +93,25 @@ function previewPublications() {
   }
 }
 
+
+// 연구실 여러 명이 같은 시트를 쓴다. 두 사람이 동시에 갱신을 누르면 나중 것이 앞의 커밋을 밀어낼 수 있으므로
+// 스크립트 잠금으로 한 번에 하나만 실행되게 한다.
+function acquireSyncLock_(ui) {
+  var lock = LockService.getScriptLock();
+  if (lock.tryLock(20 * 1000)) return lock;
+  ui.alert('잠시 후 다시 시도해 주세요',
+    '다른 분이 지금 갱신을 실행하고 있습니다.\n끝나기를 기다렸다가 다시 눌러 주세요.',
+    ui.ButtonSet.OK);
+  return null;
+}
+
 function syncPublicationsToGitHub() {
   var ui = SpreadsheetApp.getUi();
   if (!requirePubLib_(ui)) return;
   var user = getUserEmail_();
   var started = new Date();
+  var lock = acquireSyncLock_(ui);
+  if (!lock) return;
   try {
     var token = getToken_();
     if (!token) {
@@ -123,6 +137,8 @@ function syncPublicationsToGitHub() {
   } catch (e) {
     log_(started, user, '', '실패: ' + String(e.message || e), []);
     ui.alert('업로드 실패', String(e.message || e), ui.ButtonSet.OK);
+  } finally {
+    lock.releaseLock();
   }
 }
 
@@ -493,6 +509,10 @@ function githubCommitFiles_(token, files, message) {
   var newSha = JSON.parse(commitRes.body).sha;
 
   var updRes = githubApi_(token, 'patch', repo + '/git/refs/heads/' + branch, { sha: newSha });
+  if (updRes.status === 422) {
+    throw new Error('저장소가 방금 다른 곳에서 바뀌었습니다. 잠시 후 갱신을 한 번 더 눌러 주세요.\n' +
+      '(먼저 올라간 내용은 그대로 있습니다)');
+  }
   if (updRes.status !== 200) throw new Error(explainStatus_(updRes));
 
   return { sha: newSha, html_url: 'https://github.com/' + CONFIG.repo + '/commit/' + newSha };
@@ -587,6 +607,8 @@ function syncGalleryToGitHub() {
   if (!requireGalLib_(ui)) return;
   var started = new Date();
   var user = getUserEmail_();
+  var lock = acquireSyncLock_(ui);
+  if (!lock) return;
   try {
     var token = getToken_();
     if (!token) {
@@ -628,6 +650,8 @@ function syncGalleryToGitHub() {
   } catch (e) {
     logGallery_(started, user, '', '실패: ' + String(e.message || e), []);
     ui.alert('갤러리 업로드 실패', String(e.message || e), ui.ButtonSet.OK);
+  } finally {
+    lock.releaseLock();
   }
 }
 
