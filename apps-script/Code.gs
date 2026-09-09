@@ -139,7 +139,13 @@ function configureGitHubToken() {
     return;
   }
   PropertiesService.getScriptProperties().setProperty(TOKEN_KEY, token);
-  ui.alert('저장 완료', '토큰을 저장했습니다. 저장소 ' + CONFIG.repo + ' 접근이 확인되었습니다.\n첫 "논문 목록 갱신" 실행에서 쓰기 권한이 최종 확인됩니다.', ui.ButtonSet.OK);
+  // 공개 저장소는 권한 없는 토큰으로도 조회가 되므로, 위 확인은 "쓸 수 있다"는 뜻이 아니다.
+  ui.alert('저장 완료',
+    '토큰을 저장했습니다.\n\n' +
+    '다만 ' + CONFIG.repo + ' 는 공개 저장소라 조회만으로는 쓰기 권한을 확인할 수 없습니다.\n' +
+    '실제 확인은 "논문 목록 갱신" 을 처음 실행할 때 이루어집니다.\n' +
+    '거기서 403 이 나오면 조직 승인 대기이거나 Contents 권한이 Read 로 되어 있는 경우입니다.',
+    ui.ButtonSet.OK);
 }
 
 function setupWebsiteColumns() {
@@ -261,7 +267,12 @@ function githubPutFile_(token, content, message, sha) {
 function explainStatus_(r) {
   var hints = {
     401: '토큰이 만료되었거나 잘못되었습니다 → 메뉴 "GitHub 토큰 설정" 에서 다시 설정하세요.',
-    403: '토큰에 권한이 없습니다 (Contents: Read and write 필요) → 토큰을 다시 발급하세요.',
+    403: '토큰이 이 저장소에 쓸 수 없습니다. 아래를 순서대로 확인하세요.\n' +
+      '  1) 조직 승인 대기 — fine-grained 토큰은 조직 소유자가 승인해야 조직 저장소에 쓸 수 있습니다.\n' +
+      '     https://github.com/settings/personal-access-tokens 에서 토큰 상태가 Pending 인지 확인하세요.\n' +
+      '  2) Permissions 의 Contents 가 "Read and write" 인지 (Read 만이면 실패합니다)\n' +
+      '  3) Repository access 에 ' + CONFIG.repo + ' 가 포함됐는지\n' +
+      '  승인이 어려우면 classic 토큰(public_repo 스코프)으로 대체할 수 있습니다.',
     404: '저장소 또는 파일 경로를 찾을 수 없습니다 → 설정값(저장소 ' + CONFIG.repo + ', 브랜치 ' +
       CONFIG.branch + ', 경로 ' + CONFIG.path + ')과 토큰의 저장소 접근 범위를 확인하세요.'
   };

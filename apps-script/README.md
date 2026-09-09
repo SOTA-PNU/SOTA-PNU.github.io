@@ -118,7 +118,8 @@ git push
 |---|---|
 | 메뉴가 안 보임 | 시트 새로고침. 그래도 없으면 Apps Script 에서 `onOpen` 이 두 개인지 확인 (1-2의 3번) |
 | "GitHub API 401" | 토큰 만료/오타 → 새 토큰 발급 후 **GitHub 토큰 설정** |
-| "GitHub API 403" | 토큰 권한 부족 → Contents: Read and write 로 재발급. 조직이 fine-grained 를 막았으면 classic `public_repo` |
+| "GitHub API 403" (Resource not accessible by personal access token) | 대부분 **조직 승인 대기**입니다. https://github.com/settings/personal-access-tokens 에서 토큰에 `Pending` 이 붙어 있으면, 조직 소유자가 조직 Settings → Third-party Access → Personal access tokens → Pending requests 에서 승인해야 합니다. 승인을 기다리기 어려우면 classic 토큰(`public_repo`)으로 대체하세요. 그 외 원인은 Contents 가 Read 로만 설정됐거나 Repository access 에 저장소가 빠진 경우입니다 |
+| 토큰 설정은 "저장 완료" 인데 갱신에서 403 | 공개 저장소는 권한 없는 토큰으로도 조회가 되므로 저장 시점에는 쓰기 권한을 확인할 수 없습니다. 위 403 항목을 따르세요 |
 | "GitHub API 404" | 토큰의 Repository access 에 `SOTA-PNU.github.io` 가 없음, 또는 `Code.gs` 의 `CONFIG.repo` 오타 |
 | "필수 헤더 없음: …" | `논문 등록` 1행 헤더 이름이 바뀜 (`Publish`, `발표일자`, `제목(한글)`, `제목(영어)`, `1저자` 필요). 헤더를 되돌리거나 `lib.js` 의 `COLUMNS` 수정 |
 | 홈페이지에 반영이 안 됨 | 커밋 링크가 열리는지 확인 → GitHub 저장소 **Actions** 탭의 `pages build and deployment` 가 초록인지 확인 → 브라우저 강력 새로고침 |
