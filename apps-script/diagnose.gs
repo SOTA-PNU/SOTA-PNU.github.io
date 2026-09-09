@@ -130,6 +130,23 @@ function diagnoseGalleryFolder() {
   if (!targets.length) { ui.alert('갤러리 탭에 검사할 행이 없습니다.'); return; }
 
   var out = ['실행 계정: ' + (diagUserEmail_() || '(확인 불가)')];
+
+  // 드라이브 자체에 접근이 되는지부터 본다.
+  // 여기가 막히면 폴더 문제가 아니라 스크립트의 드라이브 권한(스코프) 문제다.
+  var driveOk = false;
+  try {
+    var rootName = DriveApp.getRootFolder().getName();
+    driveOk = true;
+    out.push('드라이브 접근: 됨 (내 드라이브 = "' + rootName + '")');
+    var names = [], fit = DriveApp.getRootFolder().getFolders();
+    while (fit.hasNext() && names.length < 8) names.push(fit.next().getName());
+    out.push('내 드라이브 최상위 폴더: ' + (names.length ? names.join(', ') : '(없음)'));
+  } catch (e) {
+    out.push('드라이브 접근: 실패 — ' + String(e && e.message ? e.message : e));
+    out.push('  → 폴더가 아니라 스크립트의 드라이브 권한 문제입니다.');
+    out.push('    Apps Script 편집기 ⚙️ 프로젝트 설정에서 "appsscript.json 매니페스트 파일을 편집기에 표시" 를 켜고,');
+    out.push('    oauthScopes 에 https://www.googleapis.com/auth/drive 가 있는지 확인하세요.');
+  }
   targets.forEach(function (t) {
     out.push('');
     out.push('── ' + t.label);
@@ -164,6 +181,13 @@ function diagnoseGalleryFolder() {
       if (info.images.length) out.push('  사진 설명이 적힌 사진: ' + withCaption + '장');
     } catch (e) {
       out.push('  열 수 없음: ' + String(e.message || e));
+      if (driveOk) {
+        out.push('  → 드라이브 자체는 되는데 이 폴더만 안 열립니다. 다음을 확인하세요.');
+        out.push('    1) 다른 구글 계정으로 만든 폴더인지 (링크의 /u/0/ 는 브라우저의 첫 번째 계정을 뜻하며,');
+        out.push('       그 계정이 ' + (diagUserEmail_() || '실행 계정') + ' 이 아닐 수 있습니다)');
+        out.push('    2) 폴더를 휴지통으로 옮겼는지');
+        out.push('    3) 다른 계정 폴더라면 ' + (diagUserEmail_() || '실행 계정') + ' 에게 편집자로 공유했는지');
+      }
     }
   });
 

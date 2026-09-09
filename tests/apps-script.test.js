@@ -145,3 +145,11 @@ test('the gallery sync asks before publishing a smaller gallery', () => {
   assert.match(code, /홈페이지에서 사라지는 항목이 있습니다/);
   assert.match(code, /취소 \(사라지는 항목 확인\)/);
 });
+
+test('the folder diagnostic checks Drive access before blaming the folder', () => {
+  assert.match(diag, /DriveApp\.getRootFolder\(\)/, 'it must prove Drive works at all');
+  assert.match(diag, /스크립트의 드라이브 권한/, 'a total failure points at the scope, not the folder');
+  assert.match(diag, /oauthScopes/, 'and says where to check it');
+  assert.match(diag, /driveOk/, 'a folder-only failure is reported differently');
+  assert.match(diag, /다른 구글 계정으로 만든 폴더인지/, 'the wrong-account case is named first');
+});
