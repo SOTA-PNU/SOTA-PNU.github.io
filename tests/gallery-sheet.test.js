@@ -156,3 +156,35 @@ test('a captioned album renders and the caption reaches the viewer data', () => 
   assert.match(R.buildGalleryHtml(doc), /<img src="p\/1\.jpg"/);
   assert.deepEqual(R.photosOf(doc.albums[0]).map((p) => p.caption), ['개회식', '단체 사진']);
 });
+
+const album = (id, title, n) => ({ id, title, date: '2026-01-01', year: 2026, place: '', description: '',
+  photos: Array.from({ length: n }, (_, i) => `p/${id}-${i}.jpg`) });
+
+test('describeGalleryLoss stays quiet when nothing disappears', () => {
+  const one = G.buildDocument([album('a', 'A', 2)], {});
+  assert.equal(G.describeGalleryLoss(one, one), '');
+  assert.equal(G.describeGalleryLoss(one, G.buildDocument([album('a', 'A', 5)], {})), '', 'adding photos is not a loss');
+  assert.equal(G.describeGalleryLoss(one, G.buildDocument([album('a', 'A', 2), album('b', 'B', 1)], {})), '');
+  assert.equal(G.describeGalleryLoss(null, one), '');
+  assert.equal(G.describeGalleryLoss(G.buildDocument([], {}), one), '');
+});
+
+test('describeGalleryLoss names albums that would vanish', () => {
+  const before = G.buildDocument([album('a', 'ISET 2026', 2), album('b', '워크숍', 3)], {});
+  const after = G.buildDocument([album('a', 'ISET 2026', 2)], {});
+  const msg = G.describeGalleryLoss(before, after);
+  assert.match(msg, /사라지는 앨범 1개: 워크숍/);
+});
+
+test('describeGalleryLoss names albums that would lose photos', () => {
+  const before = G.buildDocument([album('a', 'ISET 2026', 5)], {});
+  const after = G.buildDocument([album('a', 'ISET 2026', 2)], {});
+  assert.match(G.describeGalleryLoss(before, after), /사진이 줄어드는 앨범 1개: ISET 2026 \(5장 → 2장\)/);
+});
+
+test('emptying the gallery gets its own sentence', () => {
+  const before = G.buildDocument([album('a', 'ISET 2026', 5)], {});
+  const msg = G.describeGalleryLoss(before, G.buildDocument([], {}));
+  assert.match(msg, /사라지는 앨범 1개/);
+  assert.match(msg, /갤러리가 비게 됩니다/);
+});

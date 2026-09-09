@@ -160,6 +160,32 @@ var GalLib = (function (lib) {
     return JSON.stringify(doc, null, 2) + '\n';
   }
 
+  // 갱신하면 홈페이지에서 사라지는 것이 있는지 사람이 읽을 수 있게 설명한다.
+  // 시트 한 줄을 잘못 지우거나 폴더 링크가 틀리면 앨범이 통째로 없어질 수 있어서, 커밋 전에 확인받는다.
+  function describeGalleryLoss(remote, next) {
+    if (!remote || !remote.albums || !remote.albums.length) return '';
+    var after = {};
+    (next && next.albums ? next.albums : []).forEach(function (a) { after[a.id] = a; });
+
+    var gone = [], shrunk = [];
+    remote.albums.forEach(function (a) {
+      var now = after[a.id];
+      if (!now) { gone.push(a.title || a.id); return; }
+      var before = (a.photos || []).length, count = (now.photos || []).length;
+      if (count < before) shrunk.push((now.title || now.id) + ' (' + before + '장 → ' + count + '장)');
+    });
+    if (!gone.length && !shrunk.length) return '';
+
+    var lines = [];
+    if (gone.length) lines.push('사라지는 앨범 ' + gone.length + '개: ' + gone.slice(0, 8).join(', ') + (gone.length > 8 ? ' 외' : ''));
+    if (shrunk.length) lines.push('사진이 줄어드는 앨범 ' + shrunk.length + '개: ' + shrunk.slice(0, 8).join(', ') + (shrunk.length > 8 ? ' 외' : ''));
+    if (!next || !next.albums || !next.albums.length) {
+      lines.push('');
+      lines.push('지금 갱신하면 갤러리가 비게 됩니다. 폴더 링크나 게시 체크를 먼저 확인해 보세요.');
+    }
+    return lines.join('\n');
+  }
+
   function sameAlbums(a, b) {
     if (!a || !b || !a.albums || !b.albums) return false;
     if (a.schemaVersion !== b.schemaVersion) return false;
@@ -179,6 +205,7 @@ var GalLib = (function (lib) {
     toRecord: toRecord,
     buildDocument: buildDocument,
     serialize: serialize,
+    describeGalleryLoss: describeGalleryLoss,
     sameAlbums: sameAlbums
   };
 })(typeof PubLib !== 'undefined' ? PubLib : require('./lib.js'));
