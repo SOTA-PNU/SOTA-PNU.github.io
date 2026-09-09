@@ -219,11 +219,39 @@ git push
 | 수동 갱신에서 "시트 ID 를 찾을 수 없습니다" | 5장 참고 (`tools/sheet-id.local` 또는 `SOTA_SHEET_ID`) |
 | 갤러리에서 "pubGallery.gs 파일을 찾을 수 없습니다" | `apps-script/gallery.js` 를 `pubGallery.gs` 로 붙여넣고 저장 (1-2 표 참고) |
 | "드라이브 폴더를 열 수 없습니다" | 폴더 링크가 맞는지, 그 폴더가 스크립트를 실행하는 계정의 드라이브에 있는지(또는 공유되어 있는지) 확인 |
-| 드라이브 권한이 없다는 오류 (`You do not have permission to call DriveApp...`) | `appsscript.json` 에 드라이브 권한이 빠져 있습니다. 편집기 ⚙️ **프로젝트 설정** → "appsscript.json 매니페스트 파일을 편집기에 표시" 체크 → 왼쪽 파일 목록에서 `appsscript.json` 열기 → `oauthScopes` 배열에 `"https://www.googleapis.com/auth/drive.readonly"` 를 한 줄 추가 → 저장 → 메뉴를 다시 실행하면 승인 화면이 뜹니다. **기존 항목은 지우지 마세요.** `oauthScopes` 자체가 없으면 배열째 추가하지 말고, 그냥 메뉴를 다시 실행해 승인하면 됩니다 |
+| 드라이브 권한이 없다는 오류 (`You do not have permission to call DriveApp...`) | 승인이 드라이브 코드를 넣기 전 상태로 남아 있는 것입니다. **먼저 재승인을 시도하세요**: https://myaccount.google.com/permissions 에서 이 스크립트 항목을 찾아 액세스 권한을 삭제한 뒤, 시트에서 메뉴를 다시 실행하면 드라이브를 포함한 새 승인 화면이 뜹니다. 그래도 안 되면 아래 "매니페스트로 강제 지정" 을 보세요 |
 | 갱신했는데 "사진이 없습니다" 계열 경고 | 경고 문구가 원인을 알려줍니다. 하위 폴더가 있다고 하면 **행사 폴더의 링크**를 넣어야 합니다(한 행 = 행사 폴더 하나). 그래도 모르겠으면 아래 진단을 실행하세요 |
 | 원인을 더 자세히 보고 싶을 때 | `apps-script/diagnose.gs` 를 `pubDiag.gs` 로 붙여넣고 `diagnoseGalleryFolder` 실행 → 스크립트가 그 폴더에서 무엇을 보는지 그대로 보여줍니다 |
 | 갱신이 도중에 멈추고 "한 번 더 실행" 안내 | 정상입니다. Apps Script 6분 제한 전에 멈춘 것이니 다시 누르면 이어집니다 |
 | 사진이 홈페이지에 안 보임 | `갤러리` 탭의 `게시` 체크와 `사진 수` 열 확인 → 커밋 링크가 열리는지 확인 → 1~2분 대기 |
+
+### 6-1. 매니페스트로 권한 강제 지정 (재승인으로 안 될 때만)
+
+`appsscript.json` 에 `oauthScopes` 를 적으면 Apps Script 는 **그 목록만** 사용합니다. 그래서 드라이브 한 줄만 적으면 지금 자동으로 잡히던 시트·외부 요청 권한까지 사라집니다. 반드시 **전부** 적어야 합니다.
+
+현재 승인된 권한을 먼저 확인하세요. 새 스크립트 파일에 아래를 붙여넣고 `showMyScopes` 를 실행하면 목록이 나옵니다.
+
+```js
+function showMyScopes() {
+  var res = UrlFetchApp.fetch('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' +
+    encodeURIComponent(ScriptApp.getOAuthToken()), { muteHttpExceptions: true });
+  SpreadsheetApp.getUi().alert(res.getContentText());
+}
+```
+
+거기 나온 항목을 그대로 옮기고 `"https://www.googleapis.com/auth/drive.readonly"` 를 더해 `appsscript.json` 에 넣습니다.
+
+```json
+"oauthScopes": [
+  "https://www.googleapis.com/auth/spreadsheets",
+  "https://www.googleapis.com/auth/script.external_request",
+  "https://www.googleapis.com/auth/script.container.ui",
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/drive.readonly"
+]
+```
+
+저장 후 메뉴를 다시 실행하면 승인 화면이 뜹니다. 이후 대시보드 스크립트가 동작하지 않으면 빠진 권한이 있는 것이니, `oauthScopes` 키를 통째로 지우고 재승인 방법으로 돌아가세요.
 
 ## 7. 개발자용
 - 테스트: `npm test` (Node ≥ 20, 의존성 없음)
