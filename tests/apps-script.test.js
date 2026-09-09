@@ -60,10 +60,11 @@ test('the gallery sync stops before the Apps Script time limit', () => {
   assert.match(code, /한 번 더 실행/, 'and tell the user to run it again');
 });
 
-test('the resize fallback refuses to commit a large original', () => {
-  assert.match(code, /fallbackMaxBytes/);
+test('a failed resize falls back to the original and says so, with no size limit', () => {
   assert.match(code, /driveResizedBlob_/);
-  assert.match(code, /직접 줄여서 올려 주세요/);
+  assert.match(code, /축소본을 받지 못해 원본을 올립니다/, 'the fallback must warn');
+  assert.doesNotMatch(code, /fallbackMaxBytes/, 'the size limit was removed on purpose');
+  assert.doesNotMatch(code, /직접 줄여서 올려 주세요/, 'photos are never skipped for being large');
 });
 
 test('the Drive helper degrades instead of throwing when the thumbnail is unavailable', () => {

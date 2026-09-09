@@ -321,9 +321,8 @@ var GALLERY = {
   path: 'data/gallery.json',
   dir: 'assets/images/gallery',
   siteUrl: 'https://sota.pusan.ac.kr/gallery.html',
-  maxPx: 1600,          // 드라이브에서 받아올 축소본의 긴 변
-  fallbackMaxBytes: 2 * 1024 * 1024,   // 축소 실패 시 원본을 올릴 수 있는 최대 크기
-  budgetMs: 4.5 * 60 * 1000            // Apps Script 6분 제한 전에 안전하게 멈출 시간
+  maxPx: 1600,                // 드라이브에서 받아올 축소본의 긴 변
+  budgetMs: 4.5 * 60 * 1000   // Apps Script 6분 제한 전에 안전하게 멈출 시간
 };
 
 function requireGalLib_(ui) {
@@ -530,13 +529,9 @@ function buildGallery_(token) {
         album.photos.push(dir + '/' + jpgName);
         return;
       }
-      if (img.size && img.size > GALLERY.fallbackMaxBytes) {
-        warnings.push(album.title.slice(0, 15) + ' / ' + img.name +
-          ': 축소본을 받지 못했고 원본이 커서(' + Math.round(img.size / 1024 / 1024 * 10) / 10 +
-          'MB) 건너뜁니다. 직접 줄여서 올려 주세요');
-        return;
-      }
-      warnings.push(album.title.slice(0, 15) + ' / ' + img.name + ': 축소본을 받지 못해 원본을 올립니다');
+      // 축소본을 못 받으면 원본을 그대로 올린다. 크기 제한은 두지 않되 경고로 알린다.
+      warnings.push(album.title.slice(0, 15) + ' / ' + img.name + ': 축소본을 받지 못해 원본을 올립니다' +
+        (img.size ? ' (' + Math.round(img.size / 1024 / 1024 * 10) / 10 + 'MB)' : ''));
       files.push({ path: dir + '/' + rawName, blob: img.file.getBlob() });
       album.photos.push(dir + '/' + rawName);
     });
