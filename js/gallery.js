@@ -1,5 +1,5 @@
 /*
- * js/gallery.js — data/gallery.json → 갤러리 렌더링 + 필터 + 사진 뷰어
+ * js/gallery.js — data/gallery.json → 갤러리 렌더링 + 앨범 상세 창
  *
  * Publications 와 같은 구조다: 연도별 .pnu-year-block 안에 앨범 한 줄씩(.pnu-gallery-item).
  * 사진 추가 방법은 assets/images/gallery/README.md 참고.
@@ -10,7 +10,6 @@
   'use strict';
 
   var CATEGORIES = ['conference', 'lab', 'award', 'seminar'];
-  var CATEGORY_LABEL = { conference: 'Conference', lab: 'Lab', award: 'Award', seminar: 'Seminar' };
   var STRIP_THUMBS = 6;               // 카드 필름스트립에 보여줄 썸네일 수 (표지 제외)
   var ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 
@@ -135,14 +134,11 @@
         ' 사진 목록">' + thumbs.join('') + '</div>';
     }
 
-    return '<article class="pnu-gallery-item" id="album-' + esc(a.id) + '" data-album="' + esc(a.id) +
-      '" data-tags="' + a.category + '" data-photos="' + total + '">' +
+    return '<article class="pnu-gallery-item" id="album-' + esc(a.id) + '" data-album="' + esc(a.id) + '">' +
       '<div class="pnu-gallery-card">' + cover +
         '<div class="pnu-gallery-body">' +
-          '<div class="pnu-gallery-meta">' +
-            '<span class="pnu-badge pnu-gallery-cat" data-cat="' + a.category + '">' + CATEGORY_LABEL[a.category] + '</span>' +
-            (dateLabel(a) ? '<span class="pnu-gallery-date">' + esc(dateLabel(a)) + '</span>' : '') +
-          '</div>' +
+          (dateLabel(a) ? '<div class="pnu-gallery-meta">' +
+            '<span class="pnu-gallery-date">' + esc(dateLabel(a)) + '</span></div>' : '') +
           '<h3 class="pnu-gallery-title">' + esc(a.title) + '</h3>' +
           (a.place ? '<p class="pnu-gallery-place">' + esc(a.place) + '</p>' : '') +
           (a.description ? '<p class="pnu-gallery-desc">' + esc(a.description) + '</p>' : '') +
@@ -175,15 +171,7 @@
     '<a href="mailto:sota@sota.dooray.com">sota@sota.dooray.com</a> 으로 보내 주세요.</p>' +
     '</div>';
 
-  function filterEmptyHtml(label) {
-    return '<div class="pnu-gallery-empty">' +
-      '<p class="pnu-gallery-empty-title">No albums in ' + esc(label) + '</p>' +
-      '<p class="pnu-gallery-empty-text">이 분류에는 아직 등록된 앨범이 없습니다. 다른 분류를 고르거나 ' +
-      '<button class="pnu-gallery-empty-reset" type="button" data-filter="all">All</button> 로 돌아가 보세요.</p>' +
-      '</div>';
-  }
-
-  // ---- 필터: DOM 을 인자(ctx)로만 만지므로 브라우저 밖에서도 테스트할 수 있다 ----
+  // ---- 연도 점프: DOM 을 인자로만 만지므로 브라우저 밖에서도 테스트할 수 있다 ----
 
   function renderJump(list, jump) {
     if (!jump) return;
@@ -198,57 +186,8 @@
     jump.hidden = false;
   }
 
-  function applyFilter(key, ctx) {
-    var chips = Array.prototype.slice.call(ctx.filters.querySelectorAll('[data-filter]'));
-    chips.forEach(function (c) { c.classList.toggle('is-active', c.dataset.filter === key); });
-
-    Array.prototype.slice.call(ctx.list.querySelectorAll('.pnu-gallery-item')).forEach(function (item) {
-      var show = key === 'all' || item.getAttribute('data-tags') === key;
-      item.style.display = show ? '' : 'none';
-    });
-
-    var visible = 0;
-    Array.prototype.slice.call(ctx.list.querySelectorAll('.pnu-year-block')).forEach(function (block) {
-      var shown = Array.prototype.slice.call(block.querySelectorAll('.pnu-gallery-item'))
-        .filter(function (i) { return i.style.display !== 'none'; });
-      block.style.display = shown.length ? '' : 'none';
-      visible += shown.length;
-      var line = block.querySelector('[data-year-count]');
-      if (line) {
-        var photos = shown.reduce(function (s, i) { return s + (Number(i.getAttribute('data-photos')) || 0); }, 0);
-        line.textContent = shown.length + (shown.length === 1 ? ' album · ' : ' albums · ') +
-          photos + (photos === 1 ? ' photo' : ' photos');
-      }
-    });
-
-    var old = ctx.list.querySelector('.pnu-gallery-empty');
-    if (old && old.parentNode) old.parentNode.removeChild(old);
-    if (!visible) {
-      var chip = chips.filter(function (c) { return c.dataset.filter === key; })[0];
-      ctx.list.insertAdjacentHTML('beforeend', filterEmptyHtml(chip ? chip.textContent.trim() : key));
-    }
-    if (ctx.status) ctx.status.textContent = visible + (visible === 1 ? ' album' : ' albums');
-    renderJump(ctx.list, ctx.jump);
-    return visible;
-  }
-
-  function initFilters(ctx) {
-    if (!ctx.filters || ctx.filters.__pnuBound) return;
-    ctx.filters.__pnuBound = true;
-    ctx.filters.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-filter]');
-      if (btn) applyFilter(btn.dataset.filter, ctx);
-    });
-    ctx.list.addEventListener('click', function (e) {
-      if (e.target.closest('.pnu-gallery-empty-reset')) applyFilter('all', ctx);
-    });
-  }
-
   var api = {
     CATEGORIES: CATEGORIES,
-    CATEGORY_LABEL: CATEGORY_LABEL,
-    applyFilter: applyFilter,
-    initFilters: initFilters,
     renderJump: renderJump,
     esc: esc,
     safeSrc: safeSrc,
@@ -261,8 +200,7 @@
     countLine: countLine,
     cardHtml: cardHtml,
     buildGalleryHtml: buildGalleryHtml,
-    EMPTY_HTML: EMPTY_HTML,
-    filterEmptyHtml: filterEmptyHtml
+    EMPTY_HTML: EMPTY_HTML
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
@@ -272,15 +210,15 @@
   // ------------------------------------------------------------------ 브라우저
 
   var PHOTOS = {};      // albumId → [src]
-  var TITLES = {};      // albumId → { title, place, date }
+  var META = {};        // albumId → { title, place, date, description }
 
   function stash(doc) {
-    PHOTOS = {}; TITLES = {};
+    PHOTOS = {}; META = {};
     ((doc && doc.albums) || []).forEach(function (raw) {
       var a = normalize(raw);
       if (!a.id) return;
       PHOTOS[a.id] = a.photos;
-      TITLES[a.id] = { title: a.title, place: a.place, date: dateLabel(a) };
+      META[a.id] = { title: a.title, place: a.place, date: dateLabel(a), description: a.description };
     });
   }
 
@@ -296,7 +234,9 @@
     var close = document.getElementById('galleryLbClose');
     var titleEl = document.getElementById('galleryLbTitle');
     var subEl = document.getElementById('galleryLbSub');
+    var descEl = document.getElementById('galleryLbDesc');
     var countEl = document.getElementById('galleryLbCount');
+    var panel = el.querySelector('.pnu-gallery-lb-panel');
     var list = [], at = 0, lastFocus = null, hideTimer = null;
 
     function show(i) {
@@ -318,9 +258,11 @@
     function open(id, index) {
       list = PHOTOS[id] || [];
       if (!list.length) return;
-      var meta = TITLES[id] || {};
+      var meta = META[id] || {};
       titleEl.textContent = meta.title || '';
       subEl.textContent = [meta.date, meta.place].filter(Boolean).join(' · ');
+      descEl.textContent = meta.description || '';
+      descEl.hidden = !meta.description;
       railEl.innerHTML = list.length > 1 ? list.map(function (src, i) {
         return '<button type="button" data-rail="' + i + '" aria-label="사진 ' + (i + 1) + ' / ' + list.length + '">' +
           '<img src="' + src + '" alt="" loading="lazy" decoding="async"></button>';
@@ -348,7 +290,8 @@
     next.addEventListener('click', function () { show(at + 1); });
     close.addEventListener('click', hide);
     el.addEventListener('click', function (e) {
-      if (e.target === el || e.target.classList.contains('pnu-gallery-lb-stage')) hide();
+      // 창 바깥(백드롭)을 누르면 닫는다
+      if (!panel || !panel.contains(e.target)) { hide(); return; }
       var r = e.target.closest('[data-rail]');
       if (r) show(Number(r.getAttribute('data-rail')));
     });
@@ -377,12 +320,7 @@
   function run() {
     var list = document.getElementById('galleryList');
     if (!list) return;
-    var ctx = {
-      list: list,
-      filters: document.getElementById('galleryFilters'),
-      jump: document.getElementById('galleryJump'),
-      status: document.getElementById('galleryStatus')
-    };
+    var jump = document.getElementById('galleryJump');
 
     fetch('data/gallery.json', { cache: 'no-cache' })
       .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
@@ -391,21 +329,18 @@
         var html = buildGalleryHtml(doc);
         list.innerHTML = html || EMPTY_HTML;
         list.setAttribute('aria-busy', 'false');
-        if (!html) { if (ctx.jump) ctx.jump.hidden = true; return; }
-
-        initFilters(ctx);
-        applyFilter('all', ctx);
+        if (!html) { if (jump) jump.hidden = true; return; }
+        renderJump(list, jump);
 
         var lb = Lightbox();
-        if (lb) {
-          list.addEventListener('click', function (e) {
-            var target = e.target.closest('[data-index]');
-            if (!target) return;
-            var item = target.closest('[data-album]');
-            if (!item) return;
-            lb.open(item.getAttribute('data-album'), Number(target.getAttribute('data-index')) || 0);
-          });
-        }
+        if (!lb) return;
+        // 카드 어디를 눌러도 상세 창이 열린다. 썸네일을 누르면 그 사진부터.
+        list.addEventListener('click', function (e) {
+          var item = e.target.closest('[data-album]');
+          if (!item) return;
+          var picked = e.target.closest('[data-index]');
+          lb.open(item.getAttribute('data-album'), picked ? Number(picked.getAttribute('data-index')) || 0 : 0);
+        });
       })
       .catch(function (err) {
         console.error('[gallery] load failed:', err);

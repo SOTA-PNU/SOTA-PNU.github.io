@@ -34,21 +34,7 @@
             <section class="max-w-[1400px] mx-auto px-6 lg:px-10 py-12 lg:py-16 pnu-gallery">
                 <!-- Header -->
                 <div class="flex flex-col gap-4 lg:gap-6 mb-10">
-                    <div class="flex flex-wrap items-end justify-between gap-4">
-                        <div>
-                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Gallery</h1>
-                            <p class="mt-2 text-sm text-slate-500">학회 출장, 랩 워크숍, 수상, 세미나 — 연도순 기록입니다.</p>
-                        </div>
-
-                        <!-- Quick filters -->
-                        <div class="flex flex-wrap gap-2" id="galleryFilters">
-                            <button class="pnu-chip is-active" type="button" data-filter="all">All</button>
-                            <button class="pnu-chip" type="button" data-filter="conference">Conference</button>
-                            <button class="pnu-chip" type="button" data-filter="lab">Lab</button>
-                            <button class="pnu-chip" type="button" data-filter="award">Award</button>
-                            <button class="pnu-chip" type="button" data-filter="seminar">Seminar</button>
-                        </div>
-                    </div>
+                    <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Gallery</h1>
 
                     <!-- 연도가 2개 이상일 때만 js/gallery.js 가 채우고 hidden 을 푼다 -->
                     <nav class="pnu-gallery-jump" id="galleryJump" aria-label="Jump to year" hidden>
@@ -62,36 +48,37 @@
                 <div class="space-y-12" id="galleryList" aria-busy="true">
                     <p class="text-slate-500">갤러리를 불러오는 중…</p>
                 </div>
-                <p class="sr-only" id="galleryStatus" role="status" aria-live="polite"></p>
                 <noscript><p class="text-slate-600">갤러리를 보려면 JavaScript 를 켜 주세요.</p></noscript>
             </section>
         </main>
     </div>
     <div id="siteFooter"></div>
 
-    <!-- Photo viewer (js/gallery.js 가 내용을 채운다) -->
-    <div class="pnu-gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true"
-        aria-labelledby="galleryLbTitle" hidden>
-        <div class="pnu-gallery-lb-bar">
-            <div class="pnu-gallery-lb-head">
-                <div class="pnu-gallery-lb-title" id="galleryLbTitle"></div>
-                <div class="pnu-gallery-lb-sub" id="galleryLbSub"></div>
-            </div>
-            <div class="pnu-gallery-lb-tools">
-                <span class="pnu-gallery-lb-count" id="galleryLbCount" role="status" aria-live="polite"></span>
+    <!-- 앨범 상세 창 (js/gallery.js 가 내용을 채운다) -->
+    <div class="pnu-gallery-lightbox" id="galleryLightbox" hidden>
+        <div class="pnu-gallery-lb-panel" role="dialog" aria-modal="true" aria-labelledby="galleryLbTitle">
+            <div class="pnu-gallery-lb-bar">
+                <div class="pnu-gallery-lb-head">
+                    <div class="pnu-gallery-lb-title" id="galleryLbTitle"></div>
+                    <div class="pnu-gallery-lb-sub" id="galleryLbSub"></div>
+                </div>
                 <button class="pnu-gallery-lb-close" id="galleryLbClose" type="button" aria-label="닫기 (Esc)">✕</button>
             </div>
-        </div>
 
-        <div class="pnu-gallery-lb-stage">
-            <button class="pnu-gallery-lb-nav pnu-gallery-lb-prev" id="galleryLbPrev" type="button"
-                aria-label="이전 사진">‹</button>
-            <img id="galleryLbImg" src="" alt="" decoding="async">
-            <button class="pnu-gallery-lb-nav pnu-gallery-lb-next" id="galleryLbNext" type="button"
-                aria-label="다음 사진">›</button>
-        </div>
+            <div class="pnu-gallery-lb-stage">
+                <button class="pnu-gallery-lb-nav pnu-gallery-lb-prev" id="galleryLbPrev" type="button"
+                    aria-label="이전 사진">‹</button>
+                <img id="galleryLbImg" src="" alt="" decoding="async">
+                <button class="pnu-gallery-lb-nav pnu-gallery-lb-next" id="galleryLbNext" type="button"
+                    aria-label="다음 사진">›</button>
+                <span class="pnu-gallery-lb-count" id="galleryLbCount" role="status" aria-live="polite"></span>
+            </div>
 
-        <div class="pnu-gallery-lb-rail" id="galleryLbRail" role="group" aria-label="사진 목록"></div>
+            <div class="pnu-gallery-lb-info">
+                <p class="pnu-gallery-lb-desc" id="galleryLbDesc"></p>
+                <div class="pnu-gallery-lb-rail" id="galleryLbRail" role="group" aria-label="사진 목록"></div>
+            </div>
+        </div>
     </div>
 
     <script src="js/main.js"></script>
