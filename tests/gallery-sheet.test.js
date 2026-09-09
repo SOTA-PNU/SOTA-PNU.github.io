@@ -135,3 +135,24 @@ test('serialize round-trips and ends with a newline', () => {
   assert.ok(text.endsWith('}\n'));
   assert.deepEqual(JSON.parse(text), doc);
 });
+
+test('photos may carry a caption; cover stays a plain path', () => {
+  const doc = G.buildDocument([{
+    id: 'a', title: 'A', date: '2026-01-01', year: 2026, place: '', description: '',
+    photos: [{ src: 'p/1.jpg', caption: '개회식' }, { src: 'p/2.jpg', caption: '' }],
+  }], {});
+  assert.equal(doc.albums[0].cover, 'p/1.jpg');
+  assert.deepEqual(doc.albums[0].photos, [{ src: 'p/1.jpg', caption: '개회식' }, { src: 'p/2.jpg', caption: '' }]);
+  assert.equal(G.srcOf({ src: 'p/1.jpg', caption: 'x' }), 'p/1.jpg');
+  assert.equal(G.srcOf('p/1.jpg'), 'p/1.jpg');
+});
+
+test('a captioned album renders and the caption reaches the viewer data', () => {
+  const R = require('../js/gallery.js');
+  const doc = G.buildDocument([{
+    id: 'a', title: 'A', date: '2026-01-01', year: 2026, place: '', description: '',
+    photos: [{ src: 'p/1.jpg', caption: '개회식' }, { src: 'p/2.jpg', caption: '단체 사진' }],
+  }], {});
+  assert.match(R.buildGalleryHtml(doc), /<img src="p\/1\.jpg"/);
+  assert.deepEqual(R.photosOf(doc.albums[0]).map((p) => p.caption), ['개회식', '단체 사진']);
+});

@@ -49,6 +49,17 @@ assets/images/gallery/
 
 `category` 는 `conference`, `lab`, `award`, `seminar` 중 하나입니다. `count` 도 항목 수에 맞게 고쳐주세요.
 
+사진마다 설명을 붙이려면 `photos` 항목을 객체로 적습니다. 문자열과 섞어 써도 됩니다.
+
+```json
+"photos": [
+  { "src": "assets/images/gallery/2026-05-iset/01.jpg", "caption": "개회식 발표" },
+  "assets/images/gallery/2026-05-iset/02.jpg"
+]
+```
+
+설명은 상세 창에서 그 사진을 볼 때 사진 아래에 나옵니다.
+
 - `cover` 는 카드에 크게 보이는 대표 사진이고 16:10 으로 잘립니다. 세로로 찍은 사진은 위아래가 잘리니 가로 사진을 고르세요.
 - `photos` 는 앨범 전체입니다. `cover` 를 첫 장으로 자동으로 넣으므로 목록에 중복으로 적어도 괜찮습니다.
 - 카드에는 썸네일이 6장까지 보이고 나머지는 `+N` 으로 묶입니다. 사진을 클릭하면 전체 보기 창이 열립니다.

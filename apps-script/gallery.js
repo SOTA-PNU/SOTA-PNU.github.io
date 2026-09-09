@@ -118,6 +118,11 @@ var GalLib = (function (lib) {
     return { albums: albums, warnings: warnings };
   }
 
+  // photos 항목은 "경로" 또는 {src, caption} 둘 다 될 수 있다
+  function srcOf(photo) {
+    return photo && typeof photo === 'object' ? lib.str(photo.src) : lib.str(photo);
+  }
+
   // 앨범 → data/gallery.json 이 기대하는 레코드 (사진이 채워진 뒤 호출한다)
   function toRecord(album) {
     return {
@@ -128,7 +133,7 @@ var GalLib = (function (lib) {
       category: album.category || 'lab',
       place: album.place,
       description: album.description,
-      cover: album.photos.length ? album.photos[0] : '',
+      cover: album.photos.length ? srcOf(album.photos[0]) : '',
       photos: album.photos.slice()
     };
   }
@@ -167,6 +172,7 @@ var GalLib = (function (lib) {
     REQUIRED_HEADERS: REQUIRED_HEADERS,
     AUTO_HEADERS: AUTO_HEADERS,
     folderIdFrom: folderIdFrom,
+    srcOf: srcOf,
     makeAlbumId: makeAlbumId,
     safeFileName: safeFileName,
     convertRows: convertRows,

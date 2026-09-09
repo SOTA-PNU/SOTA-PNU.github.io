@@ -396,7 +396,14 @@ function listDriveImages_(folderId) {
   while (it.hasNext()) {
     var f = it.next();
     if (String(f.getMimeType()).indexOf('image/') !== 0) continue;
-    out.push({ id: f.getId(), name: f.getName(), size: f.getSize(), file: f });
+    out.push({
+      id: f.getId(),
+      name: f.getName(),
+      size: f.getSize(),
+      // 드라이브 "파일 정보 → 설명" 칸. 상세 창에서 그 사진 아래에 나온다.
+      caption: String(f.getDescription() || '').replace(/\s+/g, ' ').trim(),
+      file: f
+    });
   }
   out.sort(function (a, b) { return a.name < b.name ? -1 : (a.name > b.name ? 1 : 0); });
   return out;
@@ -518,22 +525,23 @@ function buildGallery_(token) {
     images.forEach(function (img, i) {
       var jpgName = GalLib.safeFileName(img.name, i, 'jpg');
       var rawName = GalLib.safeFileName(img.name, i);
-      if (existing[jpgName]) { album.photos.push(dir + '/' + jpgName); return; }
-      if (existing[rawName]) { album.photos.push(dir + '/' + rawName); return; }
-      if (!token) { album.photos.push(dir + '/' + jpgName); return; }   // 미리보기
+      var add = function (name) { album.photos.push({ src: dir + '/' + name, caption: img.caption }); };
+      if (existing[jpgName]) { add(jpgName); return; }
+      if (existing[rawName]) { add(rawName); return; }
+      if (!token) { add(jpgName); return; }   // 미리보기
       if (stopped || new Date().getTime() > deadline) { stopped = true; return; }
 
       var blob = driveResizedBlob_(img.id, GALLERY.maxPx);
       if (blob) {
         files.push({ path: dir + '/' + jpgName, blob: blob });
-        album.photos.push(dir + '/' + jpgName);
+        add(jpgName);
         return;
       }
       // 축소본을 못 받으면 원본을 그대로 올린다. 크기 제한은 두지 않되 경고로 알린다.
       warnings.push(album.title.slice(0, 15) + ' / ' + img.name + ': 축소본을 받지 못해 원본을 올립니다' +
         (img.size ? ' (' + Math.round(img.size / 1024 / 1024 * 10) / 10 + 'MB)' : ''));
       files.push({ path: dir + '/' + rawName, blob: img.file.getBlob() });
-      album.photos.push(dir + '/' + rawName);
+      add(rawName);
     });
   });
 

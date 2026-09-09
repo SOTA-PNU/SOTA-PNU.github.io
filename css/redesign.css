@@ -1686,6 +1686,21 @@ html.pnu-lightbox-open, body.pnu-lightbox-open{ overflow:hidden; }
   border-top:1px solid var(--sota-line);
   background:#fff;
 }
+/* 지금 보고 있는 사진에 붙은 설명 (드라이브 파일 설명 칸) */
+.pnu-gallery-lb-caption{
+  font-size:.94rem;
+  line-height:1.65;
+  font-weight:700;
+  color:var(--sota-ink-2);
+}
+.pnu-gallery-lb-caption[hidden]{ display:none; }
+.pnu-gallery-lb-caption:not([hidden]) + .pnu-gallery-lb-desc:not([hidden]){
+  margin-top:9px;
+  padding-top:9px;
+  border-top:1px dashed var(--sota-line);
+}
+
+/* 행사 전체 설명 */
 .pnu-gallery-lb-desc{
   font-size:.9rem;
   line-height:1.7;
