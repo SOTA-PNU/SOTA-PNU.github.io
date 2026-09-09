@@ -403,27 +403,65 @@ function readGalleryRows_() {
 
 // ---------------------------------------------------------------- 드라이브
 
-function listDriveImages_(folderId) {
-  var folder;
-  try { folder = DriveApp.getFolderById(folderId); }
-  catch (e) { throw new Error('드라이브 폴더를 열 수 없습니다 (' + folderId + '). 링크와 공유 권한을 확인하세요.'); }
+function openDriveFolder_(folderId) {
+  try { return DriveApp.getFolderById(folderId); }
+  catch (e) {
+    throw new Error('드라이브 폴더를 열 수 없습니다 (' + folderId + ').\n' +
+      '링크가 맞는지, 그리고 이 폴더가 지금 실행 중인 계정의 드라이브에 있거나 그 계정에 공유되어 있는지 확인하세요.');
+  }
+}
+
+// 폴더 바로 안의 파일만 본다 (하위 폴더는 들어가지 않는다).
+// 사진이 하나도 없을 때 왜 없는지 말해 줄 수 있도록 이미지가 아닌 파일과 하위 폴더도 함께 돌려준다.
+function listDriveFolder_(folderId) {
+  var folder = openDriveFolder_(folderId);
+  var images = [], others = [], subfolders = [];
+
   var it = folder.getFiles();
-  var out = [];
   while (it.hasNext()) {
     var f = it.next();
-    if (String(f.getMimeType()).indexOf('image/') !== 0) continue;
-    out.push({
-      id: f.getId(),
-      name: f.getName(),
-      size: f.getSize(),
-      // 드라이브 "파일 정보 → 설명" 칸. 상세 창에서 그 사진 아래에 나온다.
-      caption: String(f.getDescription() || '').replace(/\s+/g, ' ').trim(),
-      file: f
-    });
+    var mime = String(f.getMimeType());
+    if (mime.indexOf('image/') === 0) {
+      images.push({
+        id: f.getId(),
+        name: f.getName(),
+        size: f.getSize(),
+        // 드라이브 "파일 정보 → 설명" 칸. 상세 창에서 그 사진 아래에 나온다.
+        caption: String(f.getDescription() || '').replace(/\s+/g, ' ').trim(),
+        file: f
+      });
+    } else {
+      others.push({ name: f.getName(), mime: mime });
+    }
   }
-  out.sort(function (a, b) { return a.name < b.name ? -1 : (a.name > b.name ? 1 : 0); });
-  return out;
+  images.sort(function (a, b) { return a.name < b.name ? -1 : (a.name > b.name ? 1 : 0); });
+
+  var fit = folder.getFolders();
+  while (fit.hasNext()) subfolders.push(fit.next().getName());
+
+  return { name: folder.getName(), images: images, others: others, subfolders: subfolders };
 }
+
+function listDriveImages_(folderId) {
+  return listDriveFolder_(folderId).images;
+}
+
+// 사진이 없을 때, 그 폴더에 실제로 무엇이 있는지로 원인을 좁혀 준다
+function explainEmptyFolder_(info) {
+  if (info.subfolders.length) {
+    return '"' + info.name + '" 폴더에는 사진이 직접 들어 있지 않고 하위 폴더 ' + info.subfolders.length +
+      '개가 있습니다 (' + info.subfolders.slice(0, 5).join(', ') +
+      (info.subfolders.length > 5 ? ' 외' : '') + '). ' +
+      '시트에는 사진이 들어 있는 하위 폴더의 링크를 넣어 주세요 — 한 행이 행사 폴더 하나입니다.';
+  }
+  if (info.others.length) {
+    return '"' + info.name + '" 폴더에 파일 ' + info.others.length + '개가 있지만 이미지가 아닙니다 (' +
+      info.others.slice(0, 3).map(function (o) { return o.name + ' · ' + o.mime; }).join(', ') + '). ' +
+      '드라이브 바로가기(shortcut)를 넣으면 이렇게 보입니다. 사진 파일 자체를 폴더에 넣어 주세요.';
+  }
+  return '"' + info.name + '" 폴더가 비어 있습니다. 사진을 넣었는지, 링크가 그 폴더가 맞는지 확인하세요.';
+}
+
 
 // 드라이브가 만들어 둔 축소본(JPEG, 위치정보 없음)을 받는다.
 // 공식 문서로 보장된 주소 형식이 아니므로 실패하면 null 을 돌려주고 호출한 쪽이 원본으로 처리한다.
@@ -536,10 +574,11 @@ function buildGallery_(token) {
   built.albums.forEach(function (album) {
     var dir = GALLERY.dir + '/' + album.id;
     var existing = token ? githubListDir_(token, dir) : {};
-    var images = listDriveImages_(album.folderId);
+    var info = listDriveFolder_(album.folderId);
+    var images = info.images;
     totalFound += images.length;
     if (!images.length) {
-      warnings.push(album.rowNo + '행 "' + album.title.slice(0, 20) + '": 드라이브 폴더에 사진이 없습니다');
+      warnings.push(album.rowNo + '행 "' + album.title.slice(0, 20) + '": ' + explainEmptyFolder_(info));
     }
 
     images.forEach(function (img, i) {

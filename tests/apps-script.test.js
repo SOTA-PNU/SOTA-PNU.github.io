@@ -7,6 +7,7 @@ const path = require('node:path');
 
 const root = path.join(__dirname, '..');
 const code = fs.readFileSync(path.join(root, 'apps-script', 'Code.gs'), 'utf8');
+const diag = fs.readFileSync(path.join(root, 'apps-script', 'diagnose.gs'), 'utf8');
 const PubLib = require('../apps-script/lib.js');
 const GalLib = require('../apps-script/gallery.js');
 
@@ -97,4 +98,29 @@ test('both syncs take a script lock, so two people pressing at once queue up', (
 test('a ref that moved under us is explained, not dumped as a raw 422', () => {
   assert.match(code, /저장소가 방금 다른 곳에서 바뀌었습니다/);
   assert.match(code, /updRes\.status === 422/);
+});
+
+test('an empty folder is explained by what is actually in it', () => {
+  assert.match(code, /function listDriveFolder_/);
+  assert.match(code, /function explainEmptyFolder_/);
+  assert.match(code, /하위 폴더의 링크를 넣어 주세요/, 'a folder of subfolders must say so');
+  assert.match(code, /이미지가 아닙니다/, 'non-image files must be named');
+  assert.match(code, /폴더가 비어 있습니다/, 'an empty folder must say so');
+  assert.doesNotMatch(code, /드라이브 폴더에 사진이 없습니다/, 'the old unhelpful message is gone');
+});
+
+test('the diagnostic only calls helpers that exist in Code.gs', () => {
+  const defined = new Set([...code.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]));
+  const own = new Set([...diag.matchAll(/^function\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]));
+  const called = new Set([...diag.matchAll(/(?<![.\w])([A-Za-z][A-Za-z0-9_]*_)\s*\(/g)].map((m) => m[1]));
+  for (const fn of called) {
+    assert.ok(defined.has(fn) || own.has(fn), `diagnose.gs calls ${fn}(), defined in neither file`);
+  }
+});
+
+test('the diagnostic reports the running account and both libraries', () => {
+  assert.match(diag, /getUserEmail_\(\)/);
+  assert.match(diag, /typeof PubLib === 'undefined'/);
+  assert.match(diag, /typeof GalLib === 'undefined'/);
+  assert.match(diag, /function diagnoseGalleryFolder/);
 });
