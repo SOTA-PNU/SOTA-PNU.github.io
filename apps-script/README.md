@@ -127,6 +127,16 @@
 
 ### 3-1. 준비 (한 번만)
 
+> ⚠️ **드라이브 권한을 먼저 확인하세요.** 기존 대시보드 스크립트가 `appsscript.json` 에 권한 목록을 적어 두었다면, Apps Script 는 그 목록만 사용합니다. 드라이브 코드를 넣어도 권한이 자동으로 붙지 않아 갱신할 때 아래 오류가 납니다.
+>
+> ```
+> You do not have permission to call DriveApp.getFolderById.
+> Required permissions: (https://www.googleapis.com/auth/drive.readonly || .../auth/drive)
+> ```
+>
+> 고치는 방법은 6장 문제 해결의 "드라이브 권한이 없다는 오류" 항목을 보세요. 한 줄 추가하고 다시 승인하면 됩니다.
+
+
 1. 메뉴 **🌐 홈페이지 ▸ 갤러리 탭 만들기** → `갤러리` 탭과 열이 생깁니다.
 2. 구글 드라이브에 폴더를 하나 만들고(예: `홈페이지 갤러리`), 그 안에 **행사별 폴더**를 만듭니다.
 3. 처음 갱신할 때 구글이 드라이브 접근 권한을 물어봅니다. 허용해 주세요. 스크립트가 사진을 읽으려면 필요합니다.
@@ -209,6 +219,7 @@ git push
 | 수동 갱신에서 "시트 ID 를 찾을 수 없습니다" | 5장 참고 (`tools/sheet-id.local` 또는 `SOTA_SHEET_ID`) |
 | 갤러리에서 "pubGallery.gs 파일을 찾을 수 없습니다" | `apps-script/gallery.js` 를 `pubGallery.gs` 로 붙여넣고 저장 (1-2 표 참고) |
 | "드라이브 폴더를 열 수 없습니다" | 폴더 링크가 맞는지, 그 폴더가 스크립트를 실행하는 계정의 드라이브에 있는지(또는 공유되어 있는지) 확인 |
+| 드라이브 권한이 없다는 오류 (`You do not have permission to call DriveApp...`) | `appsscript.json` 에 드라이브 권한이 빠져 있습니다. 편집기 ⚙️ **프로젝트 설정** → "appsscript.json 매니페스트 파일을 편집기에 표시" 체크 → 왼쪽 파일 목록에서 `appsscript.json` 열기 → `oauthScopes` 배열에 `"https://www.googleapis.com/auth/drive.readonly"` 를 한 줄 추가 → 저장 → 메뉴를 다시 실행하면 승인 화면이 뜹니다. **기존 항목은 지우지 마세요.** `oauthScopes` 자체가 없으면 배열째 추가하지 말고, 그냥 메뉴를 다시 실행해 승인하면 됩니다 |
 | 갱신했는데 "사진이 없습니다" 계열 경고 | 경고 문구가 원인을 알려줍니다. 하위 폴더가 있다고 하면 **행사 폴더의 링크**를 넣어야 합니다(한 행 = 행사 폴더 하나). 그래도 모르겠으면 아래 진단을 실행하세요 |
 | 원인을 더 자세히 보고 싶을 때 | `apps-script/diagnose.gs` 를 `pubDiag.gs` 로 붙여넣고 `diagnoseGalleryFolder` 실행 → 스크립트가 그 폴더에서 무엇을 보는지 그대로 보여줍니다 |
 | 갱신이 도중에 멈추고 "한 번 더 실행" 안내 | 정상입니다. Apps Script 6분 제한 전에 멈춘 것이니 다시 누르면 이어집니다 |

@@ -41,6 +41,21 @@ function diagFolderId_(value) {
   return m ? m[1] : '';
 }
 
+// 지금 이 스크립트에 실제로 승인된 권한 목록을 가져온다.
+// appsscript.json 에 oauthScopes 가 적혀 있으면 Apps Script 는 그 목록만 쓰기 때문에,
+// DriveApp 코드를 넣어도 드라이브 권한이 자동으로 붙지 않는다.
+function diagScopes_() {
+  try {
+    var res = UrlFetchApp.fetch(
+      'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + encodeURIComponent(ScriptApp.getOAuthToken()),
+      { method: 'get', muteHttpExceptions: true });
+    if (res.getResponseCode() !== 200) return null;
+    return String(JSON.parse(res.getContentText()).scope || '').split(/\s+/).filter(Boolean);
+  } catch (e) {
+    return null;
+  }
+}
+
 function diagUserEmail_() {
   try { return Session.getActiveUser().getEmail() || ''; } catch (e) { return ''; }
 }
@@ -130,6 +145,25 @@ function diagnoseGalleryFolder() {
   if (!targets.length) { ui.alert('갤러리 탭에 검사할 행이 없습니다.'); return; }
 
   var out = ['실행 계정: ' + (diagUserEmail_() || '(확인 불가)')];
+
+  // 승인된 권한부터 보여 준다 — 드라이브가 없으면 그것이 원인이다
+  var scopes = diagScopes_();
+  if (scopes) {
+    var hasDrive = scopes.some(function (x) { return x.indexOf('/auth/drive') !== -1; });
+    out.push('승인된 권한 ' + scopes.length + '개: ' + scopes.map(function (x) {
+      return x.replace('https://www.googleapis.com/auth/', '');
+    }).join(', '));
+    out.push('드라이브 권한: ' + (hasDrive ? '있음' : '없음 ← 이것이 원인입니다'));
+    if (!hasDrive) {
+      out.push('  고치는 법: Apps Script 편집기 ⚙️ 프로젝트 설정 →');
+      out.push('    "appsscript.json 매니페스트 파일을 편집기에 표시" 체크 →');
+      out.push('    왼쪽 파일 목록의 appsscript.json 열기 →');
+      out.push('    oauthScopes 배열에 아래 한 줄 추가 → 저장 → 메뉴 다시 실행 후 승인');
+      out.push('    "https://www.googleapis.com/auth/drive.readonly"');
+    }
+  } else {
+    out.push('승인된 권한: 확인하지 못했습니다');
+  }
 
   // 드라이브 자체에 접근이 되는지부터 본다.
   // 여기가 막히면 폴더 문제가 아니라 스크립트의 드라이브 권한(스코프) 문제다.

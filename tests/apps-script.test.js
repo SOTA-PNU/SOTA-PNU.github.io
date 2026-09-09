@@ -153,3 +153,19 @@ test('the folder diagnostic checks Drive access before blaming the folder', () =
   assert.match(diag, /driveOk/, 'a folder-only failure is reported differently');
   assert.match(diag, /다른 구글 계정으로 만든 폴더인지/, 'the wrong-account case is named first');
 });
+
+test('the diagnostic reports which OAuth scopes are actually granted', () => {
+  assert.match(diag, /tokeninfo\?access_token=/, 'it must ask Google what was granted');
+  assert.match(diag, /ScriptApp\.getOAuthToken\(\)/);
+  assert.match(diag, /드라이브 권한: /);
+  assert.match(diag, /auth\/drive\.readonly/, 'and name the exact scope to add');
+  assert.match(diag, /appsscript\.json/, 'and where to add it');
+});
+
+test('the README explains the missing Drive scope with the exact error text', () => {
+  const readme = fs.readFileSync(path.join(root, 'apps-script', 'README.md'), 'utf8');
+  assert.match(readme, /You do not have permission to call DriveApp/);
+  assert.match(readme, /oauthScopes/);
+  assert.match(readme, /drive\.readonly/);
+  assert.match(readme, /기존 항목은 지우지 마세요/, 'replacing the array would break the dashboard script');
+});
