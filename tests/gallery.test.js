@@ -172,7 +172,9 @@ test('every photo referenced by data/gallery.json exists on disk with matching c
   const root = path.join(__dirname, '..');
   const doc = JSON.parse(fs.readFileSync(path.join(root, 'data', 'gallery.json'), 'utf8'));
   for (const a of doc.albums) {
-    for (const raw of [a.cover].concat(a.photos || [])) {
+    // photos 항목은 경로 문자열이거나 {src, caption} 객체다 (갱신 스크립트는 객체로 쓴다)
+    for (const entry of [a.cover].concat(a.photos || [])) {
+      const raw = entry && typeof entry === 'object' ? entry.src : entry;
       if (!raw) continue;
       const rel = decodeURI(raw);
       if (/^https:/i.test(rel)) continue;

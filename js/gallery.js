@@ -73,8 +73,11 @@
     return m ? Number(m[1]) : 0;
   }
 
+  // 이미 정리한 앨범은 그대로 돌려준다. 두 번 정리하면 사진 경로가 두 번 인코딩되어
+  // 한글 폴더명(예: 워크샵 → %EC… → %25EC…)이 404 가 된다. 실제로 카드 사진이 전부 깨졌던 원인.
   function normalize(album) {
-    return {
+    if (album && album.__pnuNormalized) return album;
+    var out = {
       id: String((album && album.id) || ''),
       title: String((album && album.title) || ''),
       date: String((album && album.date) || ''),
@@ -84,6 +87,9 @@
       description: String((album && album.description) || ''),
       photos: photosOf(album)
     };
+    // 열거되지 않는 표시라 JSON 이나 비교에는 드러나지 않는다
+    Object.defineProperty(out, '__pnuNormalized', { value: true });
+    return out;
   }
 
   // 최신순: 연도 내림차순 → 날짜 내림차순(빈 날짜는 그 해의 뒤로) → 원래 순서
