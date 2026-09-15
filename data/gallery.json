@@ -1,7 +1,60 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-09T07:56:40.144Z",
+  "generatedAt": "2026-09-15T09:13:23.669Z",
   "source": "갤러리",
-  "count": 0,
-  "albums": []
+  "count": 1,
+  "albums": [
+    {
+      "id": "2026-08-sor-워크샵",
+      "title": "SOR 워크샵",
+      "date": "2026-08-30",
+      "year": 2026,
+      "category": "lab",
+      "place": "부산대학교",
+      "description": "워크샵",
+      "cover": "assets/images/gallery/2026-08-sor-워크샵/01-01-dsc02223.jpg",
+      "photos": [
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/01-01-dsc02223.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/02-dsc01849.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/03-dsc01858.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/04-dsc01862.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/05-dsc01870.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/06-dsc01913.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/07-dsc01918.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/08-dsc01998.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/09-dsc02125.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-08-sor-워크샵/10-dsc02142.jpg",
+          "caption": ""
+        }
+      ]
+    }
+  ]
 }
