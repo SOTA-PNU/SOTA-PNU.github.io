@@ -154,6 +154,16 @@ test('the folder diagnostic checks Drive access before blaming the folder', () =
   assert.match(diag, /다른 구글 계정으로 만든 폴더인지/, 'the wrong-account case is named first');
 });
 
+test('the diagnostic sends people to re-authorise, not to invent an oauthScopes list', () => {
+  // 실제로 이 프로젝트는 oauthScopes 가 없었고, 재승인으로 해결됐다.
+  // 배열을 새로 만들라고 안내하면 추론되던 시트/외부요청 권한이 사라진다.
+  assert.match(diag, /myaccount\.google\.com\/permissions/);
+  assert.doesNotMatch(diag, /oauthScopes 배열에 아래 한 줄 추가/);
+  assert.match(diag, /oauthScopes 가 없다면 새로 만들지 마세요/);
+  const readme = fs.readFileSync(path.join(root, 'apps-script', 'README.md'), 'utf8');
+  assert.doesNotMatch(readme, /한 줄 추가하고 다시 승인하면 됩니다/);
+});
+
 test('the diagnostic reports which OAuth scopes are actually granted', () => {
   assert.match(diag, /tokeninfo\?access_token=/, 'it must ask Google what was granted');
   assert.match(diag, /ScriptApp\.getOAuthToken\(\)/);
@@ -165,7 +175,10 @@ test('the diagnostic reports which OAuth scopes are actually granted', () => {
 test('the README explains the missing Drive scope with the exact error text', () => {
   const readme = fs.readFileSync(path.join(root, 'apps-script', 'README.md'), 'utf8');
   assert.match(readme, /You do not have permission to call DriveApp/);
-  assert.match(readme, /oauthScopes/);
+  assert.match(readme, /myaccount\.google\.com\/permissions/, 're-authorising is the first thing to try');
   assert.match(readme, /drive\.readonly/);
-  assert.match(readme, /기존 항목은 지우지 마세요/, 'replacing the array would break the dashboard script');
+  // oauthScopes 를 새로 만들면 자동으로 잡히던 권한이 사라진다 — 부분만 적으라고 안내하면 안 된다
+  assert.match(readme, /그 목록만/, 'it must warn that the array becomes authoritative');
+  assert.match(readme, /반드시 \*\*전부\*\* 적어야 합니다/);
+  assert.match(readme, /showMyScopes/, 'and show how to read the current list first');
 });
