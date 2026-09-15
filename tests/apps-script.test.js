@@ -37,6 +37,32 @@ test('Code.gs only uses names the two libraries actually export', () => {
   }
 });
 
+test('Code.gs refuses to run against an older pasted library, and its lists cannot drift', () => {
+  // 실제로 있었던 일: pubSite.gs 만 새로 붙이고 pubGallery.gs 는 예전 것이라
+  // 갱신 도중 "GalLib.describeGalleryLoss is not a function" 이 났다.
+  assert.match(code, /function requireFreshLib_\(/);
+  for (const [lib, list, file] of [['PubLib', 'PUB_LIB_NEEDS', 'pubLib.gs'], ['GalLib', 'GAL_LIB_NEEDS', 'pubGallery.gs']]) {
+    const m = code.match(new RegExp(`var ${list} = (\\[[^\\]]*\\]);`));
+    assert.ok(m, `${list} is not declared`);
+    const declared = JSON.parse(m[1].replace(/'/g, '"')).sort();
+    const used = [...new Set([...code.matchAll(new RegExp(`${lib}\\.([A-Za-z0-9_]+)`, 'g'))].map((x) => x[1]))].sort();
+    assert.deepEqual(declared, used, `${list} must list exactly the ${lib} names Code.gs uses`);
+    assert.match(code, new RegExp(`requireFreshLib_\\(ui, ${lib}, ${list}, '${file.replace('.', '\\.')}'`),
+      `${file} must be checked against ${list}`);
+  }
+});
+
+test('the version guard catches the exact mismatch that happened', () => {
+  // 예전 pubGallery.gs 흉내: describeGalleryLoss 가 없는 GalLib
+  const fresh = require('../apps-script/gallery.js');
+  const stale = { ...fresh };
+  delete stale.describeGalleryLoss;
+  const m = code.match(/var GAL_LIB_NEEDS = (\[[^\]]*\]);/);
+  const needs = JSON.parse(m[1].replace(/'/g, '"'));
+  assert.deepEqual(needs.filter((n) => typeof fresh[n] === 'undefined'), [], 'the current library satisfies the guard');
+  assert.deepEqual(needs.filter((n) => typeof stale[n] === 'undefined'), ['describeGalleryLoss'], 'the stale one is caught by name');
+});
+
 test('every internal helper Code.gs calls is defined in Code.gs', () => {
   // 이름 끝에 _ 가 붙은 함수는 Apps Script 관례상 내부 전용이다
   const called = new Set([...code.matchAll(/(?<![.\w])([A-Za-z][A-Za-z0-9_]*_)\s*\(/g)].map((m) => m[1]));

@@ -71,8 +71,28 @@ function summarize_(doc, warnings) {
 
 // pubLib.gs / pubSeed.gs 를 붙여넣지 않았거나 저장하지 않으면 여기서 걸린다.
 // (메뉴는 PubLib 없이도 만들어지므로 메뉴가 보인다고 설치가 끝난 것은 아니다)
+// 이 pubSite.gs 가 쓰는 라이브러리 기능 목록.
+// pubSite.gs 만 새로 붙여넣고 pubLib.gs / pubGallery.gs 는 예전 버전으로 두면
+// "... is not a function" 오류가 실행 도중에 난다. 시작할 때 미리 걸러낸다.
+var PUB_LIB_NEEDS = ['COLUMNS', 'WEBSITE_HEADERS', 'buildDocument', 'convertRows', 'headerIndex', 'normalizeHeader', 'normalizeTitle', 'samePublications', 'serialize', 'str'];
+var GAL_LIB_NEEDS = ['AUTO_HEADERS', 'COLUMNS', 'HEADERS', 'buildDocument', 'convertRows', 'describeGalleryLoss', 'safeFileName', 'sameAlbums', 'serialize'];
+
+function requireFreshLib_(ui, lib, needs, fileName, repoPath) {
+  var missing = needs.filter(function (name) { return typeof lib[name] === 'undefined'; });
+  if (!missing.length) return true;
+  ui.alert(fileName + ' 가 예전 버전입니다',
+    'pubSite.gs 는 새 버전인데 ' + fileName + ' 는 그보다 오래된 버전이라 필요한 기능이 없습니다.\n' +
+    '(없는 기능: ' + missing.join(', ') + ')\n\n' +
+    '두 파일은 같은 시점의 것이어야 합니다. 아래 주소의 내용으로 ' + fileName + ' 를 전부 바꿔 붙여넣고 저장한 뒤 다시 실행하세요.\n' +
+    'https://github.com/SOTA-PNU/SOTA-PNU.github.io/blob/main/' + repoPath,
+    ui.ButtonSet.OK);
+  return false;
+}
+
 function requirePubLib_(ui) {
-  if (typeof PubLib !== 'undefined' && PubLib && PubLib.WEBSITE_HEADERS) return true;
+  if (typeof PubLib !== 'undefined' && PubLib && PubLib.WEBSITE_HEADERS) {
+    return requireFreshLib_(ui, PubLib, PUB_LIB_NEEDS, 'pubLib.gs', 'apps-script/lib.js');
+  }
   ui.alert('설치가 덜 되었습니다',
     'pubLib.gs 파일을 찾을 수 없습니다.\n\n' +
     'Apps Script 편집기에서 새 스크립트 파일 pubLib.gs 를 만들고 저장소의 apps-script/lib.js 내용을 ' +
@@ -343,7 +363,9 @@ var GALLERY = {
 
 function requireGalLib_(ui) {
   if (!requirePubLib_(ui)) return false;
-  if (typeof GalLib !== 'undefined' && GalLib && GalLib.HEADERS) return true;
+  if (typeof GalLib !== 'undefined' && GalLib && GalLib.HEADERS) {
+    return requireFreshLib_(ui, GalLib, GAL_LIB_NEEDS, 'pubGallery.gs', 'apps-script/gallery.js');
+  }
   ui.alert('설치가 덜 되었습니다',
     'pubGallery.gs 파일을 찾을 수 없습니다.\n\n' +
     'Apps Script 편집기에서 새 스크립트 파일 pubGallery.gs 를 만들고 저장소의 apps-script/gallery.js 내용을 ' +
