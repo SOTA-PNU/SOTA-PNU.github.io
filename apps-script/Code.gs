@@ -612,13 +612,20 @@ function buildGallery_(token) {
     generatedAt: new Date().toISOString(),
     source: GALLERY.sheetName
   });
-  return { doc: doc, albums: built.albums, files: files, warnings: warnings, stopped: stopped, found: totalFound };
+  return { doc: doc, albums: built.albums, files: files, warnings: warnings, stopped: stopped, found: totalFound,
+    unpublished: built.unpublished || [] };
 }
 
 function summarizeGallery_(b) {
   var photos = b.doc.albums.reduce(function (s, a) { return s + a.photos.length; }, 0);
   var s = '앨범 ' + b.doc.count + '개 · 사진 ' + photos + '장\n' +
     '드라이브에서 찾은 사진 ' + b.found + '장, 이번에 올릴 사진 ' + b.files.length + '장\n';
+  if (b.unpublished && b.unpublished.length) {
+    s += '\n☐ 게시 체크가 안 된 행 ' + b.unpublished.length + '개 (올라가지 않습니다): ' +
+      b.unpublished.slice(0, 8).map(function (u) { return u.rowNo + '행 ' + (u.title || '(행사명 없음)'); }).join(', ') +
+      (b.unpublished.length > 8 ? ' 외' : '') + '\n' +
+      '  → 올리려면 그 행의 "게시" 체크박스를 체크하세요.\n';
+  }
   b.doc.albums.slice(0, 10).forEach(function (a) {
     s += '\n· ' + (a.date || a.year) + '  ' + a.title + '  (' + a.photos.length + '장)';
   });
@@ -657,6 +664,13 @@ function syncGalleryToGitHub() {
 
     SpreadsheetApp.getActiveSpreadsheet().toast('드라이브에서 사진을 읽는 중입니다…', '🌐 갤러리', 30);
     var b = buildGallery_(token);
+
+    // 게시할 앨범이 하나도 없는데 체크만 빠진 행이 있으면, 빈 갤러리를 올리기 전에 멈춘다
+    if (!b.doc.count && b.unpublished.length) {
+      ui.alert('게시 체크가 안 되어 있습니다', summarizeGallery_(b), ui.ButtonSet.OK);
+      logGallery_(started, user, 0, '중단 (게시 체크된 행 없음)', []);
+      return;
+    }
 
     if (b.warnings.length) {
       var answer = ui.alert('경고 ' + b.warnings.length + '건',

@@ -147,6 +147,22 @@ test('photos may carry a caption; cover stays a plain path', () => {
   assert.equal(G.srcOf('p/1.jpg'), 'p/1.jpg');
 });
 
+test('rows with content but no 게시 check are reported, not silently dropped', () => {
+  const r = conv([
+    row({ ...base, publish: false }),                      // 실제로 있었던 경우: 내용은 다 채웠는데 체크만 빠짐
+    row({ ...base, publish: false, title: '', folder: '' }), // 완전히 빈 행 (체크박스만 있는 행)
+    row({ ...base, title: '게시됨' }),
+  ]);
+  assert.equal(r.albums.length, 1);
+  assert.deepEqual(r.unpublished, [{ rowNo: 2, title: 'ISET 2026' }]);
+  assert.equal(r.warnings.length, 0, 'an unchecked box is information, not a warning that asks to continue');
+});
+
+test('a row with only a folder link and no check is still reported', () => {
+  const r = conv([row({ publish: false, folder: FOLDER })]);
+  assert.deepEqual(r.unpublished, [{ rowNo: 2, title: '' }]);
+});
+
 test('a captioned album renders and the caption reaches the viewer data', () => {
   const R = require('../js/gallery.js');
   const doc = G.buildDocument([{

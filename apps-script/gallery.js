@@ -73,12 +73,17 @@ var GalLib = (function (lib) {
 
     var albums = [];
     var warnings = [];
+    var unpublished = [];   // 내용은 있는데 게시 체크가 안 된 행
     var usedIds = {};
 
     (rows || []).forEach(function (row, i) {
       var rowNo = i + 2;
       var get = function (name) { return lib.cell(row, idx, name); };
-      if (!lib.isTruthy(get(COLUMNS.publish))) return;
+      if (!lib.isTruthy(get(COLUMNS.publish))) {
+        var t = lib.text(get(COLUMNS.title));
+        if (t || lib.str(get(COLUMNS.folder))) unpublished.push({ rowNo: rowNo, title: t });
+        return;
+      }
 
       var title = lib.text(get(COLUMNS.title));
       if (!title) { warnings.push(rowNo + '행: 행사명이 없어 건너뜁니다'); return; }
@@ -115,7 +120,7 @@ var GalLib = (function (lib) {
       });
     });
 
-    return { albums: albums, warnings: warnings };
+    return { albums: albums, warnings: warnings, unpublished: unpublished };
   }
 
   // photos 항목은 "경로" 또는 {src, caption} 둘 다 될 수 있다
