@@ -155,11 +155,13 @@ function diagnoseGalleryFolder() {
     }).join(', '));
     out.push('드라이브 권한: ' + (hasDrive ? '있음' : '없음 ← 이것이 원인입니다'));
     if (!hasDrive) {
-      out.push('  고치는 법: Apps Script 편집기 ⚙️ 프로젝트 설정 →');
-      out.push('    "appsscript.json 매니페스트 파일을 편집기에 표시" 체크 →');
-      out.push('    왼쪽 파일 목록의 appsscript.json 열기 →');
-      out.push('    oauthScopes 배열에 아래 한 줄 추가 → 저장 → 메뉴 다시 실행 후 승인');
-      out.push('    "https://www.googleapis.com/auth/drive.readonly"');
+      // 승인이 드라이브 코드를 넣기 전 상태로 남아 있는 경우가 대부분이다. 재승인이 먼저다.
+      out.push('  고치는 법 (먼저 이것부터):');
+      out.push('    1) https://myaccount.google.com/permissions 에서 이 스크립트 프로젝트를 찾아 액세스 권한 삭제');
+      out.push('    2) 시트를 새로고침하고 메뉴를 다시 실행 → 새 승인 화면에서 드라이브 항목이 보이는지 확인 후 허용');
+      out.push('  그래도 안 되고 appsscript.json 에 oauthScopes 가 이미 적혀 있을 때만:');
+      out.push('    그 배열에 "https://www.googleapis.com/auth/drive.readonly" 를 추가 (기존 항목은 지우지 말 것).');
+      out.push('    oauthScopes 가 없다면 새로 만들지 마세요 — 만드는 순간 그 목록만 쓰여 다른 권한이 사라집니다.');
     }
   } else {
     out.push('승인된 권한: 확인하지 못했습니다');
@@ -178,8 +180,8 @@ function diagnoseGalleryFolder() {
   } catch (e) {
     out.push('드라이브 접근: 실패 — ' + String(e && e.message ? e.message : e));
     out.push('  → 폴더가 아니라 스크립트의 드라이브 권한 문제입니다.');
-    out.push('    Apps Script 편집기 ⚙️ 프로젝트 설정에서 "appsscript.json 매니페스트 파일을 편집기에 표시" 를 켜고,');
-    out.push('    oauthScopes 에 https://www.googleapis.com/auth/drive 가 있는지 확인하세요.');
+    out.push('    https://myaccount.google.com/permissions 에서 이 스크립트의 액세스 권한을 삭제하고,');
+    out.push('    메뉴를 다시 실행해 새 승인 화면에서 허용하세요. (위 "고치는 법" 참고)');
   }
   targets.forEach(function (t) {
     out.push('');

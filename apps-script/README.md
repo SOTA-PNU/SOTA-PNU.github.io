@@ -127,14 +127,14 @@
 
 ### 3-1. 준비 (한 번만)
 
-> ⚠️ **드라이브 권한을 먼저 확인하세요.** 기존 대시보드 스크립트가 `appsscript.json` 에 권한 목록을 적어 두었다면, Apps Script 는 그 목록만 사용합니다. 드라이브 코드를 넣어도 권한이 자동으로 붙지 않아 갱신할 때 아래 오류가 납니다.
+> ⚠️ **드라이브 권한 오류가 나면 재승인하세요.** 논문 갱신 때 이미 승인해 두었다면, 그 승인이 드라이브 코드를 넣기 전 상태로 남아 있어 갤러리 갱신에서 아래 오류가 납니다.
 >
 > ```
 > You do not have permission to call DriveApp.getFolderById.
 > Required permissions: (https://www.googleapis.com/auth/drive.readonly || .../auth/drive)
 > ```
 >
-> 고치는 방법은 6장 문제 해결의 "드라이브 권한이 없다는 오류" 항목을 보세요. 한 줄 추가하고 다시 승인하면 됩니다.
+> https://myaccount.google.com/permissions 에서 이 스크립트의 액세스 권한을 삭제한 뒤 메뉴를 다시 실행하면, 드라이브가 포함된 승인 화면이 새로 뜹니다. **`appsscript.json` 은 건드리지 않아도 됩니다.** 자세한 내용은 6장 "드라이브 권한이 없다는 오류" 항목을 보세요.
 
 
 1. 메뉴 **🌐 홈페이지 ▸ 갤러리 탭 만들기** → `갤러리` 탭과 열이 생깁니다.

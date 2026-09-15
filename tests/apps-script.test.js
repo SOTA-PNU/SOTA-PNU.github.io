@@ -154,6 +154,16 @@ test('the folder diagnostic checks Drive access before blaming the folder', () =
   assert.match(diag, /다른 구글 계정으로 만든 폴더인지/, 'the wrong-account case is named first');
 });
 
+test('the diagnostic sends people to re-authorise, not to invent an oauthScopes list', () => {
+  // 실제로 이 프로젝트는 oauthScopes 가 없었고, 재승인으로 해결됐다.
+  // 배열을 새로 만들라고 안내하면 추론되던 시트/외부요청 권한이 사라진다.
+  assert.match(diag, /myaccount\.google\.com\/permissions/);
+  assert.doesNotMatch(diag, /oauthScopes 배열에 아래 한 줄 추가/);
+  assert.match(diag, /oauthScopes 가 없다면 새로 만들지 마세요/);
+  const readme = fs.readFileSync(path.join(root, 'apps-script', 'README.md'), 'utf8');
+  assert.doesNotMatch(readme, /한 줄 추가하고 다시 승인하면 됩니다/);
+});
+
 test('the diagnostic reports which OAuth scopes are actually granted', () => {
   assert.match(diag, /tokeninfo\?access_token=/, 'it must ask Google what was granted');
   assert.match(diag, /ScriptApp\.getOAuthToken\(\)/);
