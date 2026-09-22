@@ -1456,6 +1456,7 @@ body{ padding-top: 96px; }
 }
 .pnu-gallery-desc{
   font-size:.86rem;
+  font-weight:700;
   line-height:1.6;
   color:rgba(15,23,42,.68);
   display:-webkit-box;
@@ -1703,6 +1704,7 @@ html.pnu-lightbox-open, body.pnu-lightbox-open{ overflow:hidden; }
 /* 행사 전체 설명 */
 .pnu-gallery-lb-desc{
   font-size:.9rem;
+  font-weight:700;
   line-height:1.7;
   color:rgba(15,23,42,.72);
   max-height:5.2em;
