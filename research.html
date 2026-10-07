@@ -132,6 +132,106 @@
                         </div>
                     </div>
                 </section>
+                <section class="pnu-research pnu-research--kv" id="research-kv-serving"
+                    aria-labelledby="research-kv-serving-title">
+                    <div class="spark" aria-hidden="true"></div>
+                    <div class="wrap">
+                        <div class="kicker"><span class="dot" aria-hidden="true"></span>Research</div>
+                        <h2 id="research-kv-serving-title">KV Cache &amp; LLM Serving</h2>
+                        <p>
+                            대규모 언어모델의 효율적인 추론 서비스를 위해 KV Cache의 저장·재사용·전송과
+                            요청 스케줄링을 함께 연구합니다. 서빙 엔진의 메모리 관리부터 이종 AI반도체 간
+                            Prefill/Decode 분리, 다중 노드 환경으로의 확장을 지향합니다.
+                        </p>
+
+                        <div class="hero">
+                            <div class="card">
+                                <div class="pill"><b>Goal</b><span>Efficient &amp; Scalable Serving</span></div>
+                                <div class="grid">
+                                    <div class="card">
+                                        <h3 class="pill"><b>LLM Serving</b></h3>
+                                        <p>요청 배칭과 스케줄링, Attention 실행 구조를 분석하여 응답 지연과 처리량의 균형을 연구합니다.</p>
+                                    </div>
+                                    <div class="card">
+                                        <h3 class="pill"><b>KV Cache</b></h3>
+                                        <p>Prefix Caching과 KV 양자화, 계층형 저장·재사용을 통해 메모리 사용량과 중복 연산을 줄이는 방법을 연구합니다.</p>
+                                    </div>
+                                    <div class="card">
+                                        <h3 class="pill"><b>Distributed Serving</b></h3>
+                                        <p>공유 KV 저장소와 캐시 위치를 고려한 요청 라우팅을 바탕으로 다중 인스턴스 서빙의 확장성을 연구합니다.</p>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <div class="mini">Metrics: 첫 토큰 응답시간 · 토큰 간 지연시간 · 처리량 · 메모리 사용량</div>
+                                    <a class="btn" href="#research-kv-serving-roadmap">Roadmap ↓</a>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="pill"><b>Focus</b><span>P/D Disaggregation on Heterogeneous AI Accelerators</span></div>
+                                <p>
+                                    입력을 처리하는 Prefill과 토큰을 생성하는 Decode를 분리하고,
+                                    이종 AI반도체를 연결하는 이종 서빙 구조를 연구합니다.
+                                </p>
+                                <ol class="kv-flow" aria-label="현재 집중하는 Host-staged KV 전달 경로">
+                                    <li>GPU Prefill</li>
+                                    <li><span class="kv-flow-arrow" aria-hidden="true">→</span><span>Host 경유 KV 전달</span></li>
+                                    <li><span class="kv-flow-arrow" aria-hidden="true">→</span><span>NPU Decode</span></li>
+                                </ol>
+                                <div class="steps">
+                                    <div class="step">
+                                        <div class="num" aria-hidden="true">1</div>
+                                        <div>
+                                            <h3>KV 호환성</h3>
+                                            <p>가속기별 KV Cache의 메모리 배치와 데이터 표현 차이를 다룹니다.</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <div class="num" aria-hidden="true">2</div>
+                                        <div>
+                                            <h3>전달·변환 비용</h3>
+                                            <p>Host 메모리 경유 전송과 필요한 형식 변환의 비용을 분석합니다.</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <div class="num" aria-hidden="true">3</div>
+                                        <div>
+                                            <h3>요청 배분</h3>
+                                            <p>장치 처리능력과 대기열을 고려하여 단계 분리 여부와 요청 배분을 최적화하는 방법을 연구합니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="research-kv-serving-roadmap">
+                            <div class="pill"><b>Roadmap</b><span>Foundations → Optimization → Scale-out</span></div>
+                            <div class="grid">
+                                <div class="card">
+                                    <h3 class="pill"><b>Serving Foundations</b></h3>
+                                    <p>vLLM·SGLang의 서빙 구조와 PagedAttention·vAttention의 KV 메모리 관리, FlashAttention의 연산 최적화를 분석하고 성능 평가 기반을 마련합니다.</p>
+                                </div>
+                                <div class="card">
+                                    <h3 class="pill"><b>KV-aware Optimization</b></h3>
+                                    <p>Prefix Caching·KV 양자화·계층형 캐시를 연구하고, LMCache·Mooncake 기반 공유 저장소의 적용 가능성을 검토합니다.</p>
+                                </div>
+                                <div class="card">
+                                    <h3 class="pill"><b>Heterogeneous &amp; Scale-out</b></h3>
+                                    <p>이종 AI 반도체 간 PDD와 요청 배분을 고도화하고, llm-d 등 분산 서빙 구조와의 연계 및 다양한 가속기·다중 노드 환경으로의 확장을 연구합니다.</p>
+                                    <p class="mini kv-outlook">Long-term Research Agenda: CXL 메모리 확장·풀링, RDMA 기반 KV 전송</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kv-references mini">
+                            <span>Reference Ecosystem</span>
+                            <a href="https://docs.vllm.ai/en/latest/" target="_blank" rel="noopener noreferrer">vLLM</a>
+                            <a href="https://docs.lmcache.ai/" target="_blank" rel="noopener noreferrer">LMCache</a>
+                            <a href="https://github.com/kvcache-ai/Mooncake" target="_blank" rel="noopener noreferrer">Mooncake</a>
+                            <a href="https://llm-d.ai/docs" target="_blank" rel="noopener noreferrer">llm-d</a>
+                        </div>
+                    </div>
+                </section>
             </section>
         </main><!--$--><!--/$-->
     </div>
