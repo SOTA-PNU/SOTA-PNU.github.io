@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-15T09:13:23.669Z",
+  "generatedAt": "2026-10-07T18:40:33.551Z",
   "source": "갤러리",
-  "count": 1,
+  "count": 2,
   "albums": [
     {
       "id": "2026-08-sor-워크샵",
@@ -52,6 +52,46 @@
         },
         {
           "src": "assets/images/gallery/2026-08-sor-워크샵/10-dsc02142.jpg",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "id": "2026-05-제21회-임베디드공학회-심포지움",
+      "title": "제21회 임베디드공학회 심포지움",
+      "date": "2026-05-13",
+      "year": 2026,
+      "category": "lab",
+      "place": "제주 그라벨 호텔",
+      "description": "학술대회",
+      "cover": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/01-dsc00772.jpg",
+      "photos": [
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/01-dsc00772.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/02-dsc00777.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/03-dsc00786.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/04-dsc00795.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/05-kakaotalk-20260612-142600475.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/06-kakaotalk-20260612-142600475-01.jpg",
+          "caption": ""
+        },
+        {
+          "src": "assets/images/gallery/2026-05-제21회-임베디드공학회-심포지움/07-kakaotalk-20260612-142600475-02.jpg",
           "caption": ""
         }
       ]
