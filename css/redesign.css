@@ -689,6 +689,8 @@ body{ padding-top: 96px; }
   gap:24px;
   align-items:start;
 }
+/* 필터로 빈 연도는 hidden 으로 숨긴다 — display:grid 가 [hidden] 을 이기지 않게 */
+.pnu-year-block[hidden]{ display:none; }
 @media (max-width: 900px){
   .pnu-year-block{ grid-template-columns: 1fr; }
 }
@@ -861,21 +863,40 @@ body{ padding-top: 96px; }
 }
 .pnu-chip:hover{ transform: translateY(-1px); box-shadow: 0 10px 25px rgba(2,6,23,.08); }
 
+/* 켜진 칩: 같은 보라 계열이되 꺼진 칩과 확실히 구분되게 (테두리 대비 약 3:1) */
 .pnu-chip.is-active{
-  background: linear-gradient(180deg, rgba(221,214,254,.75), rgba(255,255,255,.85));
-  border-color: rgba(109,40,217,.25);
-  box-shadow: 0 12px 28px rgba(109,40,217,.15);
+  background: linear-gradient(180deg, rgba(196,181,253,.9), rgba(221,214,254,.9));
+  border-color: rgba(109,40,217,.6);
+  color:#3b0764;
+  box-shadow: 0 12px 28px rgba(109,40,217,.18);
 }
-/* Publications 필터: All | 국제·국내 | 유형 묶음 사이 구분선.
-   좁은 화면에서는 칩이 두 줄로 나뉘며 줄 끝에 구분선만 남으므로 숨긴다 (줄이 곧 묶음이 된다). */
-.pnu-chip-sep{
-  align-self:center;
+/* 고대비(강제 색상) 모드에서는 배경·그림자가 사라지므로 시스템 강조색으로 표시 */
+@media (forced-colors: active){
+  .pnu-chip.is-active{ forced-color-adjust:none; background:Highlight; border-color:Highlight; color:HighlightText; }
+}
+/* Publications 필터: All · [국제/국내] · [유형]. 묶음은 줄이 바뀔 때 통째로 움직이고,
+   묶음 사이 간격(1.25rem)을 묶음 안(.5rem)보다 넓혀 묶음이 보이게 한다. */
+.pnu-pub-filters,
+.pnu-chip-group{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.5rem;
+}
+.pnu-pub-filters{ column-gap:1.25rem; }
+
+/* 화면에는 안 보이고 스크린리더만 읽는 글 */
+.pnu-sr-only{
+  position:absolute;
   width:1px;
-  height:1.25rem;
-  margin:0 .15rem;
-  background:rgba(15,23,42,.14);
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
 }
-@media (max-width:640px){ .pnu-chip-sep{ display:none; } }
 
 /* =========================
    Members Directory (NEW)

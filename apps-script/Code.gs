@@ -41,8 +41,10 @@ function readPublicationRows_() {
   if (!sh) throw new Error('"' + CONFIG.sheetName + '" 탭을 찾을 수 없습니다.');
   var values = sh.getDataRange().getValues();
   // 헤더가 1행이 아니어도 된다 (맨 위에 빈 행·제목 행이 있으면 위쪽 10행 안에서 찾는다).
-  // 끝내 못 찾으면 1행을 헤더로 넘겨, 빠진 헤더 이름이 담긴 "필수 헤더 없음" 오류가 나게 둔다.
-  var h = Math.max(PubLib.findHeaderRow(values), 0);
+  // 끝내 못 찾으면 필수 헤더가 가장 많은 행을 헤더로 넘겨, convertRows 의 "필수 헤더 없음" 오류에
+  // 실제로 빠진 이름과 그 행 번호만 나오게 둔다.
+  var h = PubLib.findHeaderRow(values);
+  if (h < 0) h = Math.max(PubLib.guessHeaderRow(values), 0);
   if (values.length < h + 2) throw new Error('"' + CONFIG.sheetName + '" 탭에 데이터가 없습니다.');
   return { headers: values[h], rows: values.slice(h + 1), headerRow: h + 1 };
 }
@@ -77,7 +79,7 @@ function summarize_(doc, warnings) {
 // 이 pubSite.gs 가 쓰는 라이브러리 기능 목록.
 // pubSite.gs 만 새로 붙여넣고 pubLib.gs / pubGallery.gs 는 예전 버전으로 두면
 // "... is not a function" 오류가 실행 도중에 난다. 시작할 때 미리 걸러낸다.
-var PUB_LIB_NEEDS = ['COLUMNS', 'REQUIRED_HEADERS', 'WEBSITE_HEADERS', 'buildDocument', 'convertRows', 'findHeaderRow', 'headerIndex', 'normalizeHeader', 'normalizeTitle', 'samePublications', 'serialize', 'str'];
+var PUB_LIB_NEEDS = ['COLUMNS', 'REQUIRED_HEADERS', 'WEBSITE_HEADERS', 'buildDocument', 'convertRows', 'findHeaderRow', 'guessHeaderRow', 'headerIndex', 'normalizeHeader', 'normalizeTitle', 'samePublications', 'serialize', 'str'];
 var GAL_LIB_NEEDS = ['AUTO_HEADERS', 'COLUMNS', 'HEADERS', 'buildDocument', 'convertRows', 'describeGalleryLoss', 'safeFileName', 'sameAlbums', 'serialize'];
 
 function requireFreshLib_(ui, lib, needs, fileName, repoPath) {
@@ -204,9 +206,13 @@ function setupWebsiteColumns() {
   var top = sh.getRange(1, 1, Math.min(lastRow, 10), lastCol).getValues();
   var h = PubLib.findHeaderRow(top);
   if (h < 0) {
+    // 헤더와 가장 비슷한 행을 기준으로, 실제로 빠진 이름만 알려 준다
+    var g = PubLib.guessHeaderRow(top);
+    var gi = g < 0 ? {} : PubLib.headerIndex(top[g]);
+    var lacking = PubLib.REQUIRED_HEADERS.filter(function (name) { return gi[PubLib.normalizeHeader(name)] == null; });
     ui.alert('헤더 행을 찾지 못했습니다',
-      '"' + CONFIG.sheetName + '" 탭 위쪽 10행 안에 다음 헤더가 모두 있는 행이 있어야 합니다:\n' +
-      PubLib.REQUIRED_HEADERS.join(', '), ui.ButtonSet.OK);
+      '"' + CONFIG.sheetName + '" 탭 위쪽 10행 안에 필수 헤더가 모두 있는 행이 없습니다.\n' +
+      (g < 0 ? '필요한 헤더: ' : (g + 1) + '행에 없는 헤더: ') + lacking.join(', '), ui.ButtonSet.OK);
     return;
   }
   var headerRow = h + 1;      // 시트 행 번호

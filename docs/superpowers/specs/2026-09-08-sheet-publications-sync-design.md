@@ -104,7 +104,8 @@
 | `type` | `구분` 열이 `Conference`/`Journal`(대소문자 무시) → 그 값. 없으면 `SCI/학회` 또는 `저널명/학회명`에 `SCI` `KCI` `저널` `논문지` `학회지` `Journal` `Transactions` 중 하나 포함 → `journal`, 아니면 `conference`. |
 | `venue` | `저널명/학회명` trim. |
 | `venueShort` | `약칭` 열 우선 → 매핑표(아래) 첫 매칭 → 저널명 괄호 안 대문자 약어(예: `(ISET)`) → 저널명 첫 단어. |
-| `tier` | `SCI/학회`에 `BK IF` 또는 `SCI Q1` 포함 → `top`, 아니면 `normal`. |
+| `tier` | `SCI/학회`에 `BK IF` 또는 `SCI Q1` 포함 → `top`, 아니면 `normal`. (§11 에서 "국내가 아니면 `top`" 으로 바뀜) |
+| `region` | 국내면 `domestic`, 아니면 `international` (§11, 2026-10-20 추가). |
 | `keywords`, `paperUrl`, `codeUrl`, `award` | 해당 열 trim. URL은 `http://`/`https://`로 시작하지 않으면 경고 후 비움. |
 | `id` | `${year}-${slug}`: 제목을 소문자·영숫자/한글만 남기고 `-`로 연결, 60자 절단. 같은 id가 생기면 `-2`, `-3` 접미. |
 
@@ -136,6 +137,7 @@
       "date": "2026-05-13",
       "type": "conference",
       "tier": "normal",
+      "region": "domestic",
       "venue": "IEMEK Symposium on Embedded Technology (ISET) 2026",
       "venueShort": "IEMEK",
       "title": "비동기 큐 파이프라인 기법을 통한 임베디드 환경에서 추론 처리량 개선",
@@ -158,7 +160,7 @@
 ### 메뉴 `🌐 홈페이지`
 1. **논문 목록 갱신 → GitHub 업로드** (`syncPublicationsToGitHub`)
 2. **미리보기 (검증만)** (`previewPublications`) — 게시 건수·연도별 건수·경고 목록을 다이얼로그로 표시, 업로드 없음.
-3. **초기 설정 (홈페이지 열 추가)** (`setupWebsiteColumns`)
+3. **초기 설정 (논문 열 추가)** (`setupWebsiteColumns`)
 4. **GitHub 토큰 설정** (`configureGitHubToken`)
 
 ### 갱신 흐름
@@ -243,3 +245,9 @@
 5. **부분 날짜 허용**: `date` 는 `YYYY` / `YYYY-MM` / `YYYY-MM-DD`. 없거나 해석 불가 → 경고 + 올해, `date=""`.
 6. **`Publish` 판정**: boolean true, 0이 아닌 숫자, 문자열 `true`/`1`/`y`/`yes`(대소문자 무시). 저널명이 비어 있으면 경고를 내고 게시는 유지(pill 은 `—`).
 7. **필터 바인딩**: 클릭 시점에 카드/연도 블록을 다시 조회한다 (재렌더 후에도 동작). 브라우저 진입점은 가짜 DOM 통합 테스트(`tests/browser-entry.test.js`)로 검증.
+
+### 2026-10-20 — 국제/국내 필터와 헤더 행 찾기
+1. **`region` 필드**: `tier` 바로 뒤에 `"international" | "domestic"`. `tier` 와 같은 국내 판정(위 2번)에서 나오므로 둘은 어긋나지 않는다 (국제 = `top`). 레코드 키 순서는 `id, year, date, type, tier, region, venue, …`. 페이지는 `region` 이 없는 예전 JSON 이면 `tier` 로 대신 판정하고, 카드 pill 색과 필터가 같은 값을 쓴다.
+2. **필터 칩**: `All | International · Domestic | Conference · Journal · Awarded`. 국제/국내와 유형은 묶음마다 하나만 켜지고 두 묶음은 AND. 켜진 칩을 다시 누르면 그 조건만 해제, All 은 전부 해제(토글 아님, `aria-pressed` 없음). 결과가 0건이면 `#pubStatus` 에 안내, 그 밖에는 스크린리더용 "논문 N편".
+3. **헤더 행 찾기**: `논문 등록` 탭 맨 위에 빈 행이 생겨 헤더가 2행으로 내려갔다. `lib.findHeaderRow` 가 위쪽 10행 안에서 필수 헤더(`Publish`, `발표일자`, `제목(한글)`, `제목(영어)`, `1저자`)가 모두 있는 행을 찾고, `convertRows(…, {headerRow})` 가 경고에 실제 시트 행 번호를 쓴다. 못 찾으면 `guessHeaderRow`(필수 헤더가 가장 많은 행)를 기준으로 빠진 이름만 "필수 헤더 없음" 에 나온다. Apps Script 갱신·초기 설정·키워드 채우기와 `tools/sync_from_sheet.mjs` 가 같은 규칙을 쓴다.
+4. **수동 갱신 내려받기**: gviz(tq) CSV 는 체크박스·날짜 열의 헤더 이름을 지워 쓸 수 없어 `export?format=csv&gid=<탭 번호>` 로 바꿨다. 탭 번호는 htmlview 에서 탭 이름으로 찾고, 안 되면 `SOTA_SHEET_GID`.

@@ -8,6 +8,12 @@
  *   - 또는 파일: tools/sheet-id.local  (한 줄로 시트 ID, .gitignore 처리됨)
  * 시트가 "링크가 있는 모든 사용자에게 보기 허용" 상태여야 CSV 내려받기가 된다.
  *
+ * 탭은 export?format=csv&gid=<탭 번호> 로 셀 값 그대로 받는다. gviz(tq) 내보내기는 열 형식을 추측하면서
+ * 체크박스·날짜 열의 헤더 이름(Publish, 발표일자)을 지워 버려 쓸 수 없다.
+ * 탭 번호는 시트의 htmlview 에서 탭 이름으로 찾는다. 찾지 못하면 SOTA_SHEET_GID=<탭 번호> 로 직접 준다
+ * (시트 URL 끝의 #gid= 뒤 숫자, '논문 등록' 탭을 열었을 때).
+ * 헤더 행은 Apps Script 와 같은 규칙으로 찾는다 (위쪽 10행 안, lib.findHeaderRow).
+ *
  * 사용법: node tools/sync_from_sheet.mjs [--out data/publications.json] [--seed]
  *   --seed  '키워드' 가 빈 논문을 apps-script/seed.js (기존 홈페이지에서 추출) 로 채운다.
  *           시트에 '키워드' 열이 아직 없는 최초 1회 생성에만 쓴다.
@@ -38,9 +44,36 @@ function readSheetId() {
     '  시트 ID 는 시트 URL 의 /spreadsheets/d/ 와 /edit 사이 문자열입니다.');
 }
 
-function csvUrl(sheetId) {
-  return 'https://docs.google.com/spreadsheets/d/' + sheetId +
-    '/gviz/tq?tqx=out:csv&headers=1&sheet=' + encodeURIComponent(TAB);
+function exportUrl(sheetId, gid) {
+  return 'https://docs.google.com/spreadsheets/d/' + sheetId + '/export?format=csv&gid=' + encodeURIComponent(gid);
+}
+
+// htmlview 에 실린 탭 목록({name: "탭 이름", ... gid: "123"})에서 탭 번호를 찾는다. 없으면 ''.
+export function findTabGid(html, tab) {
+  for (const m of String(html || '').matchAll(/name:\s*"([^"]+)"[^}]*?gid:\s*"(\d+)"/g)) {
+    if (m[1] === tab) return m[2];
+  }
+  return '';
+}
+
+async function resolveGid(sheetId) {
+  if (process.env.SOTA_SHEET_GID) return process.env.SOTA_SHEET_GID.trim();
+  const res = await fetch('https://docs.google.com/spreadsheets/d/' + sheetId + '/htmlview');
+  const gid = res.ok ? findTabGid(await res.text(), TAB) : '';
+  if (gid) return gid;
+  throw new Error(
+    `"${TAB}" 탭 번호(gid)를 찾지 못했습니다.\n` +
+    `  시트에서 "${TAB}" 탭을 열면 URL 끝에 #gid=<숫자> 가 붙습니다. 그 숫자로:\n` +
+    '  SOTA_SHEET_GID=<숫자> node tools/sync_from_sheet.mjs');
+}
+
+// CSV 원문 → convertRows 결과. 헤더 행 찾기와 행 번호는 Apps Script(readPublicationRows_)와 똑같이 한다.
+export function convertCsv(text, today) {
+  const rows = parseCsv(text);
+  let h = lib.findHeaderRow(rows);
+  if (h < 0) h = Math.max(lib.guessHeaderRow(rows), 0);
+  if (rows.length < h + 2) throw new Error('시트에 데이터가 없습니다.');
+  return lib.convertRows(rows[h], rows.slice(h + 1), { today, headerRow: h + 1 });
 }
 
 // RFC 4180 CSV (따옴표 안의 줄바꿈/쉼표/"" 처리).
@@ -88,12 +121,10 @@ async function main() {
   const outFile = outArg > -1 ? path.resolve(process.argv[outArg + 1]) : path.join(here, '..', 'data', 'publications.json');
   const useSeed = process.argv.includes('--seed');
 
-  const res = await fetch(csvUrl(readSheetId()));
-  if (!res.ok) throw new Error(`시트 다운로드 실패: HTTP ${res.status} (시트 공유 설정이 "링크가 있는 모든 사용자"인지, 시트 ID 가 맞는지 확인)`);
-  const rows = parseCsv(await res.text());
-  if (rows.length < 2) throw new Error('시트에 데이터가 없습니다.');
-  const [headers, ...data] = rows;
-  const result = lib.convertRows(headers, data, { today: new Date() });
+  const sheetId = readSheetId();
+  const res = await fetch(exportUrl(sheetId, await resolveGid(sheetId)));
+  if (!res.ok) throw new Error(`시트 다운로드 실패: HTTP ${res.status} (시트 공유 설정이 "링크가 있는 모든 사용자"인지, 시트 ID·탭 번호가 맞는지 확인)`);
+  const result = convertCsv(await res.text(), new Date());
   if (useSeed) {
     const filled = applySeed(result.publications, loadSeed());
     console.log(`키워드 seed 적용: ${filled}건`);

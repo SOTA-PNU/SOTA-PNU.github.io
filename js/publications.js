@@ -26,7 +26,8 @@
     return tags.join(',');
   }
 
-  // 국제/국내: 갱신 스크립트가 시트의 'SCI/학회' 칸으로 정해 region 에 적는다.
+  // 국제/국내: 갱신 스크립트가 시트에서 판정해 region 에 적는다 ('SCI/학회' 가 국내…·KCI… 이거나
+  // 저널/학회명에 한글이 있으면 국내 — apps-script/lib.js isDomestic). 카드 pill 색과 필터가 모두 이 값을 쓴다.
   // region 이 없는 예전 JSON(스크립트를 다시 붙여넣기 전)은 같은 판정에서 나온 tier 로 대신한다.
   function regionOf(p) {
     if (p.region === 'international' || p.region === 'domestic') return p.region;
@@ -50,10 +51,11 @@
     }
     var meta = '<span class="pnu-meta">' + esc(p.venue) + '</span>' +
       (p.keywords ? '<span class="pnu-dot">|</span><span class="pnu-meta">' + esc(p.keywords) + '</span>' : '');
+    var region = regionOf(p);
     return '<article class="pnu-pub-card' + (p.award ? ' pnu-pub-awarded' : '') + '" data-tags="' + tagsFor(p) +
-      '" data-region="' + regionOf(p) + '" id="' + esc(p.id) + '">' +
+      '" data-region="' + region + '" id="' + esc(p.id) + '">' +
       '<div class="pnu-pub-side">' +
-        '<div class="pnu-venue-pill ' + (p.tier === 'top' ? 'pnu-venue-top' : 'pnu-venue-conf') + '">' + (esc(p.venueShort) || '—') + '</div>' +
+        '<div class="pnu-venue-pill ' + (region === 'international' ? 'pnu-venue-top' : 'pnu-venue-conf') + '">' + (esc(p.venueShort) || '—') + '</div>' +
         '<div class="pnu-venue-meta">' + (KIND_LABEL[p.type] || 'Conference') + '</div>' +
       '</div>' +
       '<div class="pnu-pub-main">' + top +
@@ -83,10 +85,12 @@
   }
 
   // 필터 칩 (#pubFilters)
-  //  - [data-filter="all"]: 모든 조건 해제
-  //  - [data-filter="conference|journal|awarded"]: 유형, [data-region="international|domestic"]: 국제/국내
-  //  유형과 국제/국내는 함께 걸리고(AND), 켜진 칩을 다시 누르면 그 조건만 해제된다.
+  //  - [data-filter="all"]: 모든 조건 해제. 토글이 아니라 '전체 보기' 버튼이라 aria-pressed 를 두지 않는다.
+  //  - [data-region="international|domestic"]: 국제/국내, [data-filter="conference|journal|awarded"]: 유형.
+  //    묶음마다 하나만 켜지고, 두 묶음은 함께 걸린다(AND). 켜진 칩을 다시 누르면 그 조건만 해제된다.
   //  조건 상태는 #pubFilters 에 둔다 — 클릭 리스너는 한 번만 붙으므로 다시 호출돼도 같은 상태를 봐야 한다.
+  //  #pubStatus(role=status)는 늘 페이지에 있어야 스크린리더가 바뀐 내용을 읽는다 (숨겼다 보이면 안 읽힐 수 있다).
+  var NO_MATCH = '선택한 조건에 맞는 논문이 없습니다.';
   function initFilters(doc) {
     var filterBar = doc.getElementById('pubFilters');
     if (!filterBar) return;
@@ -103,27 +107,33 @@
       return state.region === chip.getAttribute('data-region');
     }
     // 카드/연도 블록은 호출 시점에 다시 조회한다 (재렌더 뒤에도 최신 목록을 필터링)
-    function apply() {
+    // announce: 사용자가 칩을 눌렀을 때만 결과 수를 스크린리더에 알린다 (처음 그릴 때는 조용히)
+    function apply(announce) {
       var state = filterBar.__pnuState;
       slice(filterBar.querySelectorAll('[data-filter], [data-region]')).forEach(function (chip) {
         var on = isOn(chip, state);
         chip.classList.toggle('is-active', on);
-        chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (chip.getAttribute('data-filter') !== 'all') chip.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
+      var cards = slice(doc.querySelectorAll('.pnu-pub-card'));
       var shown = 0;
-      slice(doc.querySelectorAll('.pnu-pub-card')).forEach(function (card) {
+      cards.forEach(function (card) {
         var ok = (state.kind === 'all' || normalizeTags(card.getAttribute('data-tags')).indexOf(state.kind) !== -1) &&
           (state.region === 'all' || card.getAttribute('data-region') === state.region);
         card.style.display = ok ? '' : 'none';
         if (ok) shown++;
       });
+      // 연도 블록은 display 대신 hidden 으로 숨긴다: #pubList 의 space-y 간격 규칙이 [hidden] 만 건너뛴다
       slice(doc.querySelectorAll('.pnu-year-block')).forEach(function (block) {
-        var visible = slice(block.querySelectorAll('.pnu-pub-card'))
-          .filter(function (c) { return c.style.display !== 'none'; });
-        block.style.display = visible.length ? '' : 'none';
+        block.hidden = !slice(block.querySelectorAll('.pnu-pub-card'))
+          .some(function (c) { return c.style.display !== 'none'; });
       });
-      var empty = doc.getElementById('pubEmpty');
-      if (empty) empty.hidden = shown > 0;
+      var status = doc.getElementById('pubStatus');
+      if (!status) return;
+      // 목록 자체가 비어 있으면 목록이 '등록된 논문이 없습니다.' 를 보여 주므로 여기서는 말하지 않는다
+      var noMatch = cards.length > 0 && shown === 0;
+      status.textContent = noMatch ? NO_MATCH : (announce && cards.length ? '논문 ' + shown + '편' : '');
+      status.classList.toggle('pnu-sr-only', !noMatch);
     }
     if (!filterBar.__pnuBound) {
       filterBar.__pnuBound = true;
@@ -136,10 +146,10 @@
         if (kind === 'all') { state.kind = 'all'; state.region = 'all'; }
         else if (kind) state.kind = state.kind === kind ? 'all' : kind;
         else if (region) state.region = state.region === region ? 'all' : region;
-        apply();
+        apply(true);
       });
     }
-    apply();
+    apply(false);
   }
 
   var api = { esc: esc, safeUrl: safeUrl, tagsFor: tagsFor, regionOf: regionOf, cardHtml: cardHtml,

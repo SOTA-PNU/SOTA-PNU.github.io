@@ -42,19 +42,24 @@
                             <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Publications</h1>
                         </div>
 
-                        <!-- Quick filters: All 은 모든 조건 해제. 국제/국내와 유형은 함께 걸리고(AND),
-                             켜진 칩을 다시 누르면 그 조건만 해제된다 (js/publications.js initFilters).
-                             국제/국내는 시트 'SCI/학회' 칸 기준 — 국내…/KCI… 또는 한글 학회명이면 국내. -->
-                        <div class="flex flex-wrap items-center gap-2" id="pubFilters" role="group" aria-label="Publication filters">
-                            <button class="pnu-chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-                            <span class="pnu-chip-sep" aria-hidden="true"></span>
-                            <button class="pnu-chip" type="button" data-region="international" aria-pressed="false">International</button>
-                            <button class="pnu-chip" type="button" data-region="domestic" aria-pressed="false">Domestic</button>
-                            <span class="pnu-chip-sep" aria-hidden="true"></span>
-                            <button class="pnu-chip" type="button" data-filter="conference" aria-pressed="false">Conference</button>
-                            <button class="pnu-chip" type="button" data-filter="journal" aria-pressed="false">Journal</button>
-                            <!--<button class="pnu-chip" type="button" data-filter="workshop" aria-pressed="false">Workshop</button>-->
-                            <button class="pnu-chip" type="button" data-filter="awarded" aria-pressed="false">Awarded</button>
+                        <!-- Quick filters (js/publications.js initFilters)
+                             - All: 모든 조건 해제 ('전체 보기' 버튼이라 토글 상태가 없다)
+                             - 국제/국내 묶음과 유형 묶음은 각각 하나만 켜지고, 두 묶음은 함께 걸린다(AND).
+                               켜진 칩을 다시 누르면 그 조건만 해제된다.
+                             - 국제/국내는 갱신 스크립트가 시트에서 판정: 'SCI/학회' 가 국내…/KCI… 이거나 학회명에 한글이 있으면 국내.
+                             묶음마다 감싸 두어 좁은 화면에서도 묶음 단위로 줄이 바뀐다. -->
+                        <div class="pnu-pub-filters" id="pubFilters" role="group" aria-label="논문 필터">
+                            <button class="pnu-chip is-active" type="button" data-filter="all">All</button>
+                            <div class="pnu-chip-group" role="group" aria-label="국제/국내">
+                                <button class="pnu-chip" type="button" data-region="international" aria-pressed="false">International</button>
+                                <button class="pnu-chip" type="button" data-region="domestic" aria-pressed="false">Domestic</button>
+                            </div>
+                            <div class="pnu-chip-group" role="group" aria-label="유형">
+                                <button class="pnu-chip" type="button" data-filter="conference" aria-pressed="false">Conference</button>
+                                <button class="pnu-chip" type="button" data-filter="journal" aria-pressed="false">Journal</button>
+                                <!--<button class="pnu-chip" type="button" data-filter="workshop" aria-pressed="false">Workshop</button>-->
+                                <button class="pnu-chip" type="button" data-filter="awarded" aria-pressed="false">Awarded</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +70,9 @@
                 <div class="space-y-12" id="pubList" aria-live="polite">
                     <p class="text-slate-500">논문 목록을 불러오는 중…</p>
                 </div>
-                <p class="text-slate-500" id="pubEmpty" role="status" hidden>선택한 조건에 맞는 논문이 없습니다.</p>
+                <!-- 필터 결과 알림: 결과가 0건이면 보이고, 그 밖에는 스크린리더에만 "논문 N편" 을 읽어 준다.
+                     role=status 영역은 늘 있어야 바뀐 내용이 읽히므로 hidden 으로 숨기지 않는다. -->
+                <p class="pnu-sr-only text-slate-500" id="pubStatus" role="status"></p>
                 <noscript><p class="text-slate-600">논문 목록을 보려면 JavaScript 를 켜 주세요.</p></noscript>
             </section>
         </main><!--$--><!--/$-->

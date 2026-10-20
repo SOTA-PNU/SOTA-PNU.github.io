@@ -5,11 +5,23 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const DATA = path.join(__dirname, '..', 'data', 'publications.json');
+const NO_MATCH = '선택한 조건에 맞는 논문이 없습니다.';
+
+// 아주 작은 선택자 판정: '[attr]' / '[attr="v"]' 와 그 쉼표 목록만 안다.
+// 진짜처럼 선택자를 따지므로, 스크립트의 칩 선택자가 HTML 과 어긋나면 테스트가 잡는다.
+function matches(el, selector) {
+  return selector.split(',').some((part) => {
+    const m = /^\s*\[([\w-]+)(?:="([^"]*)")?\]\s*$/.exec(part);
+    if (!m) throw new Error('fake DOM does not understand selector: ' + part);
+    const v = el.getAttribute(m[1]);
+    return v != null && (m[2] === undefined || v === m[2]);
+  });
+}
 
 function fakeEl(attrs) {
   const classes = new Set((attrs.class || '').split(/\s+/).filter(Boolean));
   return {
-    attrs, style: {},
+    attrs, style: {}, hidden: false, textContent: '',
     classList: {
       toggle(c, on) { on ? classes.add(c) : classes.delete(c); },
       contains(c) { return classes.has(c); },
@@ -21,30 +33,31 @@ function fakeEl(attrs) {
   };
 }
 
-// publications.html 의 #pubFilters 와 같은 칩 구성
+// publications.html 의 #pubFilters 와 같은 칩 구성 (All 은 토글이 아니라 aria-pressed 가 없다)
 const CHIPS = [
-  { 'data-filter': 'all' },
-  { 'data-region': 'international' }, { 'data-region': 'domestic' },
-  { 'data-filter': 'conference' }, { 'data-filter': 'journal' }, { 'data-filter': 'awarded' },
+  { 'data-filter': 'all', class: 'pnu-chip is-active' },
+  { 'data-region': 'international', 'aria-pressed': 'false' }, { 'data-region': 'domestic', 'aria-pressed': 'false' },
+  { 'data-filter': 'conference', 'aria-pressed': 'false' }, { 'data-filter': 'journal', 'aria-pressed': 'false' },
+  { 'data-filter': 'awarded', 'aria-pressed': 'false' },
 ];
 
 function buildFakeDom() {
-  const chips = CHIPS.map((a) => fakeEl({ ...a, class: a['data-filter'] === 'all' ? 'pnu-chip is-active' : 'pnu-chip' }));
+  const chips = CHIPS.map((a) => fakeEl({ class: 'pnu-chip', ...a }));
   const listeners = {};
   const filterBar = {
-    querySelectorAll: () => chips,
+    querySelectorAll: (sel) => chips.filter((c) => matches(c, sel)),
     addEventListener: (ev, fn) => { listeners[ev] = fn; },
   };
   const mount = { _html: '', set innerHTML(v) { this._html = v; }, get innerHTML() { return this._html; } };
-  const empty = { hidden: true };
+  const status = fakeEl({ class: 'pnu-sr-only text-slate-500', role: 'status' });
   const state = { cards: [], blocks: [] };
   const document = {
     readyState: 'complete',
-    getElementById: (id) => ({ pubList: mount, pubFilters: filterBar, pubEmpty: empty }[id] || null),
+    getElementById: (id) => ({ pubList: mount, pubFilters: filterBar, pubStatus: status }[id] || null),
     querySelectorAll: (sel) => (sel === '.pnu-pub-card' ? state.cards : sel === '.pnu-year-block' ? state.blocks : []),
     addEventListener: () => {},
   };
-  return { document, mount, chips, listeners, state, empty };
+  return { document, mount, chips, listeners, state, status };
 }
 
 // 렌더된 HTML 문자열에서 카드/연도 블록 가짜 요소를 만든다 (initFilters 가 DOM 을 순회할 수 있도록)
@@ -61,30 +74,33 @@ function hydrate(html, state) {
 }
 
 // 모듈을 새로 불러 진입점을 실행하고, 렌더가 끝나면 카드를 가짜 DOM 에 채운다
-async function boot() {
+async function boot(data) {
   const dom = buildFakeDom();
   global.window = { document: dom.document };
   global.document = dom.document;
   global.fetch = async (url, opts) => {
     assert.equal(url, 'data/publications.json');
     assert.equal(opts.cache, 'no-cache');
-    return { ok: true, json: async () => JSON.parse(fs.readFileSync(DATA, 'utf8')) };
+    return { ok: true, json: async () => data || JSON.parse(fs.readFileSync(DATA, 'utf8')) };
   };
   delete require.cache[require.resolve('../js/publications.js')];
   const R = require('../js/publications.js');
-  for (let i = 0; i < 10 && !dom.mount.innerHTML.includes('<article'); i++) await new Promise((r) => setImmediate(r));
+  for (let i = 0; i < 10 && !dom.mount.innerHTML.includes('<'); i++) await new Promise((r) => setImmediate(r));
   hydrate(dom.mount.innerHTML, dom.state);
   const chip = (attr, value) => dom.chips.find((c) => c.getAttribute(attr) === value);
-  const click = (c) => dom.listeners.click({ target: { closest: () => c } });
+  // 진짜 클릭처럼 closest 가 선택자를 따진다: 칩이 아닌 곳을 누르면 null
+  const click = (el) => dom.listeners.click({ target: { closest: (sel) => (el && matches(el, sel) ? el : null) } });
   const shown = () => dom.state.cards.filter((c) => c.style.display !== 'none');
-  const doc = JSON.parse(fs.readFileSync(DATA, 'utf8'));
+  const doc = data || JSON.parse(fs.readFileSync(DATA, 'utf8'));
   return { dom, R, chip, click, shown, doc };
 }
 
 function assertBlocksFollowCards(dom) {
   for (const b of dom.state.blocks) {
     const visible = b.children.some((c) => c.style.display !== 'none');
-    assert.equal(b.style.display, visible ? '' : 'none', 'year block hidden iff no visible cards');
+    // display 가 아니라 hidden 으로 숨겨야 #pubList 의 space-y 간격이 맞는다
+    assert.equal(b.hidden, !visible, 'year block hidden iff no visible cards');
+    assert.equal(b.style.display, undefined, 'year blocks are hidden with the hidden attribute, not style.display');
   }
 }
 
@@ -112,13 +128,17 @@ test('browser entry renders data/publications.json into #pubList and filters wor
   click(chip('data-filter', 'awarded'));
   assert.ok(!chip('data-filter', 'journal').classList.contains('is-active'));
   assert.equal(shown().length, doc.publications.filter((p) => p.award).length);
-  assert.equal(dom.empty.hidden, shown().length > 0, 'the empty message shows exactly when nothing matches');
+  if (!shown().length) {
+    assert.equal(dom.status.textContent, NO_MATCH, 'nothing matches → say so on screen');
+    assert.ok(!dom.status.classList.contains('pnu-sr-only'));
+  }
 
   // All 로 복귀
   click(chip('data-filter', 'all'));
   assert.ok(dom.state.cards.every((c) => c.style.display === ''));
-  assert.ok(dom.state.blocks.every((b) => b.style.display === ''));
-  assert.equal(dom.empty.hidden, true);
+  assert.ok(dom.state.blocks.every((b) => b.hidden === false));
+  assert.ok(chip('data-filter', 'all').classList.contains('is-active'));
+  assert.equal(chip('data-filter', 'all').getAttribute('aria-pressed'), null, 'All is a reset button, not a toggle');
 });
 
 test('International / Domestic combine with the type filter and toggle off', async () => {
@@ -134,8 +154,11 @@ test('International / Domestic combine with the type filter and toggle off', asy
   assert.equal(shown().length, count(intl));
   assert.ok(shown().every((c) => c.getAttribute('data-region') === 'international'));
   assert.equal(pressed(chip('data-region', 'international')), 'true');
-  assert.equal(pressed(chip('data-filter', 'all')), 'false');
+  assert.ok(!chip('data-filter', 'all').classList.contains('is-active'));
   assertBlocksFollowCards(dom);
+  // 스크린리더에만 결과 수를 알린다
+  assert.equal(dom.status.textContent, `논문 ${count(intl)}편`);
+  assert.ok(dom.status.classList.contains('pnu-sr-only'));
 
   // 국제 + Journal: 두 조건이 함께 걸린다
   click(chip('data-filter', 'journal'));
@@ -148,21 +171,28 @@ test('International / Domestic combine with the type filter and toggle off', asy
   assert.equal(shown().length, count(intl));
   assert.equal(pressed(chip('data-filter', 'journal')), 'false');
 
+  // 칩이 아닌 곳(묶음 사이 빈 곳)을 눌러도 아무 일도 없다
+  click(null);
+  assert.equal(shown().length, count(intl));
+
   // 국내로 바꾸면 국제는 꺼진다
   click(chip('data-region', 'domestic'));
   assert.equal(shown().length, count(dom_));
   assert.equal(pressed(chip('data-region', 'international')), 'false');
   assert.ok(shown().every((c) => c.getAttribute('data-region') === 'domestic'));
 
-  // 국내 + Conference
+  // 국내 + Conference (Workshop 은 Conference 에 포함)
   click(chip('data-filter', 'conference'));
   assert.equal(shown().length, count((p) => dom_(p) && p.type !== 'journal'));
 
-  // 국내 + Awarded: 결과가 없으면 안내 문구가 보이고 연도 블록은 모두 숨는다
+  // 국내 + Awarded: 결과가 없으면 화면에 안내하고, 연도 블록은 모두 숨는다
   click(chip('data-filter', 'awarded'));
   const n = count((p) => dom_(p) && p.award);
   assert.equal(shown().length, n);
-  assert.equal(dom.empty.hidden, n > 0);
+  if (n === 0) {
+    assert.equal(dom.status.textContent, NO_MATCH);
+    assert.ok(!dom.status.classList.contains('pnu-sr-only'), 'the no-match message is visible');
+  }
   assertBlocksFollowCards(dom);
 
   // 켜진 국내를 다시 누르면 국가 조건만 풀린다
@@ -172,9 +202,24 @@ test('International / Domestic combine with the type filter and toggle off', asy
   // All 은 모든 조건을 푼다
   click(chip('data-filter', 'all'));
   assert.equal(shown().length, doc.count);
-  assert.equal(pressed(chip('data-filter', 'all')), 'true');
+  assert.ok(chip('data-filter', 'all').classList.contains('is-active'));
   assert.ok(dom.chips.filter((c) => c.getAttribute('data-filter') !== 'all').every((c) => pressed(c) === 'false'));
-  assert.equal(dom.empty.hidden, true);
+  assert.equal(dom.status.textContent, `논문 ${doc.count}편`);
+});
+
+test('an empty publication list shows one message, not a no-match message too', async () => {
+  // 리뷰에서 나온 일: 목록이 비면 '등록된 논문이 없습니다.' 아래에 '선택한 조건에 맞는 논문이 없습니다.' 까지 떴다
+  const { dom, chip, click } = await boot({ schemaVersion: 1, count: 0, publications: [] });
+  assert.match(dom.mount.innerHTML, /등록된 논문이 없습니다/);
+  assert.equal(dom.status.textContent, '');
+  click(chip('data-region', 'international'));
+  assert.equal(dom.status.textContent, '', 'still no second message after a click');
+  assert.ok(dom.status.classList.contains('pnu-sr-only'));
+});
+
+test('first render is quiet: no count is announced until someone presses a chip', async () => {
+  const { dom } = await boot();
+  assert.equal(dom.status.textContent, '');
 });
 
 test('browser entry shows an error message when the JSON cannot be loaded', async () => {
@@ -188,4 +233,5 @@ test('browser entry shows an error message when the JSON cannot be loaded', asyn
   for (let i = 0; i < 10 && !dom.mount.innerHTML; i++) await new Promise((r) => setImmediate(r));
   console.error = origError;
   assert.match(dom.mount.innerHTML, /불러오지 못했습니다/);
+  assert.equal(dom.status.textContent, '', 'a load error is not reported as "no match"');
 });

@@ -30,6 +30,9 @@ test('cardHtml: every card says whether it is international or domestic', () => 
   assert.match(R.cardHtml(P({ tier: 'top' })), /data-region="international"/);
   assert.match(R.cardHtml(P({ tier: 'normal' })), /data-region="domestic"/);
   assert.match(R.cardHtml(P({ region: 'domestic', tier: 'top' })), /data-region="domestic"/);
+  // pill 색도 같은 값을 따른다 — 필터에는 국내로 잡히는데 pill 은 국제 색인 카드가 없도록
+  assert.match(R.cardHtml(P({ region: 'domestic', tier: 'top' })), /pnu-venue-pill pnu-venue-conf/);
+  assert.match(R.cardHtml(P({ region: 'international', tier: 'normal' })), /pnu-venue-pill pnu-venue-top/);
 });
 
 test('cardHtml: basic card structure and classes', () => {
