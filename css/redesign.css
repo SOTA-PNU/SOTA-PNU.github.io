@@ -1941,3 +1941,70 @@ html.pnu-lightbox-open, body.pnu-lightbox-open{ overflow:hidden; }
   #research-kv-serving .kv-flow li{flex-direction:column;align-items:flex-start;gap:4px}
   #research-kv-serving .kv-flow-arrow{display:inline-block;transform:rotate(90deg)}
 }
+
+/* Agentic AI Systems — section-local violet accents (KV 섹션과 같은 구조) */
+#research-agent-ai{
+  --bg:#120d22;
+  --txt:#f1edfc;
+  --mut:rgba(241,237,252,.78);
+  --acc:#c4b5fd;
+  --acc2:#f0abfc;
+  position:relative;
+  margin-top:32px;
+  background:radial-gradient(900px 380px at 20% 0%, rgba(167,139,250,.18), transparent 60%),
+             radial-gradient(760px 360px at 85% 15%, rgba(240,171,252,.11), transparent 55%),
+             linear-gradient(180deg, #0c0818, var(--bg));
+}
+#research-agent-ai .wrap{position:relative;z-index:1}
+#research-agent-ai h2{overflow-wrap:anywhere}
+#research-agent-ai .card,
+#research-agent-ai .step > div,
+#research-agent-ai .pill > span,
+#research-agent-ai .pill b{min-width:0;overflow-wrap:anywhere}
+#research-agent-ai .grid > .card{padding:14px}
+#research-agent-ai .pill{max-width:100%;flex-wrap:wrap}
+#research-agent-ai h3.pill{margin:0;font-weight:700}
+#research-agent-ai .card > .pill + p,
+#research-agent-ai .grid > .card > p{margin-top:10px}
+#research-agent-ai .step h3{margin:0 0 2px;font-size:14px;font-weight:700}
+#research-agent-ai .num{
+  background:linear-gradient(135deg, rgba(167,139,250,.24), rgba(240,171,252,.14));
+  color:var(--acc);
+}
+#research-agent-ai .spark{
+  background:radial-gradient(circle at 30% 30%, rgba(167,139,250,.18), transparent 55%);
+}
+#research-agent-ai .btn{color:var(--acc);border-color:rgba(167,139,250,.30)}
+#research-agent-ai #research-agent-ai-roadmap{margin-top:14px;scroll-margin-top:112px}
+#research-agent-ai .agent-outlook{margin-top:10px;font-size:12px}
+#research-agent-ai .agent-flow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin:14px 0 0;
+  padding:0;
+  list-style:none;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.6;
+  color:var(--txt);
+}
+#research-agent-ai .agent-flow li{display:flex;align-items:center;gap:8px;min-width:0}
+#research-agent-ai .agent-flow-arrow{color:var(--acc2)}
+#research-agent-ai .agent-references{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 14px;
+  align-items:center;
+  margin-top:14px;
+}
+#research-agent-ai .agent-references a{color:var(--acc);text-underline-offset:3px}
+#research-agent-ai .agent-references a:hover{text-decoration:underline}
+#research-agent-ai .btn:focus-visible,
+#research-agent-ai .agent-references a:focus-visible{outline:2px solid var(--acc2);outline-offset:3px}
+@media (max-width:640px){
+  #research-agent-ai .agent-flow{flex-direction:column;align-items:flex-start}
+  #research-agent-ai .agent-flow li{flex-direction:column;align-items:flex-start;gap:4px}
+  #research-agent-ai .agent-flow-arrow{display:inline-block;transform:rotate(90deg)}
+}
