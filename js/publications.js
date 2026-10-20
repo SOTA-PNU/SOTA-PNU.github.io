@@ -26,6 +26,13 @@
     return tags.join(',');
   }
 
+  // 국제/국내: 갱신 스크립트가 시트의 'SCI/학회' 칸으로 정해 region 에 적는다.
+  // region 이 없는 예전 JSON(스크립트를 다시 붙여넣기 전)은 같은 판정에서 나온 tier 로 대신한다.
+  function regionOf(p) {
+    if (p.region === 'international' || p.region === 'domestic') return p.region;
+    return p.tier === 'top' ? 'international' : 'domestic';
+  }
+
   function cardHtml(p) {
     var paper = safeUrl(p.paperUrl);
     var code = safeUrl(p.codeUrl);
@@ -43,7 +50,8 @@
     }
     var meta = '<span class="pnu-meta">' + esc(p.venue) + '</span>' +
       (p.keywords ? '<span class="pnu-dot">|</span><span class="pnu-meta">' + esc(p.keywords) + '</span>' : '');
-    return '<article class="pnu-pub-card' + (p.award ? ' pnu-pub-awarded' : '') + '" data-tags="' + tagsFor(p) + '" id="' + esc(p.id) + '">' +
+    return '<article class="pnu-pub-card' + (p.award ? ' pnu-pub-awarded' : '') + '" data-tags="' + tagsFor(p) +
+      '" data-region="' + regionOf(p) + '" id="' + esc(p.id) + '">' +
       '<div class="pnu-pub-side">' +
         '<div class="pnu-venue-pill ' + (p.tier === 'top' ? 'pnu-venue-top' : 'pnu-venue-conf') + '">' + (esc(p.venueShort) || '—') + '</div>' +
         '<div class="pnu-venue-meta">' + (KIND_LABEL[p.type] || 'Conference') + '</div>' +
@@ -74,42 +82,67 @@
     }).join('');
   }
 
-  // 필터 칩 (#pubFilters [data-filter]) — 기존 publications.html 인라인 스크립트와 동일한 동작
+  // 필터 칩 (#pubFilters)
+  //  - [data-filter="all"]: 모든 조건 해제
+  //  - [data-filter="conference|journal|awarded"]: 유형, [data-region="international|domestic"]: 국제/국내
+  //  유형과 국제/국내는 함께 걸리고(AND), 켜진 칩을 다시 누르면 그 조건만 해제된다.
+  //  조건 상태는 #pubFilters 에 둔다 — 클릭 리스너는 한 번만 붙으므로 다시 호출돼도 같은 상태를 봐야 한다.
   function initFilters(doc) {
     var filterBar = doc.getElementById('pubFilters');
     if (!filterBar) return;
     var slice = function (list) { return Array.prototype.slice.call(list); };
+    filterBar.__pnuState = { kind: 'all', region: 'all' };
 
     function normalizeTags(tagStr) {
       return (tagStr || '').split(',').map(function (s) { return s.trim().toLowerCase(); }).filter(Boolean);
     }
+    function isOn(chip, state) {
+      var kind = chip.getAttribute('data-filter');
+      if (kind === 'all') return state.kind === 'all' && state.region === 'all';
+      if (kind) return state.kind === kind;
+      return state.region === chip.getAttribute('data-region');
+    }
     // 카드/연도 블록은 호출 시점에 다시 조회한다 (재렌더 뒤에도 최신 목록을 필터링)
-    function applyFilter(filterKey) {
-      var chips = slice(filterBar.querySelectorAll('[data-filter]'));
-      var cards = slice(doc.querySelectorAll('.pnu-pub-card'));
-      var yearBlocks = slice(doc.querySelectorAll('.pnu-year-block'));
-      chips.forEach(function (c) { c.classList.toggle('is-active', c.dataset.filter === filterKey); });
-      cards.forEach(function (card) {
-        var tags = normalizeTags(card.getAttribute('data-tags'));
-        card.style.display = (filterKey === 'all' || tags.indexOf(filterKey) !== -1) ? '' : 'none';
+    function apply() {
+      var state = filterBar.__pnuState;
+      slice(filterBar.querySelectorAll('[data-filter], [data-region]')).forEach(function (chip) {
+        var on = isOn(chip, state);
+        chip.classList.toggle('is-active', on);
+        chip.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
-      yearBlocks.forEach(function (block) {
+      var shown = 0;
+      slice(doc.querySelectorAll('.pnu-pub-card')).forEach(function (card) {
+        var ok = (state.kind === 'all' || normalizeTags(card.getAttribute('data-tags')).indexOf(state.kind) !== -1) &&
+          (state.region === 'all' || card.getAttribute('data-region') === state.region);
+        card.style.display = ok ? '' : 'none';
+        if (ok) shown++;
+      });
+      slice(doc.querySelectorAll('.pnu-year-block')).forEach(function (block) {
         var visible = slice(block.querySelectorAll('.pnu-pub-card'))
           .filter(function (c) { return c.style.display !== 'none'; });
         block.style.display = visible.length ? '' : 'none';
       });
+      var empty = doc.getElementById('pubEmpty');
+      if (empty) empty.hidden = shown > 0;
     }
     if (!filterBar.__pnuBound) {
       filterBar.__pnuBound = true;
       filterBar.addEventListener('click', function (e) {
-        var btn = e.target.closest('[data-filter]');
-        if (btn) applyFilter(btn.dataset.filter);
+        var btn = e.target.closest('[data-filter], [data-region]');
+        if (!btn) return;
+        var state = filterBar.__pnuState;
+        var kind = btn.getAttribute('data-filter');
+        var region = btn.getAttribute('data-region');
+        if (kind === 'all') { state.kind = 'all'; state.region = 'all'; }
+        else if (kind) state.kind = state.kind === kind ? 'all' : kind;
+        else if (region) state.region = state.region === region ? 'all' : region;
+        apply();
       });
     }
-    applyFilter('all');
+    apply();
   }
 
-  var api = { esc: esc, safeUrl: safeUrl, tagsFor: tagsFor, cardHtml: cardHtml,
+  var api = { esc: esc, safeUrl: safeUrl, tagsFor: tagsFor, regionOf: regionOf, cardHtml: cardHtml,
     buildPublicationsHtml: buildPublicationsHtml, initFilters: initFilters };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

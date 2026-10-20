@@ -17,9 +17,24 @@ test('tagsFor: conference / journal / workshop / awarded', () => {
   assert.equal(R.tagsFor(P({ type: 'journal', award: 'Best' })), 'journal,awarded');
 });
 
+test('regionOf: the region the sync wrote wins; older JSON without it falls back to tier', () => {
+  assert.equal(R.regionOf(P({ region: 'international', tier: 'normal' })), 'international');
+  assert.equal(R.regionOf(P({ region: 'domestic', tier: 'top' })), 'domestic');
+  // 스크립트를 다시 붙여넣기 전의 JSON: region 이 없고 tier 만 있다
+  assert.equal(R.regionOf(P({ tier: 'top' })), 'international');
+  assert.equal(R.regionOf(P({ tier: 'normal' })), 'domestic');
+  assert.equal(R.regionOf(P({ region: 'nonsense', tier: 'top' })), 'international');
+});
+
+test('cardHtml: every card says whether it is international or domestic', () => {
+  assert.match(R.cardHtml(P({ tier: 'top' })), /data-region="international"/);
+  assert.match(R.cardHtml(P({ tier: 'normal' })), /data-region="domestic"/);
+  assert.match(R.cardHtml(P({ region: 'domestic', tier: 'top' })), /data-region="domestic"/);
+});
+
 test('cardHtml: basic card structure and classes', () => {
   const h = R.cardHtml(P({}));
-  assert.match(h, /^<article class="pnu-pub-card" data-tags="conference" id="2026-x">/);
+  assert.match(h, /^<article class="pnu-pub-card" data-tags="conference" data-region="domestic" id="2026-x">/);
   assert.match(h, /<div class="pnu-venue-pill pnu-venue-conf">IEMEK<\/div>/);
   assert.match(h, /<div class="pnu-venue-meta">Conference<\/div>/);
   assert.match(h, /<h3 class="pnu-title">Title<\/h3>/);

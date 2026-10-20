@@ -90,10 +90,14 @@
 - **수정/삭제**: 셀을 고치거나 `Publish` 를 해제(또는 `홈페이지 제외` 체크) → **논문 목록 갱신**
 - 게시 조건: `Publish` 체크 ∧ `홈페이지 제외` 미체크 ∧ 제목(한글 또는 영어) 있음
 - 표시 규칙
-  - 제목: 국내 논문(`SCI/학회` 가 `국내…`, `KCI…`, 또는 저널/학회명에 한글)이면 한글 제목, 아니면 영어 제목 (없는 쪽은 다른 언어로 대체)
+  - 국제/국내: `SCI/학회` 가 `국내…`(국내학술·국내저널) 또는 `KCI…` 이거나 저널/학회명에 한글이 있으면 **국내**, 그 밖(SCI·BK IF·국제학술 등)은 **국제**
+  - 제목: 국내 논문이면 한글 제목, 국제 논문이면 영어 제목 (없는 쪽은 다른 언어로 대체)
   - 저자: `1저자` → `공동` → `교신` 순서, 중복 제거
   - 연도: `발표일자` 기준. 없으면 경고 후 올해로 배치
   - pill 색: 국제 학회/저널은 파랑, 국내는 초록
+- 홈페이지 Publications 의 **International / Domestic** 버튼이 위 국제/국내 구분을 씁니다. Conference·Journal·Awarded 와 함께 고를 수 있고(예: International + Journal), 켜진 버튼을 다시 누르면 해제됩니다.
+  - 잘못 분류된 논문은 그 행의 `SCI/학회` 칸을 고치고 **논문 목록 갱신** 을 누르면 됩니다 (예: 국내 학술대회인데 `국제학술` 로 적혀 있으면 `국내학술` 로).
+- 헤더 행은 1행이 아니어도 됩니다. 탭 맨 위에 빈 행이나 제목 행이 있으면 **위쪽 10행** 안에서 `Publish`·`발표일자`·`제목(한글)`·`제목(영어)`·`1저자` 가 모두 있는 행을 헤더로 찾습니다.
 - 변경이 없으면 커밋하지 않고 "변경 없음" 으로 끝납니다.
 - 실행 기록은 `홈페이지 갱신 로그` 탭에 남습니다.
 
@@ -210,7 +214,7 @@ git push
 | "GitHub API 403" (Resource not accessible by personal access token) | 대부분 **조직 승인 대기**입니다. https://github.com/settings/personal-access-tokens 에서 토큰에 `Pending` 이 붙어 있으면, 조직 소유자가 조직 Settings → Third-party Access → Personal access tokens → Pending requests 에서 승인해야 합니다. 승인을 기다리기 어려우면 classic 토큰(`public_repo`)으로 대체하세요. 그 외 원인은 Contents 가 Read 로만 설정됐거나 Repository access 에 저장소가 빠진 경우입니다 |
 | 토큰 설정은 "저장 완료" 인데 갱신에서 403 | 공개 저장소는 권한 없는 토큰으로도 조회가 되므로 저장 시점에는 쓰기 권한을 확인할 수 없습니다. 위 403 항목을 따르세요 |
 | "GitHub API 404" | 토큰의 Repository access 에 `SOTA-PNU.github.io` 가 없음, 또는 `Code.gs` 의 `CONFIG.repo` 오타 |
-| "필수 헤더 없음: …" | `논문 등록` 1행 헤더 이름이 바뀜 (`Publish`, `발표일자`, `제목(한글)`, `제목(영어)`, `1저자` 필요). 헤더를 되돌리거나 `lib.js` 의 `COLUMNS` 수정 |
+| "필수 헤더 없음: …" | `논문 등록` 탭 위쪽 10행 안에 `Publish`, `발표일자`, `제목(한글)`, `제목(영어)`, `1저자` 가 모두 있는 헤더 행이 없음 → 헤더 이름이 바뀌었으면 되돌리거나 `lib.js` 의 `COLUMNS` 수정. 헤더 위에 행을 10개 넘게 넣었다면 줄이기. (`pubSite.gs`·`pubLib.gs` 가 2026-10 이전 버전이면 1행만 헤더로 읽으니 두 파일을 다시 붙여넣기) |
 | 홈페이지에 반영이 안 됨 | 커밋 링크가 열리는지 확인 → GitHub 저장소 **Actions** 탭의 `pages build and deployment` 가 초록인지 확인 → 브라우저 강력 새로고침 |
 | 홈페이지에 "불러오지 못했습니다" | `data/publications.json` 이 잘못된 JSON. 수동으로 만든 경우 `npm test` 로 검사 |
 | 카드 모양/문구 수정 | `js/publications.js` (`cardHtml`), 스타일은 `css/redesign.css` 의 `.pnu-pub-*` |

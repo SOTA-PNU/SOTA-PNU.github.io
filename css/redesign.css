@@ -866,6 +866,16 @@ body{ padding-top: 96px; }
   border-color: rgba(109,40,217,.25);
   box-shadow: 0 12px 28px rgba(109,40,217,.15);
 }
+/* Publications 필터: All | 국제·국내 | 유형 묶음 사이 구분선.
+   좁은 화면에서는 칩이 두 줄로 나뉘며 줄 끝에 구분선만 남으므로 숨긴다 (줄이 곧 묶음이 된다). */
+.pnu-chip-sep{
+  align-self:center;
+  width:1px;
+  height:1.25rem;
+  margin:0 .15rem;
+  background:rgba(15,23,42,.14);
+}
+@media (max-width:640px){ .pnu-chip-sep{ display:none; } }
 
 /* =========================
    Members Directory (NEW)
