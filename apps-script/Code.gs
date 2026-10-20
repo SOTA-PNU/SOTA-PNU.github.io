@@ -40,15 +40,20 @@ function readPublicationRows_() {
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.sheetName);
   if (!sh) throw new Error('"' + CONFIG.sheetName + '" 탭을 찾을 수 없습니다.');
   var values = sh.getDataRange().getValues();
-  if (values.length < 2) throw new Error('"' + CONFIG.sheetName + '" 탭에 데이터가 없습니다.');
-  return { headers: values[0], rows: values.slice(1) };
+  // 헤더가 1행이 아니어도 된다 (맨 위에 빈 행·제목 행이 있으면 위쪽 10행 안에서 찾는다).
+  // 끝내 못 찾으면 필수 헤더가 가장 많은 행을 헤더로 넘겨, convertRows 의 "필수 헤더 없음" 오류에
+  // 실제로 빠진 이름과 그 행 번호만 나오게 둔다.
+  var h = PubLib.findHeaderRow(values);
+  if (h < 0) h = Math.max(PubLib.guessHeaderRow(values), 0);
+  if (values.length < h + 2) throw new Error('"' + CONFIG.sheetName + '" 탭에 데이터가 없습니다.');
+  return { headers: values[h], rows: values.slice(h + 1), headerRow: h + 1 };
 }
 
 function buildPublications_() {
   var data = readPublicationRows_();
   // 날짜 셀은 스크립트 시간대로 해석된다. Apps Script 프로젝트 설정(appsscript.json)의
   // timeZone 이 시트 시간대(Asia/Seoul)와 다르면 날짜가 하루 밀릴 수 있다 — README 5장 참고.
-  var result = PubLib.convertRows(data.headers, data.rows, { today: new Date() });
+  var result = PubLib.convertRows(data.headers, data.rows, { today: new Date(), headerRow: data.headerRow });
   var doc = PubLib.buildDocument(result, { generatedAt: new Date().toISOString(), source: CONFIG.sheetName });
   return { doc: doc, warnings: result.warnings };
 }
@@ -74,7 +79,7 @@ function summarize_(doc, warnings) {
 // 이 pubSite.gs 가 쓰는 라이브러리 기능 목록.
 // pubSite.gs 만 새로 붙여넣고 pubLib.gs / pubGallery.gs 는 예전 버전으로 두면
 // "... is not a function" 오류가 실행 도중에 난다. 시작할 때 미리 걸러낸다.
-var PUB_LIB_NEEDS = ['COLUMNS', 'WEBSITE_HEADERS', 'buildDocument', 'convertRows', 'headerIndex', 'normalizeHeader', 'normalizeTitle', 'samePublications', 'serialize', 'str'];
+var PUB_LIB_NEEDS = ['COLUMNS', 'REQUIRED_HEADERS', 'WEBSITE_HEADERS', 'buildDocument', 'convertRows', 'findHeaderRow', 'guessHeaderRow', 'headerIndex', 'normalizeHeader', 'normalizeTitle', 'samePublications', 'serialize', 'str'];
 var GAL_LIB_NEEDS = ['AUTO_HEADERS', 'COLUMNS', 'HEADERS', 'buildDocument', 'convertRows', 'describeGalleryLoss', 'safeFileName', 'sameAlbums', 'serialize'];
 
 function requireFreshLib_(ui, lib, needs, fileName, repoPath) {
@@ -195,8 +200,24 @@ function setupWebsiteColumns() {
   if (!sh) { ui.alert('"' + CONFIG.sheetName + '" 탭을 찾을 수 없습니다. 탭 이름을 확인하세요.'); return; }
 
   var lastCol = sh.getLastColumn();
-  var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0];
-  var idx = PubLib.headerIndex(headers);
+  var lastRow = sh.getLastRow();
+  if (!lastCol || !lastRow) { ui.alert('"' + CONFIG.sheetName + '" 탭이 비어 있습니다.'); return; }
+  // 헤더가 1행이 아닐 수 있다 (맨 위 빈 행·제목 행). 갱신과 같은 방식으로 위쪽 10행 안에서 찾는다.
+  var top = sh.getRange(1, 1, Math.min(lastRow, 10), lastCol).getValues();
+  var h = PubLib.findHeaderRow(top);
+  if (h < 0) {
+    // 헤더와 가장 비슷한 행을 기준으로, 실제로 빠진 이름만 알려 준다
+    var g = PubLib.guessHeaderRow(top);
+    var gi = g < 0 ? {} : PubLib.headerIndex(top[g]);
+    var lacking = PubLib.REQUIRED_HEADERS.filter(function (name) { return gi[PubLib.normalizeHeader(name)] == null; });
+    ui.alert('헤더 행을 찾지 못했습니다',
+      '"' + CONFIG.sheetName + '" 탭 위쪽 10행 안에 필수 헤더가 모두 있는 행이 없습니다.\n' +
+      (g < 0 ? '필요한 헤더: ' : (g + 1) + '행에 없는 헤더: ') + lacking.join(', '), ui.ButtonSet.OK);
+    return;
+  }
+  var headerRow = h + 1;      // 시트 행 번호
+  var firstRow = headerRow + 1;
+  var idx = PubLib.headerIndex(top[h]);
 
   // 시트의 실제 열 개수가 데이터 폭과 같으면 오른쪽에 쓸 칸이 없어 setValue 가 실패한다.
   // 부족한 만큼 먼저 열을 만들어 둔다.
@@ -212,36 +233,36 @@ function setupWebsiteColumns() {
   PubLib.WEBSITE_HEADERS.forEach(function (name) {
     if (idx[PubLib.normalizeHeader(name)] != null) return;
     lastCol += 1;
-    sh.getRange(1, lastCol).setValue(name).setFontWeight('bold').setBackground('#e8f0fe');
+    sh.getRange(headerRow, lastCol).setValue(name).setFontWeight('bold').setBackground('#e8f0fe');
     idx[PubLib.normalizeHeader(name)] = lastCol - 1;
     added.push(name);
   });
 
-  var n = Math.max(sh.getLastRow() - 1, 1);
+  var n = Math.max(lastRow - headerRow, 1);
   var C = PubLib.COLUMNS;
   if (added.indexOf(C.exclude) !== -1) {
     // insertCheckboxes 는 값을 false 로 초기화하므로 새로 만든 열에만 적용
-    sh.getRange(2, idx[PubLib.normalizeHeader(C.exclude)] + 1, n, 1).insertCheckboxes();
+    sh.getRange(firstRow, idx[PubLib.normalizeHeader(C.exclude)] + 1, n, 1).insertCheckboxes();
   }
   var kindRule = SpreadsheetApp.newDataValidation()
     .requireValueInList(['Conference', 'Journal', 'Workshop'], true).setAllowInvalid(true).build();
-  sh.getRange(2, idx[PubLib.normalizeHeader(C.kind)] + 1, n, 1).setDataValidation(kindRule);
+  sh.getRange(firstRow, idx[PubLib.normalizeHeader(C.kind)] + 1, n, 1).setDataValidation(kindRule);
 
-  var filled = seedKeywords_(sh, idx, n);
+  var filled = seedKeywords_(sh, idx, firstRow, n);
   ui.alert('초기 설정 완료',
     (added.length ? '추가된 열: ' + added.join(', ') : '홈페이지용 열이 이미 있어 추가하지 않았습니다.') +
     '\n키워드 자동 채움: ' + filled + '건 (빈 셀만)', ui.ButtonSet.OK);
 }
 
-function seedKeywords_(sh, idx, n) {
+function seedKeywords_(sh, idx, firstRow, n) {
   if (typeof PUB_SEED === 'undefined') return 0;
   var C = PubLib.COLUMNS;
   var koCol = idx[PubLib.normalizeHeader(C.titleKo)];
   var enCol = idx[PubLib.normalizeHeader(C.titleEn)];
   var kwCol = idx[PubLib.normalizeHeader(C.keywords)];
   if (koCol == null || enCol == null || kwCol == null) return 0;
-  var values = sh.getRange(2, 1, n, sh.getLastColumn()).getValues();
-  var kwRange = sh.getRange(2, kwCol + 1, n, 1);
+  var values = sh.getRange(firstRow, 1, n, sh.getLastColumn()).getValues();
+  var kwRange = sh.getRange(firstRow, kwCol + 1, n, 1);
   var kws = kwRange.getValues();
   var filled = 0;
   for (var i = 0; i < n; i++) {

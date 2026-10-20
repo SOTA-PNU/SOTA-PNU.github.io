@@ -208,13 +208,14 @@ test('convertRows: publish gating and exclusion', () => {
 
 test('convertRows: record shape, key order, derived fields (domestic)', () => {
   const [p] = conv([row(base)]).publications;
-  assert.deepEqual(Object.keys(p), ['id', 'year', 'date', 'type', 'tier', 'venue', 'venueShort', 'title', 'titleKo', 'titleEn',
-    'authors', 'keywords', 'paperUrl', 'codeUrl', 'award']);
+  assert.deepEqual(Object.keys(p), ['id', 'year', 'date', 'type', 'tier', 'region', 'venue', 'venueShort', 'title', 'titleKo',
+    'titleEn', 'authors', 'keywords', 'paperUrl', 'codeUrl', 'award']);
   assert.equal(p.id, '2026-비동기-큐-파이프라인');
   assert.equal(p.year, 2026);
   assert.equal(p.date, '2026-05-13');
   assert.equal(p.type, 'conference');
   assert.equal(p.tier, 'normal');
+  assert.equal(p.region, 'domestic');
   assert.equal(p.venueShort, 'IEMEK');
   assert.equal(p.title, '비동기 큐 파이프라인');
   assert.deepEqual(p.authors, ['조현준', '이지호', '차주형', '권용인']);
@@ -227,11 +228,49 @@ test('convertRows: international → English title, tier top; falls back to othe
   let [p] = conv([row(intl)]).publications;
   assert.equal(p.title, 'Async Queue Pipelining');
   assert.equal(p.tier, 'top');
+  assert.equal(p.region, 'international');
   assert.equal(p.type, 'journal');
   [p] = conv([row({ ...intl, en: '' })]).publications;
   assert.equal(p.title, '비동기 큐 파이프라인');
   [p] = conv([row({ ...base, ko: '' })]).publications;
   assert.equal(p.title, 'Async Queue Pipelining');
+});
+
+test('convertRows: region follows the SCI/학회 cell the lab already fills in', () => {
+  // 실제 시트 값 그대로: 국내학술 · 국내저널 · KCI 우수 → 국내 / SCI Qn · BK IF n · 국제학술 → 국제
+  const region = (type, venue) => conv([row({ ...base, type, venue })]).publications[0].region;
+  assert.equal(region('국내학술', 'Annual Symposium of KIPS (ASK) 2026'), 'domestic');
+  assert.equal(region('국내저널', '한국정보처리학회'), 'domestic');
+  assert.equal(region('KCI 우수', '전자공학회논문지'), 'domestic');
+  assert.equal(region('SCI Q1', 'Transactions on Mobile Computing'), 'international');
+  assert.equal(region('BK IF 2', 'LCTES 2025'), 'international');
+  assert.equal(region('국제학술, BK IF 1', 'European Conference on Computer Vision'), 'international');
+  // 유형 칸이 비어도 학회명이 한글이면 국내
+  assert.equal(region('', '대한임베디드공학회 학술 대회 (추계) 2024'), 'domestic');
+});
+
+test('findHeaderRow: the header may sit below blank or title rows', () => {
+  const blank = new Array(H.length).fill('');
+  assert.equal(lib.findHeaderRow([H, row(base)]), 0);
+  // 실제로 생긴 일: '논문 등록' 탭 1행이 비면서 헤더가 2행으로 내려갔다
+  assert.equal(lib.findHeaderRow([blank, H, row(base)]), 1);
+  assert.equal(lib.findHeaderRow([['📊 논문 목록'], blank, H]), 2);
+  // 필수 헤더가 하나라도 빠진 행은 헤더가 아니다
+  assert.equal(lib.findHeaderRow([H.filter((h) => h !== '1저자'), H]), 1);
+  assert.equal(lib.findHeaderRow([blank, row(base)]), -1);
+  assert.equal(lib.findHeaderRow([]), -1);
+  assert.equal(lib.findHeaderRow(null), -1);
+  // 위쪽 10행까지만 본다 (데이터 한가운데의 우연한 일치를 헤더로 착각하지 않도록)
+  assert.equal(lib.findHeaderRow([...new Array(10).fill(blank), H]), -1);
+  assert.equal(lib.findHeaderRow([...new Array(9).fill(blank), H]), 9);
+});
+
+test('convertRows: warnings name the real sheet row when the header is not on row 1', () => {
+  const r = lib.convertRows(H, [row({ ...base, ko: '', en: '' }), row({ ...base, date: '' })], { today: TODAY, headerRow: 2 });
+  assert.match(r.warnings[0], /^3행: 제목 없음/);
+  assert.match(r.warnings[1], /^4행 .*발표일자 없음/);
+  // 기본값은 1행 헤더 (예전 동작 그대로)
+  assert.match(conv([row({ ...base, ko: '', en: '' })]).warnings[0], /^2행: 제목 없음/);
 });
 
 test('convertRows: website override columns pass through', () => {

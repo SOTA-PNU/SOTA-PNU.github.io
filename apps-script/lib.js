@@ -56,6 +56,36 @@ var PubLib = (function () {
     return map;
   }
 
+  // 헤더 행 찾기: 위쪽 HEADER_SCAN_ROWS 행 안에서 필수 헤더가 모두 있는 첫 행 (0부터 센 번호, 없으면 -1).
+  // 실제로 있었던 일: '논문 등록' 탭 맨 위에 빈 행이 생겨 헤더가 2행으로 내려갔고,
+  // 1행을 헤더로 읽던 갱신은 "필수 헤더 없음" 으로 멈출 상황이었다.
+  var HEADER_SCAN_ROWS = 10;
+  function headerHits(row, need) {
+    var idx = headerIndex(row);
+    return need.filter(function (h) { return idx[h] != null; }).length;
+  }
+  function findHeaderRow(values, required) {
+    var need = (required || REQUIRED_HEADERS).map(normalizeHeader);
+    var limit = Math.min((values || []).length, HEADER_SCAN_ROWS);
+    for (var r = 0; r < limit; r++) {
+      if (headerHits(values[r], need) === need.length) return r;
+    }
+    return -1;
+  }
+
+  // findHeaderRow 가 실패했을 때 오류 안내용: 필수 헤더가 가장 많이 있는 행 (하나도 없으면 -1).
+  // 헤더 이름 하나만 바뀐 경우 "필수 헤더 없음" 에 그 이름만 나오게 하려는 것이다.
+  function guessHeaderRow(values, required) {
+    var need = (required || REQUIRED_HEADERS).map(normalizeHeader);
+    var limit = Math.min((values || []).length, HEADER_SCAN_ROWS);
+    var best = -1, bestHits = 0;
+    for (var r = 0; r < limit; r++) {
+      var hits = headerHits(values[r], need);
+      if (hits > bestHits) { best = r; bestHits = hits; }
+    }
+    return best;
+  }
+
   function cell(row, idx, headerName) {
     var i = idx[normalizeHeader(headerName)];
     if (i == null || !row || i >= row.length) return '';
@@ -221,22 +251,24 @@ var PubLib = (function () {
 
   /**
    * 시트 행 → 게시 레코드.
-   * @param {Array} headers 1행 헤더
-   * @param {Array<Array>} rows 2행부터의 값 (getValues() 결과)
-   * @param {{today?: Date}} opts today: 날짜 없는 행의 연도 기준
+   * @param {Array} headers 헤더 행
+   * @param {Array<Array>} rows 헤더 바로 아래 행부터의 값 (getValues() 결과)
+   * @param {{today?: Date, headerRow?: number}} opts today: 날짜 없는 행의 연도 기준,
+   *   headerRow: 헤더가 있는 시트 행 번호 (기본 1). 경고 메시지의 행 번호를 시트와 맞추는 데 쓴다.
    * @returns {{publications: Array, warnings: string[]}}
    */
   function convertRows(headers, rows, opts) {
     opts = opts || {};
     var today = opts.today instanceof Date ? opts.today : new Date();
+    var headerRow = opts.headerRow >= 1 ? Math.floor(opts.headerRow) : 1;
     var idx = headerIndex(headers);
     var missing = REQUIRED_HEADERS.filter(function (h) { return idx[normalizeHeader(h)] == null; });
-    if (missing.length) throw new Error('필수 헤더 없음: ' + missing.join(', '));
+    if (missing.length) throw new Error('필수 헤더 없음: ' + missing.join(', ') + ' (' + headerRow + '행을 헤더로 읽음)');
 
     var pubs = [];
     var warnings = [];
     (rows || []).forEach(function (row, i) {
-      var rowNo = i + 2; // 시트 행 번호 (1행 = 헤더)
+      var rowNo = headerRow + 1 + i; // 시트 행 번호
       var get = function (name) { return cell(row, idx, name); };
       if (!isTruthy(get(COLUMNS.publish))) return;
       if (isTruthy(get(COLUMNS.exclude))) return;
@@ -273,6 +305,7 @@ var PubLib = (function () {
         date: date,
         type: detectKind(get(COLUMNS.kind), get(COLUMNS.type), venue),
         tier: domestic ? 'normal' : 'top',
+        region: domestic ? 'domestic' : 'international',
         venue: venue,
         venueShort: text(get(COLUMNS.venueShort)) ? text(get(COLUMNS.venueShort)) : detectVenueShort('', venue),
         title: title,
@@ -345,6 +378,8 @@ var PubLib = (function () {
     text: text,
     normalizeHeader: normalizeHeader,
     headerIndex: headerIndex,
+    findHeaderRow: findHeaderRow,
+    guessHeaderRow: guessHeaderRow,
     cell: cell,
     isTruthy: isTruthy,
     parseDate: parseDate,
