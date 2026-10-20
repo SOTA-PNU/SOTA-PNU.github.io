@@ -1973,7 +1973,7 @@ html.pnu-lightbox-open, body.pnu-lightbox-open{ overflow:hidden; }
   #research-kv-serving .kv-flow-arrow{display:inline-block;transform:rotate(90deg)}
 }
 
-/* Agentic AI Systems — section-local violet accents (KV 섹션과 같은 구조) */
+/* Agentic AI & Compilers — section-local violet accents (KV 섹션과 같은 구조) */
 #research-agent-ai{
   --bg:#120d22;
   --txt:#f1edfc;
