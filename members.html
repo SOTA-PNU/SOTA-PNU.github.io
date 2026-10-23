@@ -4,6 +4,8 @@
 <head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 언어: 저장된 선택(또는 주소의 ?lang=en)을 화면을 그리기 전에 적용한다. 기본은 한국어 (js/i18n.js) -->
+    <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=(q==='en'||q==='ko')?q:localStorage.getItem('sota-lang');if(q&&q===l)localStorage.setItem('sota-lang',l);if(l==='en'){document.documentElement.setAttribute('data-lang','en');document.documentElement.lang='en';}}catch(e){}})();</script>
     <link rel="preload" href="icons/google_scholar.png" as="image" />
     <link rel="preload" href="icons/personal_page.png" as="image" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,15 +42,15 @@
                 <div class="flex flex-col gap-4 lg:gap-6 mb-10">
                     <div class="flex flex-wrap items-end justify-between gap-4">
                         <div>
-                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Members</h1>
+                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900"><span data-ko>구성원</span><span data-en>Members</span></h1>
                         </div>
                         <!-- Quick filters -->
-                        <div class="flex flex-wrap gap-2" id="memberFilters">
-                            <button class="pnu-chip is-active" type="button" data-filter="all">All</button>
-                            <button class="pnu-chip" type="button" data-filter="phd">PhD</button>
+                        <div class="flex flex-wrap gap-2" id="memberFilters" role="group" aria-label="구성원 필터" data-en-aria-label="Member filters">
+                            <button class="pnu-chip is-active" type="button" data-filter="all"><span data-ko>전체</span><span data-en>All</span></button>
+                            <button class="pnu-chip" type="button" data-filter="phd"><span data-ko>박사과정</span><span data-en>PhD</span></button>
                             <!--<button class="pnu-chip" type="button" data-filter="msphd">MS/PhD</button>-->
-                            <button class="pnu-chip" type="button" data-filter="master">Master</button>
-                            <button class="pnu-chip" type="button" data-filter="undergrad">Undergrad</button>
+                            <button class="pnu-chip" type="button" data-filter="master"><span data-ko>석사과정</span><span data-en>Master</span></button>
+                            <button class="pnu-chip" type="button" data-filter="undergrad"><span data-ko>학부연구생</span><span data-en>Undergrad</span></button>
                             <!--<button class="pnu-chip" type="button" data-filter="alumni">Alumni</button>-->
                         </div>
                     </div>
@@ -58,24 +60,24 @@
                     <section class="pnu-featured">
                         <div class="pnu-featured-inner">
                             <div class="pnu-featured-photo">
-                                <img src="/assets/images/members/yonginkwon.png" alt="Yongin Kwon" />
+                                <img src="/assets/images/members/yonginkwon.png" alt="권용인" data-en-alt="Yongin Kwon" />
                             </div>
 
                             <div>
                                 <div class="pnu-featured-title">
                                     <div>
-                                        <div class="pnu-featured-name">Yongin Kwon</div>
+                                        <div class="pnu-featured-name"><span data-ko>권용인</span><span data-en>Yongin Kwon</span></div>
                                         <div class="pnu-featured-role">
-                                            <span class="pnu-tag is-lead">Professor</span>
-                                            <span class="pnu-tag">Pusan National University</span>
+                                            <span class="pnu-tag is-lead"><span data-ko>교수</span><span data-en>Professor</span></span>
+                                            <span class="pnu-tag"><span data-ko>부산대학교</span><span data-en>Pusan National University</span></span>
                                             <span class="pnu-tag">yongin@pusan.ac.kr</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="pnu-featured-desc">
-                                    Assistant Professor
-                                    School of Computer Science and Engineering
+                                    <span data-ko>정보컴퓨터공학부 조교수</span>
+                                    <span data-en>Assistant Professor<br>School of Computer Science and Engineering</span>
                                 </div>
 
                                 <div class="pnu-featured-links">
@@ -95,25 +97,29 @@
                     <!-- ============ PhD (filterable) ============ -->
                     <section class="pnu-member-group" data-member-group="phd">
                         <div class="pnu-member-head">
-                            <div class="pnu-member-title">PhD</div>
+                            <div class="pnu-member-title"><span data-ko>박사과정</span><span data-en>PhD</span></div>
                             <div class="pnu-member-sub">Doctoral Researchers</div>
                         </div>
 
                         <div class="pnu-member-grid">
-                        <!-- 카드 예시: 필요 개수만큼 복붙 -->
+                        <!-- 카드 예시: 필요 개수만큼 복붙.
+                             글자는 한국어/영어를 나란히 적는다 (지금 언어만 보인다, js/i18n.js):
+                               <span data-ko>홍길동</span><span data-en>Gildong Hong</span>
+                             사진 설명은 alt="홍길동" data-en-alt="Gildong Hong" -->
+
                             <article class="pnu-member-card">
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/chajuhyoung.jpg" alt="Member photo" />
+                                        <img src="/assets/images/members/chajuhyoung.jpg" alt="차주형" data-en-alt="JooHyoung Cha" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">JooHyoung Cha</div>
+                                        <div class="pnu-member-name"><span data-ko>차주형</span><span data-en>JooHyoung Cha</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">PhD</span>
+                                            <span class="pnu-tag"><span data-ko>박사과정</span><span data-en>PhD</span></span>
                                             <span class="pnu-member-email">jh.cha@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Aritificial Intelligence<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>인공지능전공</span><span data-en>School of Artificial Intelligence<br>Pusan National University</span></div>
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="https://github.com/piorosen" target="_blank" rel="noreferrer">
                                                 <img src="icons/github.jpeg" alt="" /> Github
@@ -144,7 +150,7 @@
                     <!-- ============ Master (filterable) ============ -->
                     <section class="pnu-member-group" data-member-group="master">
                         <div class="pnu-member-head">
-                            <div class="pnu-member-title">Master</div>
+                            <div class="pnu-member-title"><span data-ko>석사과정</span><span data-en>Master</span></div>
                             <div class="pnu-member-sub">Graduate Researchers</div>
                         </div>
 
@@ -153,18 +159,18 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/chohyunjun.jpg" alt="Hyunjun Cho" />
+                                        <img src="/assets/images/members/chohyunjun.jpg" alt="조현준" data-en-alt="Hyunjun Cho" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Hyunjun Cho</div>
+                                        <div class="pnu-member-name"><span data-ko>조현준</span><span data-en>Hyunjun Cho</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Master</span>
+                                            <span class="pnu-tag"><span data-ko>석사과정</span><span data-en>Master</span></span>
                                             <span class="pnu-member-email">whguswns300@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Aritificial Intelligence<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>인공지능전공</span><span data-en>School of Artificial Intelligence<br>Pusan National University</span></div>
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="https://hyunjun1234.github.io/" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                         </div> 
                                     </div>
@@ -174,15 +180,15 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/jiholee.jpeg" alt="Jiho Lee" />
+                                        <img src="/assets/images/members/jiholee.jpeg" alt="이지호" data-en-alt="Jiho Lee" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Jiho Lee</div>
+                                        <div class="pnu-member-name"><span data-ko>이지호</span><span data-en>Jiho Lee</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Master</span>
+                                            <span class="pnu-tag"><span data-ko>석사과정</span><span data-en>Master</span></span>
                                             <span class="pnu-member-email">jiho.lee@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Aritificial Intelligence<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>인공지능전공</span><span data-en>School of Artificial Intelligence<br>Pusan National University</span></div>
                                     </div>
                                 </div>
                             </article>
@@ -192,7 +198,7 @@
                     <!-- ============ Undergrad (filterable) ============ -->
                     <section class="pnu-member-group" data-member-group="undergrad">
                         <div class="pnu-member-head">
-                            <div class="pnu-member-title">Undergrad</div>
+                            <div class="pnu-member-title"><span data-ko>학부연구생</span><span data-en>Undergrad</span></div>
                             <div class="pnu-member-sub">Undergraduate Researchers</div>
                         </div>
 
@@ -202,19 +208,19 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/jiwonlee.jpg" alt="JiwonLee" />
+                                        <img src="/assets/images/members/jiwonlee.jpg" alt="이지원" data-en-alt="Jiwon Lee" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Jiwon Lee</div>
+                                        <div class="pnu-member-name"><span data-ko>이지원</span><span data-en>Jiwon Lee</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Undergrad</span>
+                                            <span class="pnu-tag"><span data-ko>학부연구생</span><span data-en>Undergrad</span></span>
                                             <span class="pnu-member-email">2zwon@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Computer Science and Engineering<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>정보컴퓨터공학부</span><span data-en>School of Computer Science and Engineering<br>Pusan National University</span></div>
                                         <!--
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
                                                 <img src="icons/google_scholar.png" alt="" /> Scholar
@@ -228,19 +234,19 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/jinmokkim.png" alt="JinmokKim" />
+                                        <img src="/assets/images/members/jinmokkim.png" alt="김진목" data-en-alt="Jinmok Kim" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Jinmok Kim</div>
+                                        <div class="pnu-member-name"><span data-ko>김진목</span><span data-en>Jinmok Kim</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Undergrad</span>
+                                            <span class="pnu-tag"><span data-ko>학부연구생</span><span data-en>Undergrad</span></span>
                                             <span class="pnu-member-email">truetree@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Computer Science and Engineering<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>정보컴퓨터공학부</span><span data-en>School of Computer Science and Engineering<br>Pusan National University</span></div>
                                         <!--
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
                                                 <img src="icons/google_scholar.png" alt="" /> Scholar
@@ -254,19 +260,19 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/HyoyoonKwon.jpg" alt="HyoyoonKwon" />
+                                        <img src="/assets/images/members/HyoyoonKwon.jpg" alt="권효윤" data-en-alt="Hyoyoon Kwon" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Hyoyoon Kwon</div>
+                                        <div class="pnu-member-name"><span data-ko>권효윤</span><span data-en>Hyoyoon Kwon</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Undergrad</span>
+                                            <span class="pnu-tag"><span data-ko>학부연구생</span><span data-en>Undergrad</span></span>
                                             <span class="pnu-member-email">kwonhy0703@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Computer Science and Engineering<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>정보컴퓨터공학부</span><span data-en>School of Computer Science and Engineering<br>Pusan National University</span></div>
                                         <!--
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
                                                 <img src="icons/google_scholar.png" alt="" /> Scholar
@@ -280,19 +286,19 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/HayoungPark.jpg" alt="HayoungPark" />
+                                        <img src="/assets/images/members/HayoungPark.jpg" alt="박하영" data-en-alt="Hayoung Park" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Hayoung Park</div>
+                                        <div class="pnu-member-name"><span data-ko>박하영</span><span data-en>Hayoung Park</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Undergrad</span>
+                                            <span class="pnu-tag"><span data-ko>학부연구생</span><span data-en>Undergrad</span></span>
                                             <span class="pnu-member-email">gkdud222@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Computer Science and Engineering<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>정보컴퓨터공학부</span><span data-en>School of Computer Science and Engineering<br>Pusan National University</span></div>
                                         <!--
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
                                                 <img src="icons/google_scholar.png" alt="" /> Scholar
@@ -306,19 +312,19 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/YewonJung.jpg" alt="YewonJung" />
+                                        <img src="/assets/images/members/YewonJung.jpg" alt="정예원" data-en-alt="Yewon Jung" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Yewon Jung</div>
+                                        <div class="pnu-member-name"><span data-ko>정예원</span><span data-en>Yewon Jung</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Undergrad</span>
+                                            <span class="pnu-tag"><span data-ko>학부연구생</span><span data-en>Undergrad</span></span>
                                             <span class="pnu-member-email">yewon@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Computer Science and Engineering<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>정보컴퓨터공학부</span><span data-en>School of Computer Science and Engineering<br>Pusan National University</span></div>
                                         <!--
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
                                                 <img src="icons/google_scholar.png" alt="" /> Scholar
@@ -332,19 +338,19 @@
                                 <div class="pnu-member-strip"></div>
                                 <div class="pnu-member-body">
                                     <div class="pnu-member-avatar">
-                                        <img src="/assets/images/members/donghunYu.jpg" alt="YewonJung" />
+                                        <img src="/assets/images/members/donghunYu.jpg" alt="유동훈" data-en-alt="Donghun Yu" />
                                     </div>
                                     <div class="pnu-member-info">
-                                        <div class="pnu-member-name">Donghun Yu</div>
+                                        <div class="pnu-member-name"><span data-ko>유동훈</span><span data-en>Donghun Yu</span></div>
                                         <div class="pnu-member-meta">
-                                            <span class="pnu-tag">Undergrad</span>
+                                            <span class="pnu-tag"><span data-ko>학부연구생</span><span data-en>Undergrad</span></span>
                                             <span class="pnu-member-email">ehdngs1083@pusan.ac.kr</span>
                                         </div>
-                                        <div class="pnu-member-note">School of Computer Science and Engineering<br>Pusan National University</div>
+                                        <div class="pnu-member-note"><span data-ko>부산대학교<br>정보컴퓨터공학부</span><span data-en>School of Computer Science and Engineering<br>Pusan National University</span></div>
                                         <!--
                                         <div class="pnu-member-actions">
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
-                                                <img src="icons/personal_page.png" alt="" /> Page
+                                                <img src="icons/personal_page.png" alt="" /> <span data-ko>홈페이지</span><span data-en>Page</span>
                                             </a>
                                             <a class="pnu-mini" href="#" target="_blank" rel="noreferrer">
                                                 <img src="icons/google_scholar.png" alt="" /> Scholar
@@ -375,6 +381,7 @@
     <!--아래배너-->
     <div id="siteFooter"></div>
     <script src="js/main.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/layout.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {

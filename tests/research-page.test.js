@@ -63,9 +63,9 @@ test('the agentic AI section follows the KV section layout', () => {
   assert.equal(count(body, /<h3 class="pill">/g), 6, 'three goal cards and three roadmap stages');
   assert.equal(count(body, /<div class="step">/g), 3);
   assert.equal(count(body, /<div class="num" aria-hidden="true">\d<\/div>/g), 3);
-  assert.match(body, /<ol class="agent-flow" aria-label="[^"]+">/);
+  assert.match(body, /<ol class="agent-flow" aria-label="[^"]+" data-en-aria-label="[^"]+">/);
   assert.ok(count(body, /<li>/g) >= 3, 'the flow has at least three stages');
-  assert.match(body, /<div class="mini">Metrics: [^<]+<\/div>/);
+  assert.match(body, /<div class="mini">Metrics: <span data-ko>[^<]+<\/span><span data-en>[^<]+<\/span><\/div>/);
   assert.match(body, /<a class="btn" href="#research-agent-ai-roadmap">Roadmap ↓<\/a>/);
   assert.match(body, /<div class="card" id="research-agent-ai-roadmap">/);
 

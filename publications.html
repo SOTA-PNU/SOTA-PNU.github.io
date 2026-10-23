@@ -4,6 +4,8 @@
 <head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 언어: 저장된 선택(또는 주소의 ?lang=en)을 화면을 그리기 전에 적용한다. 기본은 한국어 (js/i18n.js) -->
+    <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=(q==='en'||q==='ko')?q:localStorage.getItem('sota-lang');if(q&&q===l)localStorage.setItem('sota-lang',l);if(l==='en'){document.documentElement.setAttribute('data-lang','en');document.documentElement.lang='en';}}catch(e){}})();</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>SOTA Lab — System Optimization for Transformative AI @ Pusan National University</title>
     <meta name="description"
@@ -39,7 +41,7 @@
                 <div class="flex flex-col gap-4 lg:gap-6 mb-10">
                     <div class="flex flex-wrap items-end justify-between gap-4">
                         <div>
-                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Publications</h1>
+                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900"><span data-ko>논문</span><span data-en>Publications</span></h1>
                         </div>
 
                         <!-- Quick filters (js/publications.js initFilters)
@@ -48,17 +50,17 @@
                                켜진 칩을 다시 누르면 그 조건만 해제된다.
                              - 국제/국내는 갱신 스크립트가 시트에서 판정: 'SCI/학회' 가 국내…/KCI… 이거나 학회명에 한글이 있으면 국내.
                              묶음마다 감싸 두어 좁은 화면에서도 묶음 단위로 줄이 바뀐다. -->
-                        <div class="pnu-pub-filters" id="pubFilters" role="group" aria-label="논문 필터">
-                            <button class="pnu-chip is-active" type="button" data-filter="all">All</button>
-                            <div class="pnu-chip-group" role="group" aria-label="국제/국내">
-                                <button class="pnu-chip" type="button" data-region="international" aria-pressed="false">International</button>
-                                <button class="pnu-chip" type="button" data-region="domestic" aria-pressed="false">Domestic</button>
+                        <div class="pnu-pub-filters" id="pubFilters" role="group" aria-label="논문 필터" data-en-aria-label="Publication filters">
+                            <button class="pnu-chip is-active" type="button" data-filter="all"><span data-ko>전체</span><span data-en>All</span></button>
+                            <div class="pnu-chip-group" role="group" aria-label="국제/국내" data-en-aria-label="International or domestic">
+                                <button class="pnu-chip" type="button" data-region="international" aria-pressed="false"><span data-ko>국제</span><span data-en>International</span></button>
+                                <button class="pnu-chip" type="button" data-region="domestic" aria-pressed="false"><span data-ko>국내</span><span data-en>Domestic</span></button>
                             </div>
-                            <div class="pnu-chip-group" role="group" aria-label="유형">
-                                <button class="pnu-chip" type="button" data-filter="conference" aria-pressed="false">Conference</button>
-                                <button class="pnu-chip" type="button" data-filter="journal" aria-pressed="false">Journal</button>
+                            <div class="pnu-chip-group" role="group" aria-label="유형" data-en-aria-label="Type">
+                                <button class="pnu-chip" type="button" data-filter="conference" aria-pressed="false"><span data-ko>학술대회</span><span data-en>Conference</span></button>
+                                <button class="pnu-chip" type="button" data-filter="journal" aria-pressed="false"><span data-ko>저널</span><span data-en>Journal</span></button>
                                 <!--<button class="pnu-chip" type="button" data-filter="workshop" aria-pressed="false">Workshop</button>-->
-                                <button class="pnu-chip" type="button" data-filter="awarded" aria-pressed="false">Awarded</button>
+                                <button class="pnu-chip" type="button" data-filter="awarded" aria-pressed="false"><span data-ko>수상</span><span data-en>Awarded</span></button>
                             </div>
                         </div>
                     </div>
@@ -68,17 +70,18 @@
                      데이터는 Google 시트('논문 등록') → 메뉴 "🌐 홈페이지 ▸ 논문 목록 갱신" 으로 갱신 (apps-script/README.md).
                      이 HTML 을 직접 편집하지 마세요. -->
                 <div class="space-y-12" id="pubList" aria-live="polite">
-                    <p class="text-slate-500">논문 목록을 불러오는 중…</p>
+                    <p class="text-slate-500"><span data-ko>논문 목록을 불러오는 중…</span><span data-en>Loading publications…</span></p>
                 </div>
                 <!-- 필터 결과 알림: 결과가 0건이면 보이고, 그 밖에는 스크린리더에만 "논문 N편" 을 읽어 준다.
                      role=status 영역은 늘 있어야 바뀐 내용이 읽히므로 hidden 으로 숨기지 않는다. -->
                 <p class="pnu-sr-only text-slate-500" id="pubStatus" role="status"></p>
-                <noscript><p class="text-slate-600">논문 목록을 보려면 JavaScript 를 켜 주세요.</p></noscript>
+                <noscript><p class="text-slate-600"><span data-ko>논문 목록을 보려면 JavaScript 를 켜 주세요.</span><span data-en>Turn on JavaScript to see the publication list.</span></p></noscript>
             </section>
         </main><!--$--><!--/$-->
     </div>
     <div id="siteFooter"></div>
     <script src="js/main.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/layout.js"></script>
     <script src="js/publications.js"></script>
 </body>

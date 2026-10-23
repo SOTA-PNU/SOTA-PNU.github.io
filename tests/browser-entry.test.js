@@ -232,6 +232,6 @@ test('browser entry shows an error message when the JSON cannot be loaded', asyn
   require('../js/publications.js');
   for (let i = 0; i < 10 && !dom.mount.innerHTML; i++) await new Promise((r) => setImmediate(r));
   console.error = origError;
-  assert.match(dom.mount.innerHTML, /불러오지 못했습니다/);
+  assert.match(dom.mount.innerHTML, /<span data-ko>[^<]*불러오지 못했습니다[^<]*<\/span><span data-en>We could not load the publication list[^<]*<\/span>/);
   assert.equal(dom.status.textContent, '', 'a load error is not reported as "no match"');
 });

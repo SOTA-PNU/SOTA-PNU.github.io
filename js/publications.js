@@ -8,8 +8,20 @@
 (function (root) {
   'use strict';
 
-  var KIND_LABEL = { conference: 'Conference', journal: 'Journal', workshop: 'Workshop' };
+  // 화면 문구는 한국어·영어를 함께 내보내고, 지금 언어만 보이는 것은 css/redesign.css 가 맡는다 (js/i18n.js).
+  // 그래서 언어를 바꿔도 목록을 다시 그릴 필요가 없다.
+  var KIND_LABEL = {
+    conference: ['학술대회', 'Conference'],
+    journal: ['저널', 'Journal'],
+    workshop: ['워크숍', 'Workshop']
+  };
   var ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+
+  function both(ko, en) { return '<span data-ko>' + ko + '</span><span data-en>' + en + '</span>'; }
+
+  // 글자를 직접 넣는 곳(결과 알림)은 지금 언어 하나만 쓴다. 브라우저 밖(테스트)에서는 한국어.
+  function lang() { var i = root.SOTA_I18N; return i && i.lang ? i.lang() : 'ko'; }
+  function L(ko, en) { return lang() === 'en' ? en : ko; }
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ESC[c]; });
@@ -43,8 +55,8 @@
         '<div class="pnu-badges">' + (p.award ? '<span class="pnu-badge pnu-badge-award">' + esc(p.award) + '</span>' : '') + '</div>' +
         ((paper || code)
           ? '<div class="pnu-links">' +
-            (paper ? '<a class="pnu-link pnu-link-paper" href="' + esc(paper) + '" target="_blank" rel="noreferrer">Paper</a>' : '') +
-            (code ? '<a class="pnu-link pnu-link-code" href="' + esc(code) + '" target="_blank" rel="noreferrer">Code</a>' : '') +
+            (paper ? '<a class="pnu-link pnu-link-paper" href="' + esc(paper) + '" target="_blank" rel="noreferrer">' + both('논문', 'Paper') + '</a>' : '') +
+            (code ? '<a class="pnu-link pnu-link-code" href="' + esc(code) + '" target="_blank" rel="noreferrer">' + both('코드', 'Code') + '</a>' : '') +
             '</div>'
           : '') +
         '</div>';
@@ -52,14 +64,18 @@
     var meta = '<span class="pnu-meta">' + esc(p.venue) + '</span>' +
       (p.keywords ? '<span class="pnu-dot">|</span><span class="pnu-meta">' + esc(p.keywords) + '</span>' : '');
     var region = regionOf(p);
+    var kind = KIND_LABEL[p.type] || KIND_LABEL.conference;
+    // 제목: 한국어 화면은 원래 언어 그대로(국내 논문은 한글, 국제 논문은 영어), 영어 화면은 영문 제목이 따로 있으면 그것
+    var title = esc(p.title);
+    var titleEn = esc(p.titleEn || '');
     return '<article class="pnu-pub-card' + (p.award ? ' pnu-pub-awarded' : '') + '" data-tags="' + tagsFor(p) +
       '" data-region="' + region + '" id="' + esc(p.id) + '">' +
       '<div class="pnu-pub-side">' +
         '<div class="pnu-venue-pill ' + (region === 'international' ? 'pnu-venue-top' : 'pnu-venue-conf') + '">' + (esc(p.venueShort) || '—') + '</div>' +
-        '<div class="pnu-venue-meta">' + (KIND_LABEL[p.type] || 'Conference') + '</div>' +
+        '<div class="pnu-venue-meta">' + both(kind[0], kind[1]) + '</div>' +
       '</div>' +
       '<div class="pnu-pub-main">' + top +
-        '<h3 class="pnu-title">' + esc(p.title) + '</h3>' +
+        '<h3 class="pnu-title">' + (titleEn && titleEn !== title ? both(title, titleEn) : title) + '</h3>' +
         '<p class="pnu-authors">' + esc((p.authors || []).join(', ')) + '</p>' +
         '<div class="pnu-meta-row">' + meta + '</div>' +
       '</div>' +
@@ -77,7 +93,7 @@
     years.sort(function (a, b) { return b - a; });
     return years.map(function (y) {
       return '<div class="pnu-year-block">' +
-        '<div class="pnu-year-badge"><div class="text-sm text-slate-500 font-semibold">Year</div>' +
+        '<div class="pnu-year-badge"><div class="text-sm text-slate-500 font-semibold">' + both('연도', 'Year') + '</div>' +
         '<div class="text-3xl font-extrabold tracking-tight text-slate-900">' + esc(y) + '</div></div>' +
         '<div class="pnu-pub-list">' + byYear[y].map(cardHtml).join('') + '</div>' +
       '</div>';
@@ -90,7 +106,9 @@
   //    묶음마다 하나만 켜지고, 두 묶음은 함께 걸린다(AND). 켜진 칩을 다시 누르면 그 조건만 해제된다.
   //  조건 상태는 #pubFilters 에 둔다 — 클릭 리스너는 한 번만 붙으므로 다시 호출돼도 같은 상태를 봐야 한다.
   //  #pubStatus(role=status)는 늘 페이지에 있어야 스크린리더가 바뀐 내용을 읽는다 (숨겼다 보이면 안 읽힐 수 있다).
-  var NO_MATCH = '선택한 조건에 맞는 논문이 없습니다.';
+  //  알림 글자는 지금 언어로 넣고, 언어가 바뀌면(sota:lang) 다시 맞춘다.
+  function noMatchText() { return L('선택한 조건에 맞는 논문이 없습니다.', 'No papers match the selected filters.'); }
+  function countText(n) { return L('논문 ' + n + '편', n + (n === 1 ? ' paper' : ' papers')); }
   function initFilters(doc) {
     var filterBar = doc.getElementById('pubFilters');
     if (!filterBar) return;
@@ -132,7 +150,7 @@
       if (!status) return;
       // 목록 자체가 비어 있으면 목록이 '등록된 논문이 없습니다.' 를 보여 주므로 여기서는 말하지 않는다
       var noMatch = cards.length > 0 && shown === 0;
-      status.textContent = noMatch ? NO_MATCH : (announce && cards.length ? '논문 ' + shown + '편' : '');
+      status.textContent = noMatch ? noMatchText() : (announce && cards.length ? countText(shown) : '');
       status.classList.toggle('pnu-sr-only', !noMatch);
     }
     if (!filterBar.__pnuBound) {
@@ -148,12 +166,14 @@
         else if (region) state.region = state.region === region ? 'all' : region;
         apply(true);
       });
+      // 언어가 바뀌면 화면에 나와 있는 알림("조건에 맞는 논문이 없습니다")도 그 언어로 바꾼다
+      doc.addEventListener('sota:lang', function () { apply(false); });
     }
     apply(false);
   }
 
   var api = { esc: esc, safeUrl: safeUrl, tagsFor: tagsFor, regionOf: regionOf, cardHtml: cardHtml,
-    buildPublicationsHtml: buildPublicationsHtml, initFilters: initFilters };
+    buildPublicationsHtml: buildPublicationsHtml, initFilters: initFilters, KIND_LABEL: KIND_LABEL };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 
@@ -167,12 +187,14 @@
         .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
         .then(function (data) {
           var html = buildPublicationsHtml(data);
-          mount.innerHTML = html || '<p class="text-slate-500">등록된 논문이 없습니다.</p>';
+          mount.innerHTML = html || '<p class="text-slate-500">' + both('등록된 논문이 없습니다.', 'No publications yet.') + '</p>';
           initFilters(document);
         })
         .catch(function (err) {
           console.error('[publications] load failed:', err);
-          mount.innerHTML = '<p class="text-slate-600">논문 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</p>';
+          mount.innerHTML = '<p class="text-slate-600">' +
+            both('논문 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.',
+              'We could not load the publication list. Please try again later.') + '</p>';
         });
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);

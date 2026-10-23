@@ -257,6 +257,8 @@ padding-left:clamp(24px, 4vw, 48px);
   color:rgba(15,23,42,.70);
   margin-bottom:10px;
 }
+/* 한글 제목은 넓은 자간이 띄엄띄엄 보이므로 좁힌다 */
+.pnu-footer-head [data-ko]{ letter-spacing:.02em; }
 
 .pnu-footer-links a{
   display:block;
@@ -628,9 +630,47 @@ html.pnu-mobile-open .pnu-mobile-sheet{
   background: rgba(255,255,255,.78);
 }
 
+/* 페이지 문구의 두 언어 (js/i18n.js): <span data-ko>한국어</span><span data-en>English</span>
+   기본은 한국어이고, <html data-lang="en"> 이면 영어만 보인다.
+   각 페이지 <head> 의 짧은 스크립트가 화면을 그리기 전에 data-lang 을 정하므로 깜빡이지 않는다. */
+html:not([data-lang="en"]) [data-en],
+html[data-lang="en"] [data-ko]{ display:none !important; }
+
+/* 언어 전환 버튼 (KO | EN) — js/i18n.js 가 aria-pressed 를 맞춘다.
+   헤더 그리드의 세 번째 칸: 데스크톱은 메뉴 오른쪽, 휴대폰은 햄버거 버튼 왼쪽 */
+.pnu-nav{ grid-template-columns: 1fr auto auto; }
+.pnu-lang{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  padding:4px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,.08);
+  background:rgba(255,255,255,.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+}
+.pnu-lang-btn{
+  min-width:38px;
+  height:32px;
+  padding:0 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:.04em;
+  color:rgba(15,23,42,.62);
+  transition: background .15s ease, color .15s ease;
+}
+.pnu-lang-btn:hover{ color:rgba(15,23,42,.92); background:rgba(255,255,255,.7); }
+.pnu-lang-btn[aria-pressed="true"]{
+  background: linear-gradient(180deg, rgba(15,23,42,.92), rgba(15,23,42,.86));
+  color:#fff;
+  box-shadow: 0 6px 14px rgba(2,6,23,.16);
+}
+.pnu-lang-btn:focus-visible{ outline:2px solid rgba(37,99,235,.7); outline-offset:2px; }
+
 /* responsive: hide segmented nav on small, show burger */
 @media (max-width: 767px){
-  .pnu-nav{ margin: 0 12px; grid-template-columns: 1fr auto;}
+  .pnu-nav{ margin: 0 12px; grid-template-columns: 1fr auto auto;}
   .pnu-nav-links{ display:none; }
   .pnu-brand{
     justify-self: center; /* 모바일은 다시 자연스럽게 */
@@ -640,6 +680,16 @@ html.pnu-mobile-open .pnu-mobile-sheet{
 /* on desktop hide burger */
 @media (min-width: 768px){
   .pnu-burger{ display:none; }
+}
+
+/* 태블릿 폭(768~1023px): 영어 메뉴가 가장 길어서, KO/EN 버튼까지 한 줄에 넣으려면 조금 좁혀야 한다 */
+@media (min-width: 768px) and (max-width: 1023px){
+  .pnu-nav{ gap:8px; padding:8px 10px; }
+  .pnu-brand{ padding:6px; }
+  .pnu-brand-text{ white-space:nowrap; }
+  .pnu-nav-links{ gap:2px; padding:4px; }
+  .pnu-nav-link{ padding:8px; font-size:15px; }
+  .pnu-lang-btn{ min-width:32px; padding:0 8px; }
 }
 
 /* prevent hero content from hiding behind fixed header */

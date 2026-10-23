@@ -25,6 +25,9 @@
     console.error("[layout] partial injection failed:", err);
   }
 
+  // 끼워 넣은 헤더·푸터도 지금 언어에 맞춘다 (KO/EN 버튼 상태, aria-label 등). js/i18n.js 가 먼저 실려 있어야 한다.
+  if (window.SOTA_I18N) window.SOTA_I18N.apply(document);
+
   // 2) Footer year
   const yearEl = document.getElementById("pnu-year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();

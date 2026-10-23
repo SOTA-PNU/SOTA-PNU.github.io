@@ -4,6 +4,8 @@
 <head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 언어: 저장된 선택(또는 주소의 ?lang=en)을 화면을 그리기 전에 적용한다. 기본은 한국어 (js/i18n.js) -->
+    <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=(q==='en'||q==='ko')?q:localStorage.getItem('sota-lang');if(q&&q===l)localStorage.setItem('sota-lang',l);if(l==='en'){document.documentElement.setAttribute('data-lang','en');document.documentElement.lang='en';}}catch(e){}})();</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Gallery — SOTA Lab @ Pusan National University</title>
     <meta name="description"
@@ -34,11 +36,11 @@
             <section class="max-w-[1400px] mx-auto px-6 lg:px-10 py-12 lg:py-16 pnu-gallery">
                 <!-- Header -->
                 <div class="flex flex-col gap-4 lg:gap-6 mb-10">
-                    <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Gallery</h1>
+                    <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900"><span data-ko>갤러리</span><span data-en>Gallery</span></h1>
 
                     <!-- 연도가 2개 이상일 때만 js/gallery.js 가 채우고 hidden 을 푼다 -->
-                    <nav class="pnu-gallery-jump" id="galleryJump" aria-label="Jump to year" hidden>
-                        <span class="pnu-gallery-jump-label">Jump to</span>
+                    <nav class="pnu-gallery-jump" id="galleryJump" aria-label="연도로 이동" data-en-aria-label="Jump to year" hidden>
+                        <span class="pnu-gallery-jump-label"><span data-ko>바로 가기</span><span data-en>Jump to</span></span>
                     </nav>
                 </div>
 
@@ -46,9 +48,9 @@
                      사진 추가 방법은 assets/images/gallery/README.md 참고.
                      이 HTML 을 직접 편집하지 마세요. -->
                 <div class="space-y-12" id="galleryList" aria-busy="true">
-                    <p class="text-slate-500">갤러리를 불러오는 중…</p>
+                    <p class="text-slate-500"><span data-ko>갤러리를 불러오는 중…</span><span data-en>Loading the gallery…</span></p>
                 </div>
-                <noscript><p class="text-slate-600">갤러리를 보려면 JavaScript 를 켜 주세요.</p></noscript>
+                <noscript><p class="text-slate-600"><span data-ko>갤러리를 보려면 JavaScript 를 켜 주세요.</span><span data-en>Turn on JavaScript to see the gallery.</span></p></noscript>
             </section>
         </main>
     </div>
@@ -62,27 +64,28 @@
                     <div class="pnu-gallery-lb-title" id="galleryLbTitle"></div>
                     <div class="pnu-gallery-lb-sub" id="galleryLbSub"></div>
                 </div>
-                <button class="pnu-gallery-lb-close" id="galleryLbClose" type="button" aria-label="닫기 (Esc)">✕</button>
+                <button class="pnu-gallery-lb-close" id="galleryLbClose" type="button" aria-label="닫기 (Esc)" data-en-aria-label="Close (Esc)">✕</button>
             </div>
 
             <div class="pnu-gallery-lb-stage">
                 <button class="pnu-gallery-lb-nav pnu-gallery-lb-prev" id="galleryLbPrev" type="button"
-                    aria-label="이전 사진">‹</button>
+                    aria-label="이전 사진" data-en-aria-label="Previous photo">‹</button>
                 <img id="galleryLbImg" src="" alt="" decoding="async">
                 <button class="pnu-gallery-lb-nav pnu-gallery-lb-next" id="galleryLbNext" type="button"
-                    aria-label="다음 사진">›</button>
+                    aria-label="다음 사진" data-en-aria-label="Next photo">›</button>
                 <span class="pnu-gallery-lb-count" id="galleryLbCount" role="status" aria-live="polite"></span>
             </div>
 
             <div class="pnu-gallery-lb-info">
                 <p class="pnu-gallery-lb-caption" id="galleryLbCaption" hidden></p>
                 <p class="pnu-gallery-lb-desc" id="galleryLbDesc"></p>
-                <div class="pnu-gallery-lb-rail" id="galleryLbRail" role="group" aria-label="사진 목록"></div>
+                <div class="pnu-gallery-lb-rail" id="galleryLbRail" role="group" aria-label="사진 목록" data-en-aria-label="Photos"></div>
             </div>
         </div>
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/layout.js"></script>
     <script src="js/gallery.js"></script>
 </body>

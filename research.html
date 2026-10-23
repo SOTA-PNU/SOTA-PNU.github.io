@@ -4,6 +4,8 @@
 <head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 언어: 저장된 선택(또는 주소의 ?lang=en)을 화면을 그리기 전에 적용한다. 기본은 한국어 (js/i18n.js) -->
+    <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=(q==='en'||q==='ko')?q:localStorage.getItem('sota-lang');if(q&&q===l)localStorage.setItem('sota-lang',l);if(l==='en'){document.documentElement.setAttribute('data-lang','en');document.documentElement.lang='en';}}catch(e){}})();</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>SOTA Lab — System Optimization for Transformative AI @ Pusan National University</title>
     <meta name="description"
@@ -39,7 +41,7 @@
                 <div class="flex flex-col gap-4 lg:gap-6 mb-10">
                     <div class="flex flex-wrap items-end justify-between gap-4">
                         <div>
-                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Research</h1>
+                            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900"><span data-ko>연구</span><span data-en>Research</span></h1>
                         </div>
                     </div>
                 </div>
@@ -47,10 +49,11 @@
                     <div class="spark"></div>
                     <div class="wrap">
                         <div class="kicker"><span class="dot"></span>Research</div>
-                        <h2>DNN/SNN 통합 컴파일러 & SW 플랫폼</h2>
+                        <h2><span data-ko>DNN/SNN 통합 컴파일러 & SW 플랫폼</span><span data-en>Unified DNN/SNN Compiler &amp; Software Platform</span></h2>
                         <p>
-                        상용 포맷으로 표현된 AI 모델을 <b>MLIR</b>로 통합하고, 최적화/코드생성/실행/디버깅까지
-                        전 과정을 한 번에 제공하는 통합 프레임워크를 지향합니다.
+                        <span data-ko>상용 포맷으로 표현된 AI 모델을 <b>MLIR</b>로 통합하고, 최적화/코드생성/실행/디버깅까지
+                        전 과정을 한 번에 제공하는 통합 프레임워크를 지향합니다.</span>
+                        <span data-en>We aim to build a unified framework that brings AI models in common formats into <b>MLIR</b> and handles the whole pipeline in one place, from optimization and code generation to execution and debugging.</span>
                         </p>
 
                         <div class="hero">
@@ -60,15 +63,15 @@
                                 <div class="grid">
                                     <div class="card" style="padding:14px">
                                         <div class="pill"><b>Frontends</b> ONNX · snnTorch</div>
-                                        <p>오픈 생태계 입력 수용</p>
+                                        <p><span data-ko>오픈 생태계 입력 수용</span><span data-en>Accepts models from open ecosystems</span></p>
                                     </div>
                                     <div class="card" style="padding:14px">
                                         <div class="pill"><b>Core</b> MLIR Optimization</div>
-                                        <p>백엔드 독립 최적화/변환</p>
+                                        <p><span data-ko>백엔드 독립 최적화/변환</span><span data-en>Backend-independent optimization and transformation</span></p>
                                     </div>
                                     <div class="card" style="padding:14px">
                                         <div class="pill"><b>Backends</b> CPU · GPU  DNN · SNN</div>
-                                        <p>타겟별 코드 생성 및 통합</p>
+                                        <p><span data-ko>타겟별 코드 생성 및 통합</span><span data-en>Target-specific code generation and integration</span></p>
                                     </div>
                                 </div>
 
@@ -82,30 +85,31 @@
                             <div class="card">
                                 <div class="pill"><b>Why</b> Hybrid xNN (DNN+SNN)</div>
                                 <p>
-                                DNN의 인식률과 SNN의 효율성을 결합하는 하이브리드 모델(xNN)의 부상으로,
-                                <b>DNN과 SNN을 동시에 지원</b>하는 컴파일러/SDK의 필요성이 커지고 있습니다.
+                                <span data-ko>DNN의 인식률과 SNN의 효율성을 결합하는 하이브리드 모델(xNN)의 부상으로,
+                                <b>DNN과 SNN을 동시에 지원</b>하는 컴파일러/SDK의 필요성이 커지고 있습니다.</span>
+                                <span data-en>As hybrid models (xNN) that combine the accuracy of DNNs with the efficiency of SNNs gain ground, there is a growing need for compilers and SDKs that <b>support DNNs and SNNs together</b>.</span>
                                 </p>
 
                                 <div class="steps">
                                     <div class="step">
                                         <div class="num">1</div>
                                         <div>
-                                            <h4>SNN 모델 다양성</h4>
-                                            <p>뉴런/학습 방식이 다양해 컴파일 복잡도 증가</p>
+                                            <h4><span data-ko>SNN 모델 다양성</span><span data-en>Diverse SNN models</span></h4>
+                                            <p><span data-ko>뉴런/학습 방식이 다양해 컴파일 복잡도 증가</span><span data-en>Many neuron and learning models make compilation more complex</span></p>
                                         </div>
                                     </div>
                                     <div class="step">
                                         <div class="num">2</div>
                                         <div>
-                                            <h4>Spatial mapping 난이도</h4>
-                                            <p>non-von-Neumann 구조에서 배치/라우팅이 핵심 병목</p>
+                                            <h4><span data-ko>Spatial mapping 난이도</span><span data-en>Difficult spatial mapping</span></h4>
+                                            <p><span data-ko>non-von-Neumann 구조에서 배치/라우팅이 핵심 병목</span><span data-en>Placement and routing are the main bottleneck on non-von Neumann architectures</span></p>
                                         </div>
                                     </div>
                                     <div class="step">
                                         <div class="num">3</div>
                                         <div>
-                                            <h4>QoS 런타임</h4>
-                                            <p>이종 코어에서 효율/서비스 품질을 동시에 보장</p>
+                                            <h4><span data-ko>QoS 런타임</span><span data-en>QoS-aware runtime</span></h4>
+                                            <p><span data-ko>이종 코어에서 효율/서비스 품질을 동시에 보장</span><span data-en>Efficiency and quality of service must be guaranteed together on heterogeneous cores</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -118,15 +122,15 @@
                             <div class="grid" style="margin-top:10px">
                                 <div class="card" style="padding:14px">
                                     <div class="pill"><b>Year 1</b> Baseline</div>
-                                    <p>프레임워크 구축, MLIR 요구사항 설계, SNN ISA/시뮬레이터 착수</p>
+                                    <p><span data-ko>프레임워크 구축, MLIR 요구사항 설계, SNN ISA/시뮬레이터 착수</span><span data-en>Build the framework, define MLIR requirements, and start the SNN ISA and simulator</span></p>
                                 </div>
                                 <div class="card" style="padding:14px">
                                     <div class="pill"><b>Year 2</b> Prototype</div>
-                                    <p>인터페이스/API, MLIR 최적화 모듈, 하이브리드 변환/런타임 프로토타입</p>
+                                    <p><span data-ko>인터페이스/API, MLIR 최적화 모듈, 하이브리드 변환/런타임 프로토타입</span><span data-en>Interfaces and APIs, MLIR optimization modules, and a prototype hybrid converter and runtime</span></p>
                                 </div>
                                 <div class="card" style="padding:14px">
                                     <div class="pill"><b>Year 3–4</b> Scale</div>
-                                    <p>sLLM 포함 벤치마크 검증, 백엔드 고도화, SW 공개/통합개발환경 연동</p>
+                                    <p><span data-ko>sLLM 포함 벤치마크 검증, 백엔드 고도화, SW 공개/통합개발환경 연동</span><span data-en>Benchmark validation including sLLMs, more mature backends, and an open software release with IDE integration</span></p>
                                 </div>
                             </div>
                         </div>
@@ -139,9 +143,10 @@
                         <div class="kicker"><span class="dot" aria-hidden="true"></span>Research</div>
                         <h2 id="research-kv-serving-title">KV Cache &amp; LLM Serving</h2>
                         <p>
-                            대규모 언어모델의 효율적인 추론 서비스를 위해 KV Cache의 저장·재사용·전송과
+                            <span data-ko>대규모 언어모델의 효율적인 추론 서비스를 위해 KV Cache의 저장·재사용·전송과
                             요청 스케줄링을 함께 연구합니다. 서빙 엔진의 메모리 관리부터 이종 AI반도체 간
-                            Prefill/Decode 분리, 다중 노드 환경으로의 확장을 지향합니다.
+                            Prefill/Decode 분리, 다중 노드 환경으로의 확장을 지향합니다.</span>
+                            <span data-en>To serve large language models efficiently, we study how KV caches are stored, reused, and transferred, together with request scheduling. Our work spans memory management in serving engines, prefill/decode disaggregation across heterogeneous AI accelerators, and scaling out to multi-node environments.</span>
                         </p>
 
                         <div class="hero">
@@ -150,19 +155,19 @@
                                 <div class="grid">
                                     <div class="card">
                                         <h3 class="pill"><b>LLM Serving</b></h3>
-                                        <p>요청 배칭과 스케줄링, Attention 실행 구조를 분석하여 응답 지연과 처리량의 균형을 연구합니다.</p>
+                                        <p><span data-ko>요청 배칭과 스케줄링, Attention 실행 구조를 분석하여 응답 지연과 처리량의 균형을 연구합니다.</span><span data-en>We analyze request batching, scheduling, and attention execution to balance latency against throughput.</span></p>
                                     </div>
                                     <div class="card">
                                         <h3 class="pill"><b>KV Cache</b></h3>
-                                        <p>Prefix Caching과 KV 양자화, 계층형 저장·재사용을 통해 메모리 사용량과 중복 연산을 줄이는 방법을 연구합니다.</p>
+                                        <p><span data-ko>Prefix Caching과 KV 양자화, 계층형 저장·재사용을 통해 메모리 사용량과 중복 연산을 줄이는 방법을 연구합니다.</span><span data-en>We study prefix caching, KV quantization, and tiered storage and reuse to cut memory use and redundant computation.</span></p>
                                     </div>
                                     <div class="card">
                                         <h3 class="pill"><b>Distributed Serving</b></h3>
-                                        <p>공유 KV 저장소와 캐시 위치를 고려한 요청 라우팅을 바탕으로 다중 인스턴스 서빙의 확장성을 연구합니다.</p>
+                                        <p><span data-ko>공유 KV 저장소와 캐시 위치를 고려한 요청 라우팅을 바탕으로 다중 인스턴스 서빙의 확장성을 연구합니다.</span><span data-en>We study how to scale multi-instance serving with shared KV stores and cache-aware request routing.</span></p>
                                     </div>
                                 </div>
                                 <div class="footer">
-                                    <div class="mini">Metrics: 첫 토큰 응답시간 · 토큰 간 지연시간 · 처리량 · 메모리 사용량</div>
+                                    <div class="mini">Metrics: <span data-ko>첫 토큰 응답시간 · 토큰 간 지연시간 · 처리량 · 메모리 사용량</span><span data-en>time to first token · inter-token latency · throughput · memory usage</span></div>
                                     <a class="btn" href="#research-kv-serving-roadmap">Roadmap ↓</a>
                                 </div>
                             </div>
@@ -170,34 +175,35 @@
                             <div class="card">
                                 <div class="pill"><b>Focus</b><span>P/D Disaggregation on Heterogeneous AI Accelerators</span></div>
                                 <p>
-                                    입력을 처리하는 Prefill과 토큰을 생성하는 Decode를 분리하고,
-                                    이종 AI반도체를 연결하는 이종 서빙 구조를 연구합니다.
+                                    <span data-ko>입력을 처리하는 Prefill과 토큰을 생성하는 Decode를 분리하고,
+                                    이종 AI반도체를 연결하는 이종 서빙 구조를 연구합니다.</span>
+                                    <span data-en>We separate prefill, which processes the input, from decode, which generates tokens, and study serving architectures that link heterogeneous AI accelerators.</span>
                                 </p>
-                                <ol class="kv-flow" aria-label="현재 집중하는 Host-staged KV 전달 경로">
+                                <ol class="kv-flow" aria-label="현재 집중하는 Host-staged KV 전달 경로" data-en-aria-label="The host-staged KV transfer path we currently focus on">
                                     <li>GPU Prefill</li>
-                                    <li><span class="kv-flow-arrow" aria-hidden="true">→</span><span>Host 경유 KV 전달</span></li>
+                                    <li><span class="kv-flow-arrow" aria-hidden="true">→</span><span><span data-ko>Host 경유 KV 전달</span><span data-en>KV transfer via host</span></span></li>
                                     <li><span class="kv-flow-arrow" aria-hidden="true">→</span><span>NPU Decode</span></li>
                                 </ol>
                                 <div class="steps">
                                     <div class="step">
                                         <div class="num" aria-hidden="true">1</div>
                                         <div>
-                                            <h3>KV 호환성</h3>
-                                            <p>가속기별 KV Cache의 메모리 배치와 데이터 표현 차이를 다룹니다.</p>
+                                            <h3><span data-ko>KV 호환성</span><span data-en>KV compatibility</span></h3>
+                                            <p><span data-ko>가속기별 KV Cache의 메모리 배치와 데이터 표현 차이를 다룹니다.</span><span data-en>We handle differences in KV cache memory layout and data representation across accelerators.</span></p>
                                         </div>
                                     </div>
                                     <div class="step">
                                         <div class="num" aria-hidden="true">2</div>
                                         <div>
-                                            <h3>전달·변환 비용</h3>
-                                            <p>Host 메모리 경유 전송과 필요한 형식 변환의 비용을 분석합니다.</p>
+                                            <h3><span data-ko>전달·변환 비용</span><span data-en>Transfer and conversion cost</span></h3>
+                                            <p><span data-ko>Host 메모리 경유 전송과 필요한 형식 변환의 비용을 분석합니다.</span><span data-en>We analyze the cost of moving KV through host memory and of any format conversion it needs.</span></p>
                                         </div>
                                     </div>
                                     <div class="step">
                                         <div class="num" aria-hidden="true">3</div>
                                         <div>
-                                            <h3>요청 배분</h3>
-                                            <p>장치 처리능력과 대기열을 고려하여 단계 분리 여부와 요청 배분을 최적화하는 방법을 연구합니다.</p>
+                                            <h3><span data-ko>요청 배분</span><span data-en>Request dispatch</span></h3>
+                                            <p><span data-ko>장치 처리능력과 대기열을 고려하여 단계 분리 여부와 요청 배분을 최적화하는 방법을 연구합니다.</span><span data-en>We study when to split the two stages and how to dispatch requests, based on each device’s capacity and queue.</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -209,16 +215,16 @@
                             <div class="grid">
                                 <div class="card">
                                     <h3 class="pill"><b>Serving Foundations</b></h3>
-                                    <p>vLLM·SGLang의 서빙 구조와 PagedAttention·vAttention의 KV 메모리 관리, FlashAttention의 연산 최적화를 분석하고 성능 평가 기반을 마련합니다.</p>
+                                    <p><span data-ko>vLLM·SGLang의 서빙 구조와 PagedAttention·vAttention의 KV 메모리 관리, FlashAttention의 연산 최적화를 분석하고 성능 평가 기반을 마련합니다.</span><span data-en>We analyze the serving architectures of vLLM and SGLang, KV memory management in PagedAttention and vAttention, and the kernel optimizations in FlashAttention, and set up a performance evaluation baseline.</span></p>
                                 </div>
                                 <div class="card">
                                     <h3 class="pill"><b>KV-aware Optimization</b></h3>
-                                    <p>Prefix Caching·KV 양자화·계층형 캐시를 연구하고, LMCache·Mooncake 기반 공유 저장소의 적용 가능성을 검토합니다.</p>
+                                    <p><span data-ko>Prefix Caching·KV 양자화·계층형 캐시를 연구하고, LMCache·Mooncake 기반 공유 저장소의 적용 가능성을 검토합니다.</span><span data-en>We study prefix caching, KV quantization, and tiered caches, and evaluate shared KV stores built on LMCache and Mooncake.</span></p>
                                 </div>
                                 <div class="card">
                                     <h3 class="pill"><b>Heterogeneous &amp; Scale-out</b></h3>
-                                    <p>이종 AI 반도체 간 PDD와 요청 배분을 고도화하고, llm-d 등 분산 서빙 구조와의 연계 및 다양한 가속기·다중 노드 환경으로의 확장을 연구합니다.</p>
-                                    <p class="mini kv-outlook">Long-term Research Agenda: CXL 메모리 확장·풀링, RDMA 기반 KV 전송</p>
+                                    <p><span data-ko>이종 AI 반도체 간 PDD와 요청 배분을 고도화하고, llm-d 등 분산 서빙 구조와의 연계 및 다양한 가속기·다중 노드 환경으로의 확장을 연구합니다.</span><span data-en>We refine prefill/decode disaggregation and request dispatch across heterogeneous AI accelerators, and study integration with distributed serving stacks such as llm-d and scaling to more accelerators and multi-node setups.</span></p>
+                                    <p class="mini kv-outlook">Long-term Research Agenda: <span data-ko>CXL 메모리 확장·풀링, RDMA 기반 KV 전송</span><span data-en>CXL memory expansion and pooling, RDMA-based KV transfer</span></p>
                                 </div>
                             </div>
                         </div>
@@ -239,9 +245,10 @@
                         <div class="kicker"><span class="dot" aria-hidden="true"></span>Research</div>
                         <h2 id="research-agent-ai-title">Agentic AI &amp; Compilers</h2>
                         <p>
-                            LLM 에이전트를 효율적으로 실행하는 시스템과, 에이전트를 활용한 커널·컴파일러 최적화를
+                            <span data-ko>LLM 에이전트를 효율적으로 실행하는 시스템과, 에이전트를 활용한 커널·컴파일러 최적화를
                             함께 연구합니다. ML 기반 오토튜닝과 LLM 제안·정확성 검증의 결합, 다중 가속기 서버에서
-                            엣지 NPU로의 확장을 지향합니다.
+                            엣지 NPU로의 확장을 지향합니다.</span>
+                            <span data-en>We study systems that run LLM agents efficiently, and we use agents to optimize kernels and compilers. We aim to combine ML-based autotuning with LLM proposals and correctness checks, and to carry this from multi-accelerator servers to edge NPUs.</span>
                         </p>
 
                         <div class="hero">
@@ -250,19 +257,19 @@
                                 <div class="grid">
                                     <div class="card">
                                         <h3 class="pill"><b>Agent Runtime</b></h3>
-                                        <p>LLM 추론 중 도구를 미리 실행하는 기법과 실패 시 복구 비용, 구성 요소의 CPU·GPU·NPU 할당을 연구합니다.</p>
+                                        <p><span data-ko>LLM 추론 중 도구를 미리 실행하는 기법과 실패 시 복구 비용, 구성 요소의 CPU·GPU·NPU 할당을 연구합니다.</span><span data-en>We study running tools ahead of time during LLM inference, the cost of recovering when that guess fails, and how to place components on CPUs, GPUs, and NPUs.</span></p>
                                     </div>
                                     <div class="card">
                                         <h3 class="pill"><b>Compiler Agents</b></h3>
-                                        <p>LLM 에이전트가 컴파일러와 프로파일러를 도구로 호출하며 커널과 최적화 패스 구성을 개선하는 방법을 연구합니다.</p>
+                                        <p><span data-ko>LLM 에이전트가 컴파일러와 프로파일러를 도구로 호출하며 커널과 최적화 패스 구성을 개선하는 방법을 연구합니다.</span><span data-en>We study LLM agents that call compilers and profilers as tools to improve kernels and optimization pass pipelines.</span></p>
                                     </div>
                                     <div class="card">
                                         <h3 class="pill"><b>Robust Evaluation</b></h3>
-                                        <p>격리 환경에서 생성 코드의 정확성을 확인하고 평가 허점을 이용한 속도 향상을 걸러내는 방법을 연구합니다.</p>
+                                        <p><span data-ko>격리 환경에서 생성 코드의 정확성을 확인하고 평가 허점을 이용한 속도 향상을 걸러내는 방법을 연구합니다.</span><span data-en>We check generated code for correctness in isolated environments and filter out speedups that exploit loopholes in the evaluation.</span></p>
                                     </div>
                                 </div>
                                 <div class="footer">
-                                    <div class="mini">Metrics: 작업 완료시간 · 도구 대기시간 · 정확한 커널의 가속비 · 튜닝 실측 횟수</div>
+                                    <div class="mini">Metrics: <span data-ko>작업 완료시간 · 도구 대기시간 · 정확한 커널의 가속비 · 튜닝 실측 횟수</span><span data-en>task completion time · tool wait time · speedup of correct kernels · measurements per tuning run</span></div>
                                     <a class="btn" href="#research-agent-ai-roadmap">Roadmap ↓</a>
                                 </div>
                             </div>
@@ -270,34 +277,35 @@
                             <div class="card">
                                 <div class="pill"><b>Focus</b><span>Agentic Autotuning with Cost Models on AI Accelerators</span></div>
                                 <p>
-                                    에이전트가 제안한 스케줄 후보를 ML 비용 모델로 선별하고, 정확성과 실측 성능이 확인된
-                                    후보만 채택하는 튜닝 루프를 연구합니다.
+                                    <span data-ko>에이전트가 제안한 스케줄 후보를 ML 비용 모델로 선별하고, 정확성과 실측 성능이 확인된
+                                    후보만 채택하는 튜닝 루프를 연구합니다.</span>
+                                    <span data-en>We study a tuning loop in which ML cost models screen the schedule candidates an agent proposes, and only candidates whose correctness and measured performance check out are kept.</span>
                                 </p>
-                                <ol class="agent-flow" aria-label="LLM 에이전트 제안부터 실측까지의 튜닝 경로">
-                                    <li>LLM 에이전트 제안</li>
-                                    <li><span class="agent-flow-arrow" aria-hidden="true">→</span><span>ML 비용 모델 선별</span></li>
-                                    <li><span class="agent-flow-arrow" aria-hidden="true">→</span><span>정확성 검증·실측</span></li>
+                                <ol class="agent-flow" aria-label="LLM 에이전트 제안부터 실측까지의 튜닝 경로" data-en-aria-label="The tuning path from LLM agent proposals to on-device measurement">
+                                    <li><span data-ko>LLM 에이전트 제안</span><span data-en>LLM agent proposes</span></li>
+                                    <li><span class="agent-flow-arrow" aria-hidden="true">→</span><span><span data-ko>ML 비용 모델 선별</span><span data-en>Cost model screens</span></span></li>
+                                    <li><span class="agent-flow-arrow" aria-hidden="true">→</span><span><span data-ko>정확성 검증·실측</span><span data-en>Verify &amp; measure</span></span></li>
                                 </ol>
                                 <div class="steps">
                                     <div class="step">
                                         <div class="num" aria-hidden="true">1</div>
                                         <div>
-                                            <h3>탐색 공간</h3>
-                                            <p>제안할 타일링·융합·텐서화 선택지와 컴파일러 피드백의 형식을 다룹니다.</p>
+                                            <h3><span data-ko>탐색 공간</span><span data-en>Search space</span></h3>
+                                            <p><span data-ko>제안할 타일링·융합·텐서화 선택지와 컴파일러 피드백의 형식을 다룹니다.</span><span data-en>We define the tiling, fusion, and tensorization choices an agent can propose, and the form of the compiler feedback.</span></p>
                                         </div>
                                     </div>
                                     <div class="step">
                                         <div class="num" aria-hidden="true">2</div>
                                         <div>
-                                            <h3>후보 선별</h3>
-                                            <p>유효성·성능 예측 모델로 실측 전에 후보를 거르는 방법을 연구합니다.</p>
+                                            <h3><span data-ko>후보 선별</span><span data-en>Candidate screening</span></h3>
+                                            <p><span data-ko>유효성·성능 예측 모델로 실측 전에 후보를 거르는 방법을 연구합니다.</span><span data-en>We use validity and performance predictors to filter candidates before measuring them on the device.</span></p>
                                         </div>
                                     </div>
                                     <div class="step">
                                         <div class="num" aria-hidden="true">3</div>
                                         <div>
-                                            <h3>검증 범위</h3>
-                                            <p>입력 크기 구간과 데이터 형식별 허용 오차에 따라 생성 커널의 오류와 성능 저하를 분석합니다.</p>
+                                            <h3><span data-ko>검증 범위</span><span data-en>Verification coverage</span></h3>
+                                            <p><span data-ko>입력 크기 구간과 데이터 형식별 허용 오차에 따라 생성 커널의 오류와 성능 저하를 분석합니다.</span><span data-en>We analyze errors and slowdowns in generated kernels across input-size ranges and per-data-type tolerances.</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -309,16 +317,16 @@
                             <div class="grid">
                                 <div class="card">
                                     <h3 class="pill"><b>Workload Profiling</b></h3>
-                                    <p>MCP 도구 호출과 SWE-bench 작업의 단계별 지연·에너지를 분석하고, KernelBench·TVM MetaSchedule로 커널의 정확성·성능 평가 기반을 마련합니다.</p>
+                                    <p><span data-ko>MCP 도구 호출과 SWE-bench 작업의 단계별 지연·에너지를 분석하고, KernelBench·TVM MetaSchedule로 커널의 정확성·성능 평가 기반을 마련합니다.</span><span data-en>We profile the per-step latency and energy of MCP tool calls and SWE-bench tasks, and set up a correctness and performance baseline for kernels with KernelBench and TVM MetaSchedule.</span></p>
                                 </div>
                                 <div class="card">
                                     <h3 class="pill"><b>Autotuning &amp; Runtime</b></h3>
-                                    <p>LLM 제안과 ML 비용 모델의 결합을 연구하고, 도구 대기 중 KV의 보존과 에이전트 간 공유는 KV Cache &amp; LLM Serving 연구와 연계합니다.</p>
+                                    <p><span data-ko>LLM 제안과 ML 비용 모델의 결합을 연구하고, 도구 대기 중 KV의 보존과 에이전트 간 공유는 KV Cache &amp; LLM Serving 연구와 연계합니다.</span><span data-en>We study how to combine LLM proposals with ML cost models. Keeping the KV cache alive while tools run, and sharing it across agents, is done with our KV Cache &amp; LLM Serving work.</span></p>
                                 </div>
                                 <div class="card">
                                     <h3 class="pill"><b>Edge NPU Agents</b></h3>
-                                    <p>VLM·sLLM의 NPU 매핑 범위와 CPU fallback 비용, 구성 요소별 양자화 수준을 분석하고, 로봇 플랫폼의 온디바이스 에이전트 실행을 연구합니다.</p>
-                                    <p class="mini agent-outlook">Long-term Research Agenda: 에이전트 그래프 MLIR 컴파일, NPU 구조화 출력</p>
+                                    <p><span data-ko>VLM·sLLM의 NPU 매핑 범위와 CPU fallback 비용, 구성 요소별 양자화 수준을 분석하고, 로봇 플랫폼의 온디바이스 에이전트 실행을 연구합니다.</span><span data-en>We analyze how much of a VLM or sLLM maps onto NPUs, the cost of CPU fallback, and per-component quantization levels, and study on-device agents on robot platforms.</span></p>
+                                    <p class="mini agent-outlook">Long-term Research Agenda: <span data-ko>에이전트 그래프 MLIR 컴파일, NPU 구조화 출력</span><span data-en>compiling agent graphs with MLIR, structured output on NPUs</span></p>
                                 </div>
                             </div>
                         </div>
@@ -337,6 +345,7 @@
     </div>
     <div id="siteFooter"></div>
     <script src="js/main.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/layout.js"></script>
 </body>
 

@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const lib = require('../apps-script/lib.js');
+const { view } = require('./helpers/lang-view.js');
 
 // 실제 '논문 등록' 탭 헤더 (2행). tests/lib.test.js 와 같은 목록 — 그 파일을 require 하면 테스트가 두 번 돈다.
 const H = [
@@ -42,21 +43,23 @@ const csvOf = (rows) => rows.map((r) => r.map((v) => {
 
 test('publications.html: All, then a region group and a type group of toggle chips', () => {
   const html = read('publications.html').replace(/<!--[\s\S]*?-->/g, '');
-  const start = html.indexOf('id="pubFilters"');
-  const bar = html.slice(html.lastIndexOf('<div', start), html.indexOf('id="pubList"'));
-  assert.ok(start > 0, '#pubFilters is missing');
-  assert.match(bar, /^<div class="pnu-pub-filters" id="pubFilters" role="group" aria-label="[^"]+">/);
+  const barOf = (src) => src.slice(src.lastIndexOf('<div', src.indexOf('id="pubFilters"')), src.indexOf('id="pubList"'));
+  const bar = barOf(html);
+  assert.ok(html.indexOf('id="pubFilters"') > 0, '#pubFilters is missing');
+  assert.match(bar, /^<div class="pnu-pub-filters" id="pubFilters" role="group" aria-label="[^"]+" data-en-aria-label="[^"]+">/);
 
-  const buttons = bar.match(/<button\b[^>]*>[^<]*<\/button>/g) || [];
-  assert.deepEqual(buttons.map((b) => b.replace(/<[^>]+>/g, '')),
-    ['All', 'International', 'Domestic', 'Conference', 'Journal', 'Awarded']);
+  const buttonsOf = (src) => src.match(/<button\b[^>]*>[\s\S]*?<\/button>/g) || [];
+  const labels = (src) => buttonsOf(barOf(src)).map((b) => b.replace(/<[^>]+>/g, '').trim());
+  assert.deepEqual(labels(view(html, 'ko')), ['전체', '국제', '국내', '학술대회', '저널', '수상']);
+  assert.deepEqual(labels(view(html, 'en')), ['All', 'International', 'Domestic', 'Conference', 'Journal', 'Awarded']);
+  const buttons = buttonsOf(bar);
   for (const b of buttons) assert.match(b, /type="button"/);
   // All 은 '전체 보기' 버튼: 누른 상태를 갖는 토글이 아니다
   assert.doesNotMatch(buttons[0], /aria-pressed/);
   for (const b of buttons.slice(1)) assert.match(b, /aria-pressed="false"/);
 
   // 묶음은 각각 이름 붙은 그룹이다 (스크린리더가 묶음을 알 수 있고, 좁은 화면에서 묶음 단위로 줄이 바뀐다)
-  const groups = [...bar.matchAll(/<div class="pnu-chip-group" role="group" aria-label="([^"]+)">([\s\S]*?)<\/div>/g)];
+  const groups = [...bar.matchAll(/<div class="pnu-chip-group" role="group" aria-label="([^"]+)"[^>]*>([\s\S]*?)<\/div>/g)];
   assert.equal(groups.length, 2);
   assert.deepEqual([...groups[0][2].matchAll(/data-region="(\w+)"/g)].map((m) => m[1]), ['international', 'domestic']);
   assert.deepEqual([...groups[1][2].matchAll(/data-filter="(\w+)"/g)].map((m) => m[1]), ['conference', 'journal', 'awarded']);
