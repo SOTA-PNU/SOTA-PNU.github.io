@@ -52,20 +52,25 @@
                         </div>
 
                         <div class="relative p-8 lg:p-12">
-                            <!-- Eyebrow -->
+                            <!-- Eyebrow: 서버 상태 표시등처럼 깜빡이는 점 (움직임 줄이기 설정이면 멈춤) -->
                             <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-semibold text-slate-700">
-                                <span class="h-2 w-2 rounded-full bg-blue-600"></span>
-                                Recruiting
+                                <span class="relative flex h-2 w-2" aria-hidden="true">
+                                    <span class="absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-60 motion-safe:animate-ping"></span>
+                                    <span class="relative inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+                                </span>
+                                Now Recruiting
                             </div>
 
-                            <h2 class="mt-5 text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                                SOTA Lab is looking for motivated students and researchers.
+                            <!-- 연구실 이름 SOTA 와 state-of-the-art 의 SOTA 를 겹친 제목 -->
+                            <h2 class="mt-5 text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight [word-break:keep-all]">
+                                SOTA Lab에서 함께 <span class="sota-accent">SOTA</span>를 경신할 사람을 찾습니다.
                             </h2>
 
-                            <p class="mt-4 max-w-3xl text-base lg:text-lg text-slate-600 leading-relaxed">
-                                If you are interested in building efficient and scalable AI systems—spanning compilers,
-                                hardware-aware optimization, and system-level co-design—send your materials and a brief note
-                                about your interests. We’ll follow up with next steps.
+                            <p class="mt-4 max-w-3xl text-base lg:text-lg text-slate-600 leading-relaxed [word-break:keep-all]">
+                                모델은 점점 커지고, 하드웨어는 제각각이고, 지연 시간은 늘 아쉽습니다.
+                                컴파일러부터 AI 가속기, LLM 서빙까지 — 그 사이의 병목을 찾아 없애는 것이 저희 일입니다.
+                                이 문제에 마음이 끌린다면 관심 분야와 배우고 싶은 것을 담아 메일을 보내 주세요.
+                                답장 latency는 <b class="font-semibold text-slate-800">72시간 이하</b>입니다.
                             </p>
 
                             <!-- Contact -->
@@ -73,17 +78,18 @@
                                 <a href="mailto:sota@sota.dooray.com"
                                     class="group inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md
                                             hover:bg-slate-800 transition">
-                                    <span>Contact: sota@sota.dooray.com</span>
+                                    <span><span class="hidden sm:inline">메일 보내기 · </span>sota@sota.dooray.com</span>
                                     <svg class="h-4 w-4 opacity-90 group-hover:translate-x-0.5 transition" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                         <path d="M7 17L17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                         <path d="M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                     </svg>
                                 </a>
 
+                                <!-- 컴파일러 연구실답게: 빌드(지원) 전에 의존성(서류)부터 -->
                                 <div class="text-sm text-slate-500 [word-break:keep-all]">
-                                    보내실 서류와 이후 절차는 아래
+                                    빌드 전에 의존성부터 확인하세요 →
                                     <a href="#apply-documents" class="font-semibold text-slate-700 underline underline-offset-4 hover:text-slate-900">지원 서류</a> ·
-                                    <a href="#apply-process" class="font-semibold text-slate-700 underline underline-offset-4 hover:text-slate-900">지원 절차</a>를 확인해 주세요.
+                                    <a href="#apply-process" class="font-semibold text-slate-700 underline underline-offset-4 hover:text-slate-900">지원 절차</a>
                                 </div>
                             </div>
                         </div>

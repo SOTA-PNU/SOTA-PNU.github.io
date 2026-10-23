@@ -59,6 +59,19 @@ test('the old one-line recommendation is gone and every mail link goes to the la
   assert.ok(mails.every((m) => m === 'sota@sota.dooray.com'), mails.join(', '));
 });
 
+test('the recruiting card points to both sections and repeats the same 72-hour promise', () => {
+  const card = HTML.slice(HTML.indexOf('<h1'), HTML.indexOf('id="apply-documents"'));
+  assert.match(card, /href="mailto:sota@sota\.dooray\.com"/);
+  assert.match(card, /href="#apply-documents"/);
+  assert.match(card, /href="#apply-process"/);
+  // 카드의 재치 있는 한 줄도 절차 섹션의 약속과 같은 숫자여야 한다
+  const hours = (s) => [...text(s).matchAll(/(\d+)시간/g)].map((m) => m[1]);
+  assert.deepEqual([...new Set(hours(card))], ['72']);
+  assert.deepEqual([...new Set(hours(section('apply-process')))], ['72']);
+  // 깜빡이는 표시등은 움직임 줄이기 설정을 따른다
+  assert.doesNotMatch(card, /(?<!motion-safe:)animate-ping/);
+});
+
 test('apply.html: unique ids, working in-page links and labelled sections', () => {
   const ids = [...HTML.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(new Set(ids).size, ids.length, 'duplicate id');
