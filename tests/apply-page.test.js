@@ -54,6 +54,15 @@ test('지원 절차: four steps, with the 72-hour reply promise', () => {
   assert.match(text(steps[3]), /회신 메일/);
 });
 
+test('applicants are asked to say whether they apply as an undergraduate or a graduate student', () => {
+  // 메일 안내(지원 서류 첫 문단)와 절차 1단계 두 곳에서 말한다
+  const docs = section('apply-documents');
+  const intro = text(docs.slice(0, docs.indexOf('<ol')));
+  assert.match(intro, /메일에는 학부 지원 인지 대학원 지원 인지 꼭 적어 주세요/);
+  const step1 = text(items(section('apply-process'))[0]);
+  assert.match(step1, /학부 지원인지 대학원 지원인지 적고/);
+});
+
 test('the old one-line recommendation is gone and every mail link goes to the lab address', () => {
   assert.doesNotMatch(HTML, /Recommended: attach/);
   const mails = [...HTML.matchAll(/href="mailto:([^"]+)"/g)].map((m) => m[1]);
