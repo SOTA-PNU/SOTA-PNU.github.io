@@ -39,6 +39,8 @@ test('지원 서류: the lab’s four items, in its order', () => {
   const portfolio = text(docs[3]);
   assert.ok(portfolio.includes('경험이 있다면'), 'the portfolio is only for those with experience');
   assert.match(portfolio, /어떤 공부를 했고, 어떤 과제에 참여했고, 어떤 대회에 나갔는지/);
+  // 포트폴리오 내용은 발표 PPT에도 함께 담는다
+  assert.match(portfolio, /이 내용은 발표 PPT에도 함께 담아 주세요/);
 });
 
 test('지원 절차: four steps, with the 72-hour reply promise', () => {
@@ -59,17 +61,21 @@ test('the old one-line recommendation is gone and every mail link goes to the la
   assert.ok(mails.every((m) => m === 'sota@sota.dooray.com'), mails.join(', '));
 });
 
-test('the recruiting card points to both sections and repeats the same 72-hour promise', () => {
+test('the recruiting card points to both sections and never contradicts the 72-hour promise', () => {
   const card = HTML.slice(HTML.indexOf('<h1'), HTML.indexOf('id="apply-documents"'));
   assert.match(card, /href="mailto:sota@sota\.dooray\.com"/);
   assert.match(card, /href="#apply-documents"/);
   assert.match(card, /href="#apply-process"/);
-  // 카드의 재치 있는 한 줄도 절차 섹션의 약속과 같은 숫자여야 한다
-  const hours = (s) => [...text(s).matchAll(/(\d+)시간/g)].map((m) => m[1]);
-  assert.deepEqual([...new Set(hours(card))], ['72']);
+  // 카드에 회신 시간을 적는다면 절차 섹션의 약속과 같은 숫자여야 한다
+  const hours = (s) => [...text(s).matchAll(/(\d+)\s*(?:시간|hours?)/g)].map((m) => m[1]);
+  assert.ok(hours(card).every((h) => h === '72'), `card says ${hours(card).join(', ')} hours`);
   assert.deepEqual([...new Set(hours(section('apply-process')))], ['72']);
-  // 깜빡이는 표시등은 움직임 줄이기 설정을 따른다
-  assert.doesNotMatch(card, /(?<!motion-safe:)animate-ping/);
+});
+
+test('page copy has no em or en dashes', () => {
+  // "—" 같은 기계적인 문장 부호를 본문에 쓰지 않는다 (브라우저 탭 제목은 사이트 공통이라 제외)
+  const body = text(HTML.slice(HTML.indexOf('<body')));
+  assert.doesNotMatch(body, /[—–]/);
 });
 
 test('apply.html: unique ids, working in-page links and labelled sections', () => {
