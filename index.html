@@ -4,6 +4,8 @@
 <head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 언어: 저장된 선택(또는 주소의 ?lang=en)을 화면을 그리기 전에 적용한다. 기본은 한국어 (js/i18n.js) -->
+    <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=(q==='en'||q==='ko')?q:localStorage.getItem('sota-lang');if(q&&q===l)localStorage.setItem('sota-lang',l);if(l==='en'){document.documentElement.setAttribute('data-lang','en');document.documentElement.lang='en';}}catch(e){}})();</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/redesign.css" />
     <title>SOTA Lab — System Optimization for Transformative AI @ Pusan National University</title>
@@ -43,20 +45,28 @@
                 <span class="pnu-brand-text">SOTA Lab</span>
             </a>
 
-            <ul class="pnu-nav-links" aria-label="Primary">
-                <li><a href="index.html" class="pnu-nav-link">Home</a></li>
-                <li><a href="members.html" class="pnu-nav-link">Members</a></li>
-                <li><a href="research.html" class="pnu-nav-link">Research</a></li>
-                <li><a href="publications.html" class="pnu-nav-link">Publications</a></li>
+            <!-- 헤더는 partials/header.html 과 같은 내용이다 (이 페이지만 헤더를 직접 갖고 있다) -->
+            <ul class="pnu-nav-links" aria-label="주 메뉴" data-en-aria-label="Primary">
+                <li><a href="index.html" class="pnu-nav-link"><span data-ko>홈</span><span data-en>Home</span></a></li>
+                <li><a href="members.html" class="pnu-nav-link"><span data-ko>구성원</span><span data-en>Members</span></a></li>
+                <li><a href="research.html" class="pnu-nav-link"><span data-ko>연구</span><span data-en>Research</span></a></li>
+                <li><a href="publications.html" class="pnu-nav-link"><span data-ko>논문</span><span data-en>Publications</span></a></li>
                 <!--<li><a href="blogs.html" class="pnu-nav-link">Blogs</a></li>-->
-                <li><a href="gallery.html" class="pnu-nav-link">Gallery</a></li>
-                <li><a href="apply.html" class="pnu-nav-link">Apply</a></li>
+                <li><a href="gallery.html" class="pnu-nav-link"><span data-ko>갤러리</span><span data-en>Gallery</span></a></li>
+                <li><a href="apply.html" class="pnu-nav-link"><span data-ko>지원하기</span><span data-en>Apply</span></a></li>
             </ul>
+
+            <!-- 언어 전환 (js/i18n.js) -->
+            <div class="pnu-lang" role="group" aria-label="언어" data-en-aria-label="Language">
+                <button type="button" class="pnu-lang-btn" data-set-lang="ko" lang="ko" aria-pressed="true" title="한국어">KO</button>
+                <button type="button" class="pnu-lang-btn" data-set-lang="en" lang="en" aria-pressed="false" title="English">EN</button>
+            </div>
 
             <!-- Mobile button (keeps your existing id) -->
             <button id="mobileMenuBtn" type="button"
                 class="pnu-burger"
-                aria-label="Open navigation menu"
+                aria-label="메뉴 열기"
+                data-en-aria-label="Open navigation menu"
                 aria-expanded="false"
                 aria-controls="mobileMenuSheet">
                 <svg width="20" height="20" viewBox="0 0 24 24"
@@ -75,18 +85,18 @@
     <div id="mobileMenuSheet" class="pnu-mobile-sheet" hidden>
         <div class="pnu-mobile-sheet-inner">
             <div class="pnu-mobile-sheet-top">
-                <div class="pnu-mobile-sheet-title">Menu</div>
-                <button id="mobileMenuClose" class="pnu-mobile-close" type="button" aria-label="Close menu">✕</button>
+                <div class="pnu-mobile-sheet-title"><span data-ko>메뉴</span><span data-en>Menu</span></div>
+                <button id="mobileMenuClose" class="pnu-mobile-close" type="button" aria-label="메뉴 닫기" data-en-aria-label="Close menu">✕</button>
             </div>
 
-            <nav class="pnu-mobile-links" aria-label="Mobile navigation">
-                <a class="pnu-mobile-link" href="index.html">Home</a>
-                <a class="pnu-mobile-link" href="members.html">Members</a>
-                <a class="pnu-mobile-link" href="research.html">Research</a>
-                <a class="pnu-mobile-link" href="publications.html">Publications</a>
+            <nav class="pnu-mobile-links" aria-label="모바일 메뉴" data-en-aria-label="Mobile navigation">
+                <a class="pnu-mobile-link" href="index.html"><span data-ko>홈</span><span data-en>Home</span></a>
+                <a class="pnu-mobile-link" href="members.html"><span data-ko>구성원</span><span data-en>Members</span></a>
+                <a class="pnu-mobile-link" href="research.html"><span data-ko>연구</span><span data-en>Research</span></a>
+                <a class="pnu-mobile-link" href="publications.html"><span data-ko>논문</span><span data-en>Publications</span></a>
                 <!--<a class="pnu-mobile-link" href="blogs.html">Blogs</a>-->
-                <a class="pnu-mobile-link" href="gallery.html">Gallery</a>
-                <a class="pnu-mobile-link" href="apply.html">Apply</a>
+                <a class="pnu-mobile-link" href="gallery.html"><span data-ko>갤러리</span><span data-en>Gallery</span></a>
+                <a class="pnu-mobile-link" href="apply.html"><span data-ko>지원하기</span><span data-en>Apply</span></a>
             </nav>
         </div>
     </div>
@@ -113,7 +123,7 @@
                         <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-semibold text-slate-700 backdrop-blur">
                             <span class="text-slate-900">SOTA Lab</span>
                             <span class="h-1 w-1 rounded-full bg-slate-300"></span>
-                            <span>Compiler &amp; Systems Research</span>
+                            <span><span data-ko>컴파일러와 시스템 연구</span><span data-en>Compiler &amp; Systems Research</span></span>
                         </div>
 
                         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
@@ -122,13 +132,15 @@
                             <span class="sota-accent">T</span>ransformative 
                             <span class="sota-accent">A</span>I LAB
                             <span class="block text-2xl sm:text-3xl lg:text-4xl text-slate-500 mt-3">
-                                @ Pusan National University
+                                @ <span data-ko>부산대학교</span><span data-en>Pusan National University</span>
                             </span>
                         </h1>
 
-                        <p class="text-lg sm:text-xl lg:text-2xl text-slate-600 font-medium leading-relaxed">
-                            Optimizing AI across the stack <br>
-                            through advanced compiler design and system-level innovation.
+                        <p class="text-lg sm:text-xl lg:text-2xl text-slate-600 font-medium leading-relaxed [word-break:keep-all]">
+                            <span data-ko>첨단 컴파일러 설계와 시스템 수준의 혁신으로<br>
+                            AI를 스택 전반에서 최적화합니다.</span>
+                            <span data-en>Optimizing AI across the stack <br>
+                            through advanced compiler design and system-level innovation.</span>
                         </p>
                         <!--세로 배열의 버튼 예시
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
@@ -137,8 +149,8 @@
                         </div>
                         -->
                         <div class="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2">
-                            <a href="research.html" class="pnu-btn pnu-btn-primary">Research Areas</a>
-                            <a href="apply.html" class="pnu-btn">Get Involved</a>
+                            <a href="research.html" class="pnu-btn pnu-btn-primary"><span data-ko>연구 분야</span><span data-en>Research Areas</span></a>
+                            <a href="apply.html" class="pnu-btn"><span data-ko>함께하기</span><span data-en>Get Involved</span></a>
                         </div>
                     </div>
                     <!--가로로 넓고 세로로 짧은 사진 세로로 정렬된 예시
@@ -797,6 +809,7 @@
     -->
     <div id="siteFooter"></div>
     <script src="js/main.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/layout.js"></script>
 
         <script>

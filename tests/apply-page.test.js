@@ -1,17 +1,20 @@
 // apply.html 지원 서류 · 지원 절차 테스트. 연구실이 정한 목록과 약속(72시간 이내 회신)이
-// 페이지를 고치다가 빠지거나 순서가 바뀌지 않도록 지킨다.
+// 페이지를 고치다가 빠지거나 순서가 바뀌지 않도록 지킨다. 한국어(KO)·영어(EN) 화면을 각각 확인한다.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { view } = require('./helpers/lang-view.js');
 
 const HTML = fs.readFileSync(path.join(__dirname, '..', 'apply.html'), 'utf8').replace(/<!--[\s\S]*?-->/g, '');
+const KO = view(HTML, 'ko');
+const EN = view(HTML, 'en');
 const text = (s) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
-function section(id) {
-  const open = new RegExp('<section\\b[^>]*\\sid="' + id + '"[^>]*>').exec(HTML);
+function section(id, src = HTML) {
+  const open = new RegExp('<section\\b[^>]*\\sid="' + id + '"[^>]*>').exec(src);
   assert.ok(open, `apply.html has no <section id="${id}">`);
-  return HTML.slice(open.index, HTML.indexOf('</section>', open.index));
+  return src.slice(open.index, src.indexOf('</section>', open.index));
 }
 // 바깥 <ol> 의 항목만 (안쪽 <ul> 의 li 는 빼고)
 function items(sectionHtml) {
@@ -26,11 +29,11 @@ function items(sectionHtml) {
   }
   return out;
 }
+const titles = (list) => list.map((li) => text(/<h3[^>]*>([\s\S]*?)<\/h3>/.exec(li)[1]));
 
 test('지원 서류: the lab’s four items, in its order', () => {
-  const docs = items(section('apply-documents'));
-  assert.deepEqual(docs.map((li) => text(/<h3[^>]*>([\s\S]*?)<\/h3>/.exec(li)[1])),
-    ['필수 첨부 서류', '실적 증빙자료', '관심 연구 소개 또는 연구 계획서', '연구 및 프로젝트 포트폴리오']);
+  const docs = items(section('apply-documents', KO));
+  assert.deepEqual(titles(docs), ['필수 첨부 서류', '실적 증빙자료', '관심 연구 소개 또는 연구 계획서', '연구 및 프로젝트 포트폴리오']);
 
   const required = text(docs[0]);
   for (const s of ['필수', '성적증명서', 'CV', '발표 PPT', '15~20분 발표']) assert.ok(required.includes(s), `missing "${s}"`);
@@ -43,24 +46,47 @@ test('지원 서류: the lab’s four items, in its order', () => {
   assert.match(portfolio, /이 내용은 발표 PPT에도 함께 담아 주세요/);
 });
 
+test('Application documents: the same four items in English', () => {
+  const docs = items(section('apply-documents', EN));
+  assert.deepEqual(titles(docs), ['Required documents', 'Proof of achievements',
+    'Research interests or a research proposal', 'Research and project portfolio']);
+  const required = text(docs[0]);
+  for (const s of ['Required', 'Transcript', 'CV', 'Presentation slides', '15 to 20 minute talk']) {
+    assert.ok(required.includes(s), `missing "${s}"`);
+  }
+  assert.match(required, /slides cover your research interests and what you want to learn/);
+  const portfolio = text(docs[3]);
+  assert.ok(portfolio.includes('If you have one'));
+  assert.match(portfolio, /what you have studied, the projects you have worked on, and the competitions you have entered/);
+  assert.match(portfolio, /include this in your slides as well/);
+});
+
 test('지원 절차: four steps, with the 72-hour reply promise', () => {
-  const steps = items(section('apply-process'));
-  assert.deepEqual(steps.map((li) => text(/<h3[^>]*>([\s\S]*?)<\/h3>/.exec(li)[1])),
-    ['서류 제출', '결정 및 회신', '면접', '교수님 면담']);
+  const steps = items(section('apply-process', KO));
+  assert.deepEqual(titles(steps), ['서류 제출', '결정 및 회신', '면접', '교수님 면담']);
   assert.ok(text(steps[1]).includes('72시간 이내'));
-  assert.match(text(section('apply-process')), /메일을 받은 뒤 72시간 이내 에 결정해 회신드립니다/);
+  assert.match(text(section('apply-process', KO)), /메일을 받은 뒤 72시간 이내 에 결정해 회신드립니다/);
   // 면접 일정·면담 방식은 회신 메일에서 안내한다 (페이지에 날짜를 박지 않는다)
   assert.match(text(steps[2]), /회신 메일/);
   assert.match(text(steps[3]), /회신 메일/);
 });
 
+test('Application process: the same four steps and promise in English', () => {
+  const steps = items(section('apply-process', EN));
+  assert.deepEqual(titles(steps), ['Submit your documents', 'Decision and reply', 'Interview', 'Meeting with the professor']);
+  assert.ok(text(steps[1]).includes('Within 72 hours'));
+  assert.match(text(section('apply-process', EN)), /We reply with a decision within 72 hours of receiving your email/);
+  assert.match(text(steps[2]), /our reply/);
+  assert.match(text(steps[3]), /reply/);
+});
+
 test('applicants are asked to say whether they apply as an undergraduate or a graduate student', () => {
   // 메일 안내(지원 서류 첫 문단)와 절차 1단계 두 곳에서 말한다
-  const docs = section('apply-documents');
-  const intro = text(docs.slice(0, docs.indexOf('<ol')));
-  assert.match(intro, /메일에는 학부 지원 인지 대학원 지원 인지 꼭 적어 주세요/);
-  const step1 = text(items(section('apply-process'))[0]);
-  assert.match(step1, /학부 지원인지 대학원 지원인지 적고/);
+  const intro = (src) => { const d = section('apply-documents', src); return text(d.slice(0, d.indexOf('<ol'))); };
+  assert.match(intro(KO), /메일에는 학부 지원 인지 대학원 지원 인지 꼭 적어 주세요/);
+  assert.match(intro(EN), /whether you are applying as an undergraduate or a graduate student/);
+  assert.match(text(items(section('apply-process', KO))[0]), /학부 지원인지 대학원 지원인지 적고/);
+  assert.match(text(items(section('apply-process', EN))[0]), /applying as an undergraduate or a graduate student/);
 });
 
 test('the old one-line recommendation is gone and every mail link goes to the lab address', () => {
@@ -70,21 +96,22 @@ test('the old one-line recommendation is gone and every mail link goes to the la
   assert.ok(mails.every((m) => m === 'sota@sota.dooray.com'), mails.join(', '));
 });
 
-test('the recruiting card points to both sections and never contradicts the 72-hour promise', () => {
-  const card = HTML.slice(HTML.indexOf('<h1'), HTML.indexOf('id="apply-documents"'));
-  assert.match(card, /href="mailto:sota@sota\.dooray\.com"/);
-  assert.match(card, /href="#apply-documents"/);
-  assert.match(card, /href="#apply-process"/);
-  // 카드에 회신 시간을 적는다면 절차 섹션의 약속과 같은 숫자여야 한다
-  const hours = (s) => [...text(s).matchAll(/(\d+)\s*(?:시간|hours?)/g)].map((m) => m[1]);
-  assert.ok(hours(card).every((h) => h === '72'), `card says ${hours(card).join(', ')} hours`);
-  assert.deepEqual([...new Set(hours(section('apply-process')))], ['72']);
+test('the recruiting card points to both sections in both languages and never contradicts the 72-hour promise', () => {
+  for (const src of [KO, EN]) {
+    const card = src.slice(src.indexOf('<h1'), src.indexOf('id="apply-documents"'));
+    assert.match(card, /href="mailto:sota@sota\.dooray\.com"/);
+    assert.match(card, /href="#apply-documents"/);
+    assert.match(card, /href="#apply-process"/);
+    // 카드에 회신 시간을 적는다면 절차 섹션의 약속과 같은 숫자여야 한다
+    const hours = (s) => [...text(s).matchAll(/(\d+)\s*(?:시간|hours?)/g)].map((m) => m[1]);
+    assert.ok(hours(card).every((h) => h === '72'), `card says ${hours(card).join(', ')} hours`);
+    assert.deepEqual([...new Set(hours(section('apply-process', src)))], ['72']);
+  }
 });
 
-test('page copy has no em or en dashes', () => {
+test('page copy has no em or en dashes in either language', () => {
   // "—" 같은 기계적인 문장 부호를 본문에 쓰지 않는다 (브라우저 탭 제목은 사이트 공통이라 제외)
-  const body = text(HTML.slice(HTML.indexOf('<body')));
-  assert.doesNotMatch(body, /[—–]/);
+  for (const src of [KO, EN]) assert.doesNotMatch(text(src.slice(src.indexOf('<body'))), /[—–]/);
 });
 
 test('apply.html: unique ids, working in-page links and labelled sections', () => {

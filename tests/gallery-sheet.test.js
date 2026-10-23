@@ -115,7 +115,7 @@ test('the produced document is what js/gallery.js renders', () => {
   const html = R.buildGalleryHtml(doc);
   assert.match(html, /id="album-2026-05-iset"/);
   assert.match(html, /<h3 class="pnu-gallery-title">ISET 2026<\/h3>/);
-  assert.match(html, /<span class="pnu-gallery-count">2 photos<\/span>/);
+  assert.match(html, /<span class="pnu-gallery-count"><span data-ko>사진 2장<\/span><span data-en>2 photos<\/span><\/span>/);
 });
 
 test('sameAlbums ignores generatedAt but not the album list or the schema', () => {

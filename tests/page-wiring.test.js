@@ -64,8 +64,9 @@ test('gallery.html: no leftover markup from the imported template', () => {
 test('Gallery is reachable from the navigation', () => {
   for (const p of ['partials/header.html', 'index.html']) {
     const html = read(p);
-    assert.match(html, /<li><a href="gallery\.html" class="pnu-nav-link">Gallery<\/a><\/li>/, `${p} desktop nav`);
-    assert.match(html, /<a class="pnu-mobile-link" href="gallery\.html">Gallery<\/a>/, `${p} mobile nav`);
+    const label = '<span data-ko>갤러리<\\/span><span data-en>Gallery<\\/span>';
+    assert.match(html, new RegExp('<li><a href="gallery\\.html" class="pnu-nav-link">' + label + '<\\/a><\\/li>'), `${p} desktop nav`);
+    assert.match(html, new RegExp('<a class="pnu-mobile-link" href="gallery\\.html">' + label + '<\\/a>'), `${p} mobile nav`);
   }
 });
 

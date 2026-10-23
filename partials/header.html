@@ -5,20 +5,27 @@
       <span class="pnu-brand-text">SOTA Lab</span>
     </a>
 
-    <ul class="pnu-nav-links" aria-label="Primary">
-      <li><a href="index.html" class="pnu-nav-link">Home</a></li>
-      <li><a href="members.html" class="pnu-nav-link">Members</a></li>
-      <li><a href="research.html" class="pnu-nav-link">Research</a></li>
-      <li><a href="publications.html" class="pnu-nav-link">Publications</a></li>
+    <ul class="pnu-nav-links" aria-label="주 메뉴" data-en-aria-label="Primary">
+      <li><a href="index.html" class="pnu-nav-link"><span data-ko>홈</span><span data-en>Home</span></a></li>
+      <li><a href="members.html" class="pnu-nav-link"><span data-ko>구성원</span><span data-en>Members</span></a></li>
+      <li><a href="research.html" class="pnu-nav-link"><span data-ko>연구</span><span data-en>Research</span></a></li>
+      <li><a href="publications.html" class="pnu-nav-link"><span data-ko>논문</span><span data-en>Publications</span></a></li>
       <!--<li><a href="blogs.html" class="pnu-nav-link">Blogs</a></li>-->
-      <li><a href="gallery.html" class="pnu-nav-link">Gallery</a></li>
-      <li><a href="apply.html" class="pnu-nav-link">Apply</a></li>
+      <li><a href="gallery.html" class="pnu-nav-link"><span data-ko>갤러리</span><span data-en>Gallery</span></a></li>
+      <li><a href="apply.html" class="pnu-nav-link"><span data-ko>지원하기</span><span data-en>Apply</span></a></li>
     </ul>
+
+    <!-- 언어 전환 (js/i18n.js) -->
+    <div class="pnu-lang" role="group" aria-label="언어" data-en-aria-label="Language">
+      <button type="button" class="pnu-lang-btn" data-set-lang="ko" lang="ko" aria-pressed="true" title="한국어">KO</button>
+      <button type="button" class="pnu-lang-btn" data-set-lang="en" lang="en" aria-pressed="false" title="English">EN</button>
+    </div>
 
     <!-- Mobile button -->
     <button id="mobileMenuBtn" type="button"
       class="pnu-burger"
-      aria-label="Open navigation menu"
+      aria-label="메뉴 열기"
+      data-en-aria-label="Open navigation menu"
       aria-expanded="false"
       aria-controls="mobileMenuSheet">
       <svg width="20" height="20" viewBox="0 0 24 24"
@@ -39,18 +46,18 @@
 <div id="mobileMenuSheet" class="pnu-mobile-sheet" hidden>
   <div class="pnu-mobile-sheet-inner">
     <div class="pnu-mobile-sheet-top">
-      <div class="pnu-mobile-sheet-title">Menu</div>
-      <button id="mobileMenuClose" class="pnu-mobile-close" type="button" aria-label="Close menu">✕</button>
+      <div class="pnu-mobile-sheet-title"><span data-ko>메뉴</span><span data-en>Menu</span></div>
+      <button id="mobileMenuClose" class="pnu-mobile-close" type="button" aria-label="메뉴 닫기" data-en-aria-label="Close menu">✕</button>
     </div>
 
-    <nav class="pnu-mobile-links" aria-label="Mobile navigation">
-      <a class="pnu-mobile-link" href="index.html">Home</a>
-      <a class="pnu-mobile-link" href="members.html">Members</a>
-      <a class="pnu-mobile-link" href="research.html">Research</a>
-      <a class="pnu-mobile-link" href="publications.html">Publications</a>
+    <nav class="pnu-mobile-links" aria-label="모바일 메뉴" data-en-aria-label="Mobile navigation">
+      <a class="pnu-mobile-link" href="index.html"><span data-ko>홈</span><span data-en>Home</span></a>
+      <a class="pnu-mobile-link" href="members.html"><span data-ko>구성원</span><span data-en>Members</span></a>
+      <a class="pnu-mobile-link" href="research.html"><span data-ko>연구</span><span data-en>Research</span></a>
+      <a class="pnu-mobile-link" href="publications.html"><span data-ko>논문</span><span data-en>Publications</span></a>
       <!--<a class="pnu-mobile-link" href="blogs.html">Blogs</a>-->
-      <a class="pnu-mobile-link" href="gallery.html">Gallery</a>
-      <a class="pnu-mobile-link" href="apply.html">Apply</a>
+      <a class="pnu-mobile-link" href="gallery.html"><span data-ko>갤러리</span><span data-en>Gallery</span></a>
+      <a class="pnu-mobile-link" href="apply.html"><span data-ko>지원하기</span><span data-en>Apply</span></a>
     </nav>
   </div>
 </div>

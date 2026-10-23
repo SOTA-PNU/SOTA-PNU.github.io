@@ -83,16 +83,20 @@ test('sort is newest first; missing dates fall to the end of their year', () => 
   assert.equal(groups[0].albums.length, 2);
 });
 
-test('countLine handles singular and plural', () => {
+test('countLine handles singular and plural, in English and Korean', () => {
   assert.equal(G.countLine([G.normalize(A({ photos: ['a.jpg'], cover: 'a.jpg' }))]), '1 album · 1 photo');
   assert.equal(G.countLine([G.normalize(A()), G.normalize(A())]), '2 albums · 4 photos');
+  assert.equal(G.countLine([G.normalize(A()), G.normalize(A())], 'ko'), '앨범 2개 · 사진 4장');
 });
 
 test('cardHtml: cover button, date, count pill and filmstrip', () => {
   const h = G.cardHtml(A());
   assert.match(h, /^<article class="pnu-gallery-item" id="album-a1" data-album="a1">/);
   assert.match(h, /<button class="pnu-gallery-cover" type="button" data-index="0"/);
-  assert.match(h, /<span class="pnu-gallery-count">2 photos<\/span>/);
+  assert.match(h, /<span class="pnu-gallery-count"><span data-ko>사진 2장<\/span><span data-en>2 photos<\/span><\/span>/);
+  // 버튼 설명은 한국어 aria-label 과 영어 data-en-aria-label 을 함께 갖는다 (js/i18n.js 가 바꾼다)
+  assert.match(h, /aria-label="ISET 2026, 사진 2장 크게 보기" data-en-aria-label="ISET 2026, view all 2 photos"/);
+  assert.match(h, /aria-label="ISET 2026 사진 2 \/ 2" data-en-aria-label="ISET 2026, photo 2 of 2"/);
   assert.match(h, /<span class="pnu-gallery-date">2026\.05\.13<\/span>/);
   assert.match(h, /<h3 class="pnu-gallery-title">ISET 2026<\/h3>/);
   assert.match(h, /<p class="pnu-gallery-place">제주<\/p>/);
@@ -134,7 +138,8 @@ test('buildGalleryHtml groups into year blocks, newest first', () => {
   ] });
   assert.equal((html.match(/pnu-year-block/g) || []).length, 2);
   assert.ok(html.indexOf('id="year-2026"') < html.indexOf('id="year-2025"'));
-  assert.match(html, /<div class="pnu-gallery-year-count" data-year-count>2 albums · 4 photos<\/div>/);
+  assert.match(html, /<div class="pnu-gallery-year-count" data-year-count><span data-ko>앨범 2개 · 사진 4장<\/span><span data-en>2 albums · 4 photos<\/span><\/div>/);
+  assert.match(html, /font-semibold"><span data-ko>연도<\/span><span data-en>Year<\/span><\/div>/);
   assert.equal((html.match(/<article /g) || []).length, 3);
   assert.equal(G.buildGalleryHtml({ albums: [] }), '');
   assert.equal(G.buildGalleryHtml(null), '');
@@ -148,7 +153,8 @@ test('cards carry no category badge (categories are not shown on the site)', () 
 });
 
 test('the empty state invites a first photo', () => {
-  assert.match(G.EMPTY_HTML, /No albums yet/);
+  assert.match(G.EMPTY_HTML, /<span data-ko>아직 앨범이 없습니다<\/span><span data-en>No albums yet<\/span>/);
+  assert.doesNotMatch(G.EMPTY_HTML, /<\/a> 으로/, 'the particle sticks to the address');
   assert.match(G.EMPTY_HTML, /sota@sota\.dooray\.com/);
 });
 
